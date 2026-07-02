@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>SKP Heritage - สั่งซื้อออนไลน์</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Sarabun',sans-serif;background:#FAF3E8;color:#2C1810;min-height:100vh;overflow-x:hidden}
+button{cursor:pointer;border:none;outline:none;font-family:inherit}
+input,select,textarea{font-family:inherit;outline:none}
+:root{
+  --brown-dark:#2C1810;--brown-mid:#4A1E0A;--brown-light:#8B4513;
+  --gold:#C9951A;--gold-light:#E8B84B;
+  --cream:#FAF3E8;--cream-dark:#F0E6D3;
+  --white:#FFFFFF;--border:#E0CDB3;--text-muted:#7A5C3C;
+  --green:#27AE60;--red:#E74C3C
+}
+/* VIEWS */
+.view{display:none}.view.active{display:block}
+
+/* LOADING */
+#loading{position:fixed;inset:0;background:var(--brown-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:16px}
+.loader-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:28px;letter-spacing:2px}
+.loader-sub{color:#9C7B5C;font-size:13px;letter-spacing:1.5px}
+.spinner{width:36px;height:36px;border:3px solid rgba(201,149,26,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HEADER */
+.header{background:var(--brown-dark);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:19px;letter-spacing:1px;line-height:1}
+.header-logo span{display:block;font-size:10px;font-style:italic;color:#9C7B5C;letter-spacing:2px;margin-top:2px}
+.header-back{background:none;color:var(--gold);font-size:22px;padding:4px 8px 4px 0;line-height:1}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#2C1810 0%,#4A1E0A 60%,#6B2D0F 100%);padding:24px 16px 28px;text-align:center}
+.hero-title{font-family:'Playfair Display',serif;color:var(--gold);font-size:24px;margin-bottom:6px}
+.hero-sub{color:#B89A70;font-size:13px;line-height:1.6}
+.gold-divider{width:48px;height:2px;background:var(--gold);margin:10px auto;opacity:.6}
+
+/* SECTION LABEL */
+.section-label{padding:16px 16px 8px;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
+
+/* PRODUCT CARDS */
+.products-list{padding:0 12px 130px;display:flex;flex-direction:column;gap:12px}
+.product-card{background:var(--white);border-radius:14px;overflow:hidden;display:flex;box-shadow:0 2px 8px rgba(44,24,16,.08);border:1px solid var(--border)}
+.product-img{width:110px;min-width:110px;height:115px;flex-shrink:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.product-img img{width:100%;height:100%;object-fit:cover}
+.product-info{padding:12px 12px 10px;flex:1;display:flex;flex-direction:column;gap:3px}
+.product-name-th{font-size:17px;font-weight:700;color:var(--brown-dark);line-height:1.2}
+.product-name-en{font-size:11px;color:var(--text-muted);letter-spacing:.5px}
+.product-desc{font-size:12px;color:#9C7B5C;line-height:1.4;margin-top:2px;flex:1}
+.product-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.product-price{font-size:18px;font-weight:700;color:var(--brown-mid)}
+.product-price .unit{font-size:11px;font-weight:400;color:var(--text-muted);margin-left:2px}
+.qty-control{display:flex;align-items:center;background:var(--cream-dark);border-radius:20px;overflow:hidden}
+.qty-btn{width:32px;height:32px;background:none;color:var(--brown-mid);font-size:20px;font-weight:400;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.qty-btn:active{background:var(--border)}
+.qty-val{min-width:28px;text-align:center;font-weight:700;font-size:14px;color:var(--brown-dark)}
+
+/* CART BAR */
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--brown-dark);padding:12px 16px;display:none;align-items:center;justify-content:space-between;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.35)}
+.cart-bar.visible{display:flex}
+.cart-info{color:var(--white)}
+.cart-count{font-size:12px;color:#9C7B5C}
+.cart-total{font-size:20px;font-weight:700;color:var(--gold)}
+.btn-order{background:var(--gold);color:var(--brown-dark);font-weight:700;font-size:15px;padding:12px 24px;border-radius:25px}
+.btn-order:active{background:var(--gold-light)}
+
+/* ORDER FORM */
+#view-checkout{background:var(--cream);min-height:100vh}
+.form-section{background:var(--white);margin:10px 12px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+.form-section-header{padding:12px 16px;background:var(--cream-dark);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.form-section-icon{font-size:16px}
+.form-section-title{font-weight:600;font-size:14px}
+.form-body{padding:14px 16px;display:flex;flex-direction:column;gap:14px}
+.field-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px;display:block}
+.field-label .req{color:var(--red);margin-left:2px}
+.field-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:var(--cream);color:var(--brown-dark);transition:border-color .2s}
+.field-input:focus{border-color:var(--gold);background:var(--white)}
+.field-input.error{border-color:var(--red)}
+textarea.field-input{resize:none;min-height:78px}
+select.field-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A5C3C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* PAYMENT */
+.pay-options{display:flex;flex-direction:column;gap:10px}
+.pay-option{border:2px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
+.pay-option.selected{border-color:var(--gold);background:#FDF8EE}
+.pay-option input[type=radio]{display:none}
+.pay-icon{font-size:24px}
+.pay-label{flex:1}
+.pay-label strong{display:block;font-size:15px}
+.pay-label span{font-size:12px;color:var(--text-muted)}
+.pay-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
+.pay-option.selected .pay-check{background:var(--gold);border-color:var(--gold);color:var(--white)}
+
+/* PROMPTPAY BOX */
+.promptpay-box{background:linear-gradient(135deg,#1a3a6b 0%,#1565C0 100%);border-radius:12px;padding:16px;color:white;margin-top:10px;display:none}
+.promptpay-box.visible{display:block}
+.promptpay-title{font-size:12px;opacity:.8;margin-bottom:4px}
+.promptpay-number{font-size:22px;font-weight:700;letter-spacing:2px}
+.promptpay-name{font-size:13px;opacity:.9;margin-top:4px}
+.pp-divider{border:none;border-top:1px solid rgba(255,255,255,.2);margin:12px 0}
+.promptpay-bank{font-size:13px;opacity:.8}
+
+/* UPLOAD BOX */
+.upload-box{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--cream);margin-top:10px;display:none}
+.upload-box.visible{display:block}
+.upload-box:hover{border-color:var(--gold);background:#FDF8EE}
+.upload-icon{font-size:28px;margin-bottom:6px}
+.upload-text{font-size:13px;color:var(--text-muted)}
+.upload-preview{max-height:120px;border-radius:8px;margin-top:10px}
+#slip-input{display:none}
+
+/* ORDER SUMMARY */
+.order-summary-items{padding:0 16px 12px}
+.summary-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--cream-dark);font-size:14px}
+.summary-item:last-child{border-bottom:none}
+.summary-total{display:flex;justify-content:space-between;padding:12px 16px;background:var(--cream-dark);font-weight:700;font-size:16px}
+
+/* SUBMIT */
+.btn-submit{width:calc(100% - 24px);margin:12px;padding:16px;background:var(--gold);color:var(--brown-dark);font-size:17px;font-weight:700;border-radius:14px;transition:all .2s;margin-bottom:28px}
+.btn-submit:active{transform:scale(.98)}
+.btn-submit:disabled{opacity:.6}
+
+/* SUCCESS */
+#view-success{min-height:100vh;background:var(--cream)}
+.success-hero{background:linear-gradient(160deg,#1B5E20,#2E7D32);padding:40px 20px;text-align:center;color:white}
+.success-icon{font-size:52px;margin-bottom:12px}
+.success-title{font-size:22px;font-weight:700;margin-bottom:4px}
+.success-subtitle{font-size:14px;opacity:.85}
+.order-number-box{margin:16px;background:var(--cream-dark);border-radius:12px;padding:14px 16px;text-align:center;border:1px solid var(--border)}
+.order-number-label{font-size:12px;color:var(--text-muted);margin-bottom:4px}
+.order-number-val{font-size:24px;font-weight:700;color:var(--brown-dark);letter-spacing:2px}
+.success-info{background:var(--white);margin:0 12px 12px;border-radius:14px;border:1px solid var(--border);overflow:hidden}
+.success-info-header{padding:10px 14px;background:var(--cream-dark);font-weight:600;font-size:13px;border-bottom:1px solid var(--border)}
+.success-info-body{padding:12px 14px}
+.success-info-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
+.success-info-row span:first-child{color:var(--text-muted)}
+.success-info-row span:last-child{font-weight:600;text-align:right;max-width:60%}
+.pay-reminder{margin:0 12px 12px;background:#EBF5FB;border-radius:12px;padding:14px;border:1px solid #AED6F1;font-size:13px;line-height:1.7;color:#1A5276}
+.pay-reminder strong{display:block;margin-bottom:4px;font-size:14px}
+.btn-home{margin:4px 12px 28px;padding:14px;background:var(--brown-dark);color:var(--gold);font-size:15px;font-weight:700;border-radius:14px;width:calc(100% - 24px);display:block}
+
+/* ERROR MESSAGES */
+.error-msg{color:var(--red);font-size:12px;margin-top:4px;display:none}
+.error-msg.visible{display:block}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown-dark);color:var(--white);padding:10px 20px;border-radius:25px;font-size:13px;white-space:nowrap;opacity:0;transition:all .3s;z-index:9000;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.error{background:var(--red)}
+.toast.success{background:var(--green)}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div id="loading">
+  <div class="loader-logo">SKP Heritage</div>
+  <div class="loader-sub">HANDCRAFTED CHEROOT</div>
+  <div class="spinner"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ===========================
+     VIEW: PRODUCTS
+     =========================== -->
+<div class="view active" id="view-products">
+  <div class="header">
+    <div>
+      <div class="header-logo">SKP Heritage<span>Handcrafted Cheroot</span></div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-title">บุหรี่ซิการ์ SKP</div>
+    <div class="gold-divider"></div>
+    <div class="hero-sub">ผลิตด้วยมือ · ตำรับดั้งเดิม · คัดสรรวัตถุดิบอย่างพิถีพิถัน</div>
+  </div>
+
+  <div class="section-label">สินค้าของเรา</div>
+
+  <div class="products-list" id="products-list">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- Cart sticky bar -->
+<div class="cart-bar" id="cart-bar">
+  <div class="cart-info">
+    <div class="cart-count" id="cart-count">0 รายการ</div>
+    <div class="cart-total" id="cart-total">฿0</div>
+  </div>
+  <button class="btn-order" onclick="goToCheckout()">สั่งซื้อเลย →</button>
+</div>
+
+
+<!-- ===========================
+     VIEW: CHECKOUT
+     =========================== -->
+<div class="view" id="view-checkout">
+  <div class="header">
+    <button class="header-back" onclick="showView('products')">←</button>
+    <div class="header-logo">ข้อมูลคำสั่งซื้อ<span>Order Details</span></div>
+  </div>
+
+  <!-- Order Summary -->
+  <div class="form-section" style="margin-top:12px">
+    <div class="form-section-header">
+      <span class="form-section-icon">🛒</span>
+      <span class="form-section-title">รายการสั่งซื้อ</span>
+    </div>
+    <div class="order-summary-items" id="order-summary-items"></div>
+    <div class="summary-total">
+      <span>ยอดรวมทั้งสิ้น</span>
+      <span id="summary-total-val">฿0</span>
+    </div>
+  </div>
+
+  <!-- Customer Info -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <span class="form-section-icon">👤</span>
+      <span class="form-section-title">ข้อมูลผู้รับสินค้า</span>
+    </div>
+    <div class="form-body">
+      <div>
+        <label class="field-label">ชื่อ-นามสกุล <span class="req">*</span></label>
+        <input id="f-name" type="text" class="field-input" placeholder="ชื่อ นามสกุล" autocomplete="name">
+        <div class="error-msg" id="err-name">กรุณากรอกชื่อ-นามสกุล</div>
+      </div>
+      <div>
+        <label class="field-label">เบอร์โทรศัพท์ <span class="req">*</span></label>
+        <input id="f-phone" type="tel" class="field-input" placeholder="0XX-XXX-XXXX" autocomplete="tel" inputmode="numeric">
+        <div class="error-msg" id="err-phone">กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delivery Address -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <span class="form-section-icon">📍</span>
+      <span class="form-section-title">ที่อยู่จัดส่ง</span>
+    </div>
+    <div class="form-body">
+      <div>
+        <label class="field-label">บ้านเลขที่ / ซอย / ถนน / หมู่บ้าน <span class="req">*</span></label>
+        <textarea id="f-addr" class="field-input" placeholder="เช่น 123/4 ซอยสุขุมวิท 10 ถนนสุขุมวิท" rows="3"></textarea>
+        <div class="error-msg" id="err-addr">กรุณากรอกที่อยู่</div>
+      </div>
+      <div>
+        <label class="field-label">จังหวัด <span class="req">*</span></label>
+        <select id="f-province" class="field-input" onchange="onProvinceChange()">
+          <option value="">— เลือกจังหวัด —</option>
+        </select>
+        <div class="error-msg" id="err-province">กรุณาเลือกจังหวัด</div>
+      </div>
+      <div>
+        <label class="field-label">อำเภอ/เขต <span class="req">*</span></label>
+        <select id="f-district" class="field-input" disabled>
+          <option value="">— เลือกจังหวัดก่อน —</option>
+        </select>
+        <div class="error-msg" id="err-district">กรุณาเลือกอำเภอ/เขต</div>
+      </div>
+      <div class="field-row">
+        <div>
+          <label class="field-label">ตำบล/แขวง <span class="req">*</span></label>
+          <input id="f-subdistrict" type="text" class="field-input" placeholder="ตำบล/แขวง">
+          <div class="error-msg" id="err-subdistrict">กรุณากรอกตำบล/แขวง</div>
+        </div>
+        <div>
+          <label class="field-label">รหัสไปรษณีย์ <span class="req">*</span></label>
+          <input id="f-postal" type="text" class="field-input" placeholder="xxxxx" inputmode="numeric" maxlength="5">
+          <div class="error-msg" id="err-postal">กรุณากรอกรหัสไปรษณีย์</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Method -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <span class="form-section-icon">💳</span>
+      <span class="form-section-title">วิธีชำระเงิน</span>
+    </div>
+    <div class="form-body">
+      <div class="pay-options">
+        <label class="pay-option selected" id="opt-promptpay" onclick="selectPayment('promptpay')">
+          <input type="radio" name="payment" value="promptpay" checked>
+          <span class="pay-icon">📲</span>
+          <span class="pay-label">
+            <strong>โอนเงิน / PromptPay</strong>
+            <span>โอนก่อนจัดส่ง · แนบสลิปหลังโอน</span>
+          </span>
+          <span class="pay-check">✓</span>
+        </label>
+        <label class="pay-option" id="opt-cod" onclick="selectPayment('cod')">
+          <input type="radio" name="payment" value="cod">
+          <span class="pay-icon">📦</span>
+          <span class="pay-label">
+            <strong>เก็บปลายทาง (COD)</strong>
+            <span>ชำระเงินเมื่อได้รับสินค้า</span>
+          </span>
+          <span class="pay-check"></span>
+        </label>
+      </div>
+
+      <!-- PromptPay Info Box -->
+      <div class="promptpay-box visible" id="promptpay-box">
+        <div class="promptpay-title">📲 โอนเงิน PromptPay มาที่</div>
+        <div class="promptpay-number" id="pp-number">—</div>
+        <div class="promptpay-name" id="pp-name">—</div>
+        <hr class="pp-divider">
+        <div class="promptpay-bank" id="pp-bank">—</div>
+        <div style="font-size:12px;opacity:.7;margin-top:10px">⚠️ กรุณาโอนตามยอดที่สั่งซื้อ และแนบสลิปด้านล่าง</div>
+      </div>
+
+      <!-- Slip Upload -->
+      <div class="upload-box visible" id="upload-box" onclick="document.getElementById('slip-input').click()">
+        <input type="file" id="slip-input" accept="image/*" onchange="onSlipSelected(event)">
+        <div class="upload-icon">📎</div>
+        <div class="upload-text" id="upload-text">แตะเพื่อแนบสลิปโอนเงิน<br><span style="font-size:11px;opacity:.7">JPG, PNG ขนาดไม่เกิน 5MB</span></div>
+        <img id="slip-preview" class="upload-preview" style="display:none">
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="form-section">
+    <div class="form-section-header">
+      <span class="form-section-icon">📝</span>
+      <span class="form-section-title">หมายเหตุเพิ่มเติม (ไม่บังคับ)</span>
+    </div>
+    <div class="form-body">
+      <textarea id="f-notes" class="field-input" placeholder="เช่น ส่งตอนบ่าย, ระวังเปราะบาง, ฝากไว้หน้าบ้าน..." rows="2"></textarea>
+    </div>
+  </div>
+
+  <button class="btn-submit" id="btn-submit" onclick="submitOrder()">
+    ✅ ยืนยันคำสั่งซื้อ
+  </button>
+</div>
+
+
+<!-- ===========================
+     VIEW: SUCCESS
+     =========================== -->
+<div class="view" id="view-success">
+  <div class="success-hero">
+    <div class="success-icon">✅</div>
+    <div class="success-title">สั่งซื้อสำเร็จแล้ว!</div>
+    <div class="success-subtitle">เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว</div>
+  </div>
+
+  <div class="order-number-box">
+    <div class="order-number-label">หมายเลขคำสั่งซื้อของคุณ</div>
+    <div class="order-number-val" id="success-order-num">—</div>
+    <div style="font-size:12px;color:#7A5C3C;margin-top:4px">กรุณาจดหมายเลขนี้ไว้สำหรับติดตามสถานะ</div>
+  </div>
+
+  <div class="success-info">
+    <div class="success-info-header">📋 สรุปรายการสั่งซื้อ</div>
+    <div class="success-info-body" id="success-items"></div>
+  </div>
+
+  <div class="success-info">
+    <div class="success-info-header">📍 ที่อยู่จัดส่ง</div>
+    <div class="success-info-body">
+      <div id="success-address" style="font-size:14px;line-height:1.9;color:#2C1810"></div>
+    </div>
+  </div>
+
+  <div class="pay-reminder" id="success-pay-reminder" style="display:none">
+    <strong>💳 ขั้นตอนการชำระเงิน</strong>
+    กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay <strong id="success-pp-num">—</strong><br>
+    หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE: <strong id="success-line">—</strong>
+  </div>
+
+  <button class="btn-home" onclick="resetAndGoHome()">← กลับหน้าหลัก</button>
+</div>
+
+
+<script>
+// ============================================================
+//  ⚙️  CONFIGURATION — แก้ไขข้อมูลด้านล่างนี้ก่อนใช้งาน
+// ============================================================
+const SUPABASE_URL = 'https://yufalisxhyhcuejmbpsa.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
+
+const PROMPTPAY_NUMBER = '0XX-XXX-XXXX'  // ← เปลี่ยนเป็นเบอร์พร้อมเพย์ของคุณ
+const ACCOUNT_NAME     = 'ชื่อ-นามสกุล' // ← ชื่อเจ้าของบัญชี
+const BANK_NAME        = 'ธนาคาร XXX'    // ← ชื่อธนาคาร
+const ACCOUNT_NUMBER   = 'XXX-X-XXXXX-X' // ← เลขที่บัญชี
+const SHOP_LINE        = '@skpheritage'  // ← ไลน์ร้านค้าของคุณ
+// ============================================================
+
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+let products = []
+let cart = {}
+let geoData = null
+let slipFile = null
+let selectedPayment = 'promptpay'
+
+// ---- INIT ----
+async function init() {
+  document.getElementById('pp-number').textContent = PROMPTPAY_NUMBER
+  document.getElementById('pp-name').textContent   = ACCOUNT_NAME
+  document.getElementById('pp-bank').textContent   = BANK_NAME + ' · เลขที่ ' + ACCOUNT_NUMBER
+  document.getElementById('success-pp-num').textContent = PROMPTPAY_NUMBER
+  document.getElementById('success-line').textContent   = SHOP_LINE
+
+  loadGeo()
+  await loadProducts()
+  document.getElementById('loading').style.display = 'none'
+}
+
+// ---- PRODUCTS ----
+async function loadProducts() {
+  const { data, error } = await sb.from('products').select('*').eq('active', true).order('sort_order')
+  if (error) throw error
+  products = data || []
+  renderProducts()
+}
+
+const GRAD_COLORS = [
+  ['#3A1008','#6B2D0F'], ['#1A2A4A','#2C4A8A'], ['#1A3A1A','#2A6A2A']
+]
+
+function productPlaceholderSVG(idx) {
+  const [c1, c2] = GRAD_COLORS[(idx - 1) % GRAD_COLORS.length]
+  return `<svg viewBox="0 0 110 115" xmlns="http://www.w3.org/2000/svg" width="110" height="115">
+    <defs><linearGradient id="g${idx}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
+    </linearGradient></defs>
+    <rect width="110" height="115" fill="url(#g${idx})"/>
+    <g transform="translate(55,58) rotate(-35)">
+      <rect x="-35" y="-6" width="70" height="12" rx="6" fill="#8B4513" opacity=".9"/>
+      <rect x="-35" y="-6" width="68" height="5" rx="2.5" fill="#A0522D" opacity=".45"/>
+      <ellipse cx="36" cy="0" rx="5" ry="6" fill="#C8A97A"/>
+      <rect x="-43" y="-5" width="9" height="10" rx="2" fill="#4A1E0A"/>
+    </g>
+    <circle cx="88" cy="22" r="18" fill="#C9951A" opacity=".1"/>
+    <circle cx="18" cy="90" r="12" fill="#C9951A" opacity=".07"/>
+  </svg>`
+}
+
+function renderProducts() {
+  const list = document.getElementById('products-list')
+  if (!products.length) {
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:#7A5C3C">ไม่พบสินค้าในขณะนี้</div>'
+    return
+  }
+  list.innerHTML = products.map(p => {
+    const imgHtml = p.image_url
+      ? `<img src="${p.image_url}" alt="${p.name_th}">`
+      : productPlaceholderSVG(p.sort_order || 1)
+    return `<div class="product-card">
+      <div class="product-img">${imgHtml}</div>
+      <div class="product-info">
+        <div class="product-name-th">${p.name_th || p.name}</div>
+        <div class="product-name-en">${p.name}</div>
+        <div class="product-desc">${p.description_th || p.description || ''}</div>
+        <div class="product-bottom">
+          <div class="product-price">฿${Number(p.price).toLocaleString()}<span class="unit">/${p.unit}</span></div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+            <span class="qty-val" id="qty-${p.id}">0</span>
+            <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>`
+  }).join('')
+}
+
+// ---- CART ----
+function changeQty(id, delta) {
+  const cur = cart[id] || 0
+  cart[id] = Math.max(0, cur + delta)
+  const el = document.getElementById('qty-' + id)
+  if (el) el.textContent = cart[id]
+  updateCartBar()
+}
+
+function updateCartBar() {
+  const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
+  const totalPrice = getCartTotal()
+  document.getElementById('cart-bar').classList.toggle('visible', totalItems > 0)
+  document.getElementById('cart-count').textContent = totalItems + ' รายการ'
+  document.getElementById('cart-total').textContent = '฿' + Number(totalPrice).toLocaleString()
+}
+
+function getCartItems() {
+  return Object.entries(cart)
+    .filter(([, qty]) => qty > 0)
+    .map(([id, qty]) => {
+      const p = products.find(x => x.id === id)
+      return { id, name: p.name, name_th: p.name_th, price: Number(p.price), qty, subtotal: Number(p.price) * qty, unit: p.unit }
+    })
+}
+
+function getCartTotal() {
+  return getCartItems().reduce((sum, i) => sum + i.subtotal, 0)
+}
+
+// ---- VIEWS ----
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'))
+  const el = document.getElementById('view-' + name)
+  if (el) { el.classList.add('active'); window.scrollTo(0, 0) }
+}
+
+function goToCheckout() {
+  if (!getCartItems().length) return
+  renderOrderSummary()
+  showView('checkout')
+}
+
+function renderOrderSummary() {
+  const items = getCartItems()
+  document.getElementById('order-summary-items').innerHTML = items.map(i =>
+    `<div class="summary-item">
+      <span>${i.name_th} × ${i.qty} ${i.unit}</span>
+      <span>฿${Number(i.subtotal).toLocaleString()}</span>
+    </div>`
+  ).join('')
+  document.getElementById('summary-total-val').textContent = '฿' + Number(getCartTotal()).toLocaleString()
+}
+
+// ---- THAI GEO (embedded — no external fetch needed) ----
+const THAI_PROVINCES=[
+  {n:"กรุงเทพมหานคร",d:["พระนคร","ดุสิต","หนองจอก","บางรัก","บางเขน","บางกอกน้อย","บางกอกใหญ่","บึงกุ่ม","ปทุมวัน","ป้อมปราบศัตรูพ่าย","พระโขนง","มีนบุรี","ลาดกระบัง","ยานนาวา","สัมพันธวงศ์","พญาไท","ธนบุรี","ห้วยขวาง","คลองสาน","ตลิ่งชัน","บางซื่อ","จตุจักร","ดอนเมือง","ราษฎร์บูรณะ","หลักสี่","ลาดพร้าว","วังทองหลาง","คันนายาว","สาทร","บางแค","ทวีวัฒนา","ทุ่งครุ","บางบอน","ประเวศ","คลองเตย","สวนหลวง","จอมทอง","บางนา","บางคอแหลม","หนองแขม","บางขุนเทียน","บางพลัด","สะพานสูง","วัฒนา","บางเขน","บางกอกน้อย","บึงกุ่ม","มีนบุรี","คลองสาน","ลาดกระบัง"]},
+  {n:"สมุทรปราการ",d:["เมืองสมุทรปราการ","บางบ่อ","บางพลี","พระประแดง","พระสมุทรเจดีย์","บางเสาธง"]},
+  {n:"นนทบุรี",d:["เมืองนนทบุรี","บางกรวย","บางใหญ่","บางบัวทอง","ไทรน้อย","ปากเกร็ด"]},
+  {n:"ปทุมธานี",d:["เมืองปทุมธานี","คลองหลวง","ธัญบุรี","หนองเสือ","ลาดหลุมแก้ว","ลำลูกกา","สามโคก"]},
+  {n:"พระนครศรีอยุธยา",d:["พระนครศรีอยุธยา","ท่าเรือ","นครหลวง","บางไทร","บางบาล","บางปะอิน","บางปะหัน","ผักไห่","ภาชี","ลาดบัวหลวง","วังน้อย","เสนา","บางซ้าย","อุทัย","มหาราช","บ้านแพรก"]},
+  {n:"อ่างทอง",d:["เมืองอ่างทอง","ไชโย","ป่าโมก","โพธิ์ทอง","แสวงหา","วิเศษชัยชาญ","สามโก้"]},
+  {n:"ลพบุรี",d:["เมืองลพบุรี","พัฒนานิคม","โคกสำโรง","ชัยบาดาล","ท่าวุ้ง","บ้านหมี่","ท่าหลวง","สระโบสถ์","โคกเจริญ","ลำสนธิ","หนองม่วง"]},
+  {n:"สิงห์บุรี",d:["เมืองสิงห์บุรี","บางระจัน","ค่ายบางระจัน","พรหมบุรี","ท่าช้าง","อินทร์บุรี"]},
+  {n:"ชัยนาท",d:["เมืองชัยนาท","มโนรมย์","วัดสิงห์","สรรพยา","สรรคบุรี","หันคา","หนองมะโมง","เนินขาม"]},
+  {n:"สระบุรี",d:["เมืองสระบุรี","แก่งคอย","หนองแค","วิหารแดง","หนองแซง","บ้านหมอ","ดอนพุด","หนองโดน","พระพุทธบาท","สระโบสถ์","วังม่วง","เฉลิมพระเกียรติ","มวกเหล็ก"]},
+  {n:"ชลบุรี",d:["เมืองชลบุรี","บ้านบึง","หนองใหญ่","บางละมุง","พานทอง","พนัสนิคม","ศรีราชา","เกาะสีชัง","สัตหีบ","บ่อทอง","เกาะจันทร์"]},
+  {n:"ระยอง",d:["เมืองระยอง","บ้านฉาง","แกลง","วังจันทร์","บ้านค่าย","ปลวกแดง","เขาชะเมา","นิคมพัฒนา"]},
+  {n:"จันทบุรี",d:["เมืองจันทบุรี","ขลุง","ท่าใหม่","โป่งน้ำร้อน","มะขาม","แหลมสิงห์","สอยดาว","แก่งหางแมว","นายายอาม","เขาคิชฌกูฏ"]},
+  {n:"ตราด",d:["เมืองตราด","คลองใหญ่","เขาสมิง","บ่อไร่","แหลมงอบ","เกาะกูด","เกาะช้าง"]},
+  {n:"ฉะเชิงเทรา",d:["เมืองฉะเชิงเทรา","บางคล้า","บางน้ำเปรี้ยว","บางปะกง","บ้านโพธิ์","พนมสารคาม","ราชสาส์น","สนามชัยเขต","แปลงยาว","ท่าตะเกียบ","คลองเขื่อน"]},
+  {n:"ปราจีนบุรี",d:["เมืองปราจีนบุรี","กบินทร์บุรี","นาดี","บ้านสร้าง","ประจันตคาม","ศรีมหาโพธิ","ศรีมโหสถ"]},
+  {n:"นครนายก",d:["เมืองนครนายก","ปากพลี","บ้านนา","องครักษ์"]},
+  {n:"สระแก้ว",d:["เมืองสระแก้ว","คลองหาด","ตาพระยา","วังน้ำเย็น","วัฒนานคร","อรัญประเทศ","เขาฉกรรจ์","โคกสูง","วังสมบูรณ์"]},
+  {n:"นครราชสีมา",d:["เมืองนครราชสีมา","ครบุรี","เสิงสาง","คง","บ้านเหลื่อม","จักราช","โชคชัย","ด่านขุนทด","โนนไทย","โนนสูง","ขามสะแกแสง","พิมาย","ห้วยแถลง","ชุมพวง","สูงเนิน","ขามทะเลสอ","สีคิ้ว","ปากช่อง","หนองบุญมาก","แก้งสนามนาง","โนนแดง","วังน้ำเขียว","เทพารักษ์","เมืองยาง","พระทองคำ","ลำทะเมนชัย","บัวลาย","สีดา","บัวใหญ่","ประทาย","ปักธงชัย","เฉลิมพระเกียรติ"]},
+  {n:"บุรีรัมย์",d:["เมืองบุรีรัมย์","คูเมือง","กระสัง","นางรอง","หนองกี่","ละหานทราย","ประโคนชัย","บ้านกรวด","พุทไธสง","ลำปลายมาศ","สตึก","ปะคำ","นาโพธิ์","หนองหงส์","พลับพลาชัย","ห้วยราช","โนนสุวรรณ","ชำนิ","บ้านใหม่ไชยพจน์","โนนดินแดง","บ้านด่าน","แคนดง","เฉลิมพระเกียรติ"]},
+  {n:"สุรินทร์",d:["เมืองสุรินทร์","ชุมพลบุรี","ท่าตูม","จอมพระ","ปราสาท","กาบเชิง","รัตนบุรี","สนม","ศีขรภูมิ","สังขะ","ลำดวน","สำโรงทาบ","บัวเชด","พนมดงรัก","ศรีณรงค์","เขวาสินรินทร์","โนนนารายณ์"]},
+  {n:"ศรีสะเกษ",d:["เมืองศรีสะเกษ","ยางชุมน้อย","กันทรารมย์","กันทรลักษ์","ขุขันธ์","ไพรบึง","ปรางค์กู่","ขุนหาญ","ราษีไศล","อุทุมพรพิสัย","บึงบูรพ์","ห้วยทับทัน","โนนคูณ","ศรีรัตนะ","น้ำเกลี้ยง","วังหิน","ภูสิงห์","เมืองจันทร์","เบญจลักษ์","พยุห์","โพธิ์ศรีสุวรรณ","ศิลาลาด"]},
+  {n:"อุบลราชธานี",d:["เมืองอุบลราชธานี","ศรีเมืองใหม่","โขงเจียม","เขื่องใน","เขมราฐ","เดชอุดม","นาจะหลวย","น้ำยืน","บุณฑริก","ตระการพืชผล","กุดข้าวปุ้น","ม่วงสามสิบ","วารินชำราบ","พิบูลมังสาหาร","ตาลสุม","โพธิ์ไทร","สำโรง","ดอนมดแดง","สิรินธร","ทุ่งศรีอุดม","นาเยีย","นาตาล","เหล่าเสือโก้ก","สว่างวีระวงศ์","น้ำขุ่น"]},
+  {n:"ยโสธร",d:["เมืองยโสธร","ทรายมูล","กุดชุม","คำเขื่อนแก้ว","ป่าติ้ว","มหาชนะชัย","ค้อวัง","เลิงนกทา","ไทยเจริญ"]},
+  {n:"ชัยภูมิ",d:["เมืองชัยภูมิ","บ้านเขว้า","คอนสวรรค์","เกษตรสมบูรณ์","หนองบัวแดง","จัตุรัส","บำเหน็จณรงค์","หนองบัวระเหว","เทพสถิต","ภูเขียว","บ้านแท่น","แก้งคร้อ","คอนสาร","ภักดีชุมพล","เนินสง่า","ซับใหญ่"]},
+  {n:"อำนาจเจริญ",d:["เมืองอำนาจเจริญ","ชานุมาน","ปทุมราชวงศา","พนา","เสนางคนิคม","หัวตะพาน","ลืออำนาจ"]},
+  {n:"หนองบัวลำภู",d:["เมืองหนองบัวลำภู","นากลาง","โนนสัง","ศรีบุญเรือง","สุวรรณคูหา","นาวัง"]},
+  {n:"ขอนแก่น",d:["เมืองขอนแก่น","บ้านฝาง","พระยืน","หนองเรือ","ชุมแพ","สีสุก","น้ำพอง","อุบลรัตน์","กระนวน","บ้านไผ่","เปือยน้อย","พล","แวงใหญ่","แวงน้อย","หนองสองห้อง","ภูเวียง","มัญจาคีรี","ชนบท","เขาสวนกวาง","ภูผาม่าน","ซำสูง","โคกโพธิ์ไชย","หนองนาคำ","บ้านแฮด","โนนศิลา","เวียงเก่า"]},
+  {n:"อุดรธานี",d:["เมืองอุดรธานี","กุดจับ","หนองวัวซอ","กุมภวาปี","โนนสะอาด","หนองหาน","ทุ่งฝน","ไชยวาน","ศรีธาตุ","วังสามหมอ","บ้านดุง","บ้านผือ","น้ำโสม","เพ็ญ","สร้างคอม","หนองแสง","นายูง","พิบูลย์รักษ์","กู่แก้ว","ประจักษ์ศิลปาคม"]},
+  {n:"เลย",d:["เมืองเลย","นาด้วง","เชียงคาน","ปากชม","ด่านซ้าย","นาแห้ว","ภูเรือ","ท่าลี่","วังสะพุง","ภูกระดึง","ภูหลวง","ผาขาว","เอราวัณ","หนองหิน"]},
+  {n:"หนองคาย",d:["เมืองหนองคาย","ท่าบ่อ","โพนพิสัย","ศรีเชียงใหม่","สังคม","สระใคร","เฝ้าไร่","รัตนวาปี","โพธิ์ตาก"]},
+  {n:"มหาสารคาม",d:["เมืองมหาสารคาม","แกดำ","โกสุมพิสัย","กันทรวิชัย","เชียงยืน","บรบือ","นาเชือก","พยัคฆภูมิพิสัย","วาปีปทุม","นาดูน","ยางสีสุราช","กุดรัง","ชื่นชม"]},
+  {n:"ร้อยเอ็ด",d:["เมืองร้อยเอ็ด","เกษตรวิสัย","ปทุมรัตต์","จตุรพักตรพิมาน","ธวัชบุรี","พนมไพร","โพนทอง","โพธิ์ชัย","หนองพอก","เสลภูมิ","สุวรรณภูมิ","เมืองสรวง","โพนทราย","อาจสามารถ","เมยวดี","ศรีสมเด็จ","จังหาร","เชียงขวัญ","หนองฮี","ทุ่งเขาหลวง"]},
+  {n:"กาฬสินธุ์",d:["เมืองกาฬสินธุ์","นามน","กมลาไสย","ร่องคำ","กุฉินารายณ์","เขาวง","ยางตลาด","ห้วยเม็ก","สหัสขันธ์","คำม่วง","ท่าคันโท","หนองกุงศรี","สมเด็จ","ห้วยผึ้ง","สามชัย","นาคู","ดอนจาน","ฆ้องชัย"]},
+  {n:"สกลนคร",d:["เมืองสกลนคร","กุสุมาลย์","กุดบาก","พรรณานิคม","พังโคน","วาริชภูมิ","นิคมน้ำอูน","วานรนิวาส","คำตากล้า","บ้านม่วง","อากาศอำนวย","สว่างแดนดิน","ส่องดาว","เต่างอย","โคกศรีสุพรรณ","เจริญศิลป์","โพนนาแก้ว","ภูพาน"]},
+  {n:"นครพนม",d:["เมืองนครพนม","ปลาปาก","ท่าอุเทน","บ้านแพง","ธาตุพนม","เรณูนคร","นาแก","ศรีสงคราม","นาหว้า","โพนสวรรค์","นาทม","วังยาง"]},
+  {n:"มุกดาหาร",d:["เมืองมุกดาหาร","นิคมคำสร้อย","ดอนตาล","ดงหลวง","คำชะอี","หว้านใหญ่","หนองสูง"]},
+  {n:"เชียงใหม่",d:["เมืองเชียงใหม่","จอมทอง","แม่แจ่ม","เชียงดาว","ดอยสะเก็ด","แม่แตง","แม่ริม","สะเมิง","ฝาง","แม่อาย","พร้าว","สันป่าตอง","สันกำแพง","สันทราย","หางดง","ฮอด","ดอยเต่า","อมก๋อย","สารภี","เวียงแหง","ไชยปราการ","แม่วาง","แม่ออน","ดอยหล่อ","กัลยาณิวัฒนา"]},
+  {n:"ลำพูน",d:["เมืองลำพูน","แม่ทา","บ้านโฮ่ง","ลี้","ทุ่งหัวช้าง","ป่าซาง","บ้านธิ","เวียงหนองล่อง"]},
+  {n:"ลำปาง",d:["เมืองลำปาง","แม่เมาะ","เกาะคา","เสริมงาม","งาว","แจ้ห่ม","วังเหนือ","เถิน","แม่พริก","แม่ทะ","สบปราบ","ห้างฉัตร","เมืองปาน"]},
+  {n:"อุตรดิตถ์",d:["เมืองอุตรดิตถ์","ตรอน","ท่าปลา","น้ำปาด","ฟากท่า","บ้านโคก","พิชัย","ลับแล","ทองแสนขัน"]},
+  {n:"แพร่",d:["เมืองแพร่","ร้องกวาง","ลอง","สูงเม่น","เด่นชัย","สอง","วังชิ้น","หนองม่วงไข่"]},
+  {n:"น่าน",d:["เมืองน่าน","แม่จริม","บ้านหลวง","นาน้อย","ปัว","ท่าวังผา","เวียงสา","ทุ่งช้าง","เชียงกลาง","นาหมื่น","สันติสุข","บ่อเกลือ","สองแคว","ภูเพียง","เฉลิมพระเกียรติ"]},
+  {n:"พะเยา",d:["เมืองพะเยา","จุน","เชียงคำ","เชียงม่วน","ดอกคำใต้","ปง","แม่ใจ","ภูซาง","ภูกามยาว"]},
+  {n:"เชียงราย",d:["เมืองเชียงราย","เวียงชัย","เชียงของ","เทิง","พาน","ป่าแดด","แม่จัน","เชียงแสน","แม่สาย","แม่สรวย","เวียงป่าเป้า","พญาเม็งราย","เวียงแก่น","ขุนตาล","แม่ฟ้าหลวง","แม่ลาว","เวียงเชียงรุ้ง","ดอยหลวง"]},
+  {n:"แม่ฮ่องสอน",d:["เมืองแม่ฮ่องสอน","ขุนยวม","ปาย","แม่สะเรียง","แม่ลาน้อย","สบเมย","ปางมะผ้า"]},
+  {n:"นครสวรรค์",d:["เมืองนครสวรรค์","โกรกพระ","ชุมแสง","หนองบัว","บรรพตพิสัย","เก้าเลี้ยว","ตาคลี","ท่าตะโก","ไพศาลี","พยุหะคีรี","ลาดยาว","ตากฟ้า","แม่วงก์","แม่เปิน","ชุมตาบง"]},
+  {n:"อุทัยธานี",d:["เมืองอุทัยธานี","ทัพทัน","สว่างอารมณ์","หนองฉาง","หนองขาหย่าง","บ้านไร่","ลานสัก","ห้วยคต"]},
+  {n:"กำแพงเพชร",d:["เมืองกำแพงเพชร","ไทรงาม","คลองลาน","ขาณุวรลักษบุรี","คลองขลุง","พรานกระต่าย","ลานกระบือ","ทรายทองวัฒนา","ปางศิลาทอง","บึงสามัคคี","โกสัมพีนคร"]},
+  {n:"ตาก",d:["เมืองตาก","บ้านตาก","สามเงา","แม่ระมาด","ท่าสองยาง","แม่สอด","พบพระ","อุ้มผาง","วังเจ้า"]},
+  {n:"สุโขทัย",d:["เมืองสุโขทัย","บ้านด่านลานหอย","คีรีมาศ","กงไกรลาศ","ศรีสัชนาลัย","ศรีสำโรง","สวรรคโลก","ศรีนคร","ทุ่งเสลี่ยม"]},
+  {n:"พิษณุโลก",d:["เมืองพิษณุโลก","นครไทย","ชาติตระการ","บางระกำ","บางกระทุ่ม","พรหมพิราม","วัดโบสถ์","วังทอง","เนินมะปราง"]},
+  {n:"พิจิตร",d:["เมืองพิจิตร","วังทรายพูน","โพธิ์ประทับช้าง","ตะพานหิน","บางมูลนาก","โพทะเล","สามง่าม","ทับคล้อ","สากเหล็ก","บึงนาราง","ดงเจริญ","วชิรบารมี"]},
+  {n:"เพชรบูรณ์",d:["เมืองเพชรบูรณ์","ชนแดน","หล่มสัก","หล่มเก่า","วิเชียรบุรี","ศรีเทพ","หนองไผ่","บึงสามพัน","น้ำหนาว","วังโป่ง","เขาค้อ"]},
+  {n:"ราชบุรี",d:["เมืองราชบุรี","จอมบึง","สวนผึ้ง","ดำเนินสะดวก","บ้านโป่ง","บางแพ","โพธาราม","ปากท่อ","วัดเพลง","บ้านคา"]},
+  {n:"กาญจนบุรี",d:["เมืองกาญจนบุรี","ไทรโยค","บ่อพลอย","ศรีสวัสดิ์","ท่ามะกา","ท่าม่วง","ทองผาภูมิ","สังขละบุรี","พนมทวน","เลาขวัญ","ด่านมะขามเตี้ย","หนองปรือ","ห้วยกระเจา"]},
+  {n:"สุพรรณบุรี",d:["เมืองสุพรรณบุรี","เดิมบางนางบวช","ด่านช้าง","บางปลาม้า","ศรีประจันต์","ดอนเจดีย์","สองพี่น้อง","สามชุก","อู่ทอง","หนองหญ้าไซ"]},
+  {n:"นครปฐม",d:["เมืองนครปฐม","กำแพงแสน","นครชัยศรี","ดอนตูม","บางเลน","สามพราน","พุทธมณฑล"]},
+  {n:"สมุทรสาคร",d:["เมืองสมุทรสาคร","กระทุ่มแบน","บ้านแพ้ว"]},
+  {n:"สมุทรสงคราม",d:["เมืองสมุทรสงคราม","บางคนที","อัมพวา"]},
+  {n:"เพชรบุรี",d:["เมืองเพชรบุรี","เขาย้อย","หนองหญ้าปล้อง","ชะอำ","ท่ายาง","บ้านลาด","บ้านแหลม","แก่งกระจาน"]},
+  {n:"ประจวบคีรีขันธ์",d:["เมืองประจวบคีรีขันธ์","กุยบุรี","ทับสะแก","บางสะพาน","บางสะพานน้อย","ปราณบุรี","หัวหิน","สามร้อยยอด"]},
+  {n:"นครศรีธรรมราช",d:["เมืองนครศรีธรรมราช","พรหมคีรี","ลานสกา","ฉวาง","พิปูน","เชียรใหญ่","ชะอวด","ท่าศาลา","ทุ่งสง","นาบอน","ทุ่งใหญ่","ปากพนัง","ร่อนพิบูลย์","สิชล","ขนอม","หัวไทร","บางขัน","ถ้ำพรรณรา","จุฬาภรณ์","พระพรหม","นบพิตำ","ช้างกลาง","เฉลิมพระเกียรติ"]},
+  {n:"กระบี่",d:["เมืองกระบี่","เขาพนม","เกาะลันตา","คลองท่อม","อ่าวลึก","ปลายพระยา","ลำทับ","เหนือคลอง"]},
+  {n:"พังงา",d:["เมืองพังงา","เกาะยาว","กะปง","ตะกั่วทุ่ง","ตะกั่วป่า","คุระบุรี","ทับปุด","ท้ายเหมือง"]},
+  {n:"ภูเก็ต",d:["เมืองภูเก็ต","กะทู้","ถลาง"]},
+  {n:"สุราษฎร์ธานี",d:["เมืองสุราษฎร์ธานี","กาญจนดิษฐ์","ดอนสัก","เกาะสมุย","เกาะพะงัน","ไชยา","ท่าชนะ","คีรีรัฐนิคม","บ้านตาขุน","พนม","ท่าฉาง","บ้านนาสาร","บ้านนาเดิม","เคียนซา","เวียงสระ","พระแสง","พุนพิน","ชัยบุรี","วิภาวดี"]},
+  {n:"ระนอง",d:["เมืองระนอง","ละอุ่น","กะเปอร์","กระบุรี","สุขสำราญ"]},
+  {n:"ชุมพร",d:["เมืองชุมพร","ท่าแซะ","ปะทิว","หลังสวน","ละแม","พะโต๊ะ","สวี","ทุ่งตะโก"]},
+  {n:"สงขลา",d:["เมืองสงขลา","สทิงพระ","จะนะ","นาทวี","เทพา","สะบ้าย้อย","ระโนด","กระแสสินธุ์","รัตภูมิ","สะเดา","หาดใหญ่","นาหม่อม","ควนเนียง","บางกล่ำ","สิงหนคร","คลองหอยโข่ง"]},
+  {n:"สตูล",d:["เมืองสตูล","ควนโดน","ควนกาหลง","ท่าแพ","กงหรา","ละงู","ทุ่งหว้า"]},
+  {n:"ตรัง",d:["เมืองตรัง","กันตัง","ย่านตาขาว","ปะเหลียน","สิเกา","ห้วยยอด","วังวิเศษ","นาโยง","รัษฎา","หาดสำราญ"]},
+  {n:"พัทลุง",d:["เมืองพัทลุง","กงหรา","เขาชัยสน","ตะโหมด","ควนขนุน","ปากพยูน","ศรีนครินทร์","ป่าบอน","บางแก้ว","ป่าพะยอม","ศรีบรรพต"]},
+  {n:"ปัตตานี",d:["เมืองปัตตานี","โคกโพธิ์","หนองจิก","ปะนาเระ","มายอ","ทุ่งยางแดง","สายบุรี","ไม้แก่น","ยะหริ่ง","ยะรัง","กะพ้อ","แม่ลาน"]},
+  {n:"ยะลา",d:["เมืองยะลา","เบตง","บันนังสตา","ธารโต","ยะหา","กาบัง","รามัน","กรงปินัง"]},
+  {n:"นราธิวาส",d:["เมืองนราธิวาส","ตากใบ","บาเจาะ","ยี่งอ","ระแงะ","รือเสาะ","ศรีสาคร","แว้ง","สุคิริน","สุไหงโก-ลก","สุไหงปาดี","จะแนะ","เจาะไอร้อง"]},
+  {n:"บึงกาฬ",d:["เมืองบึงกาฬ","พรเจริญ","โซ่พิสัย","เซกา","ปากคาด","บึงโขงหลง","ศรีวิไล","บุ้งคล้า"]},
+];
+
+function loadGeo() {
+  const sel = document.getElementById('f-province')
+  sel.innerHTML = '<option value="">— เลือกจังหวัด —</option>'
+  THAI_PROVINCES.forEach((p,i) => {
+    sel.innerHTML += `<option value="${i}">${p.n}</option>`
+  })
+}
+
+function onProvinceChange() {
+  const idx = document.getElementById('f-province').value
+  const distSel = document.getElementById('f-district')
+  distSel.innerHTML = '<option value="">— เลือกอำเภอ/เขต —</option>'
+  distSel.disabled = true
+  if (idx === '') return
+  const prov = THAI_PROVINCES[parseInt(idx)]
+  if (!prov) return
+  prov.d.forEach(d => {
+    distSel.innerHTML += `<option value="${d}">${d}</option>`
+  })
+  distSel.disabled = false
+}
+
+// ---- PAYMENT ----
+function selectPayment(method) {
+  selectedPayment = method
+  const isPromptPay = method === 'promptpay'
+  document.getElementById('opt-promptpay').classList.toggle('selected', isPromptPay)
+  document.getElementById('opt-cod').classList.toggle('selected', !isPromptPay)
+  document.querySelector('#opt-promptpay .pay-check').textContent = isPromptPay ? '✓' : ''
+  document.querySelector('#opt-cod .pay-check').textContent = !isPromptPay ? '✓' : ''
+  document.getElementById('promptpay-box').classList.toggle('visible', isPromptPay)
+  document.getElementById('upload-box').classList.toggle('visible', isPromptPay)
+}
+
+// ---- SLIP UPLOAD ----
+function onSlipSelected(e) {
+  const file = e.target.files[0]
+  if (!file) return
+  slipFile = file
+  const reader = new FileReader()
+  reader.onload = ev => {
+    const prev = document.getElementById('slip-preview')
+    prev.src = ev.target.result
+    prev.style.display = 'block'
+    document.getElementById('upload-text').innerHTML = '✅ แนบสลิปเรียบร้อยแล้ว<br><span style="font-size:11px;opacity:.7">แตะเพื่อเปลี่ยนรูป</span>'
+  }
+  reader.readAsDataURL(file)
+}
+
+async function uploadSlip(orderId) {
+  if (!slipFile) return null
+  try {
+    const ext  = slipFile.name.split('.').pop() || 'jpg'
+    const path = `${orderId}.${ext}`
+    const { error } = await sb.storage.from('payment-slips').upload(path, slipFile, { upsert: true })
+    if (error) throw error
+    return sb.storage.from('payment-slips').getPublicUrl(path).data?.publicUrl || null
+  } catch (e) {
+    console.warn('Slip upload failed:', e)
+    return null
+  }
+}
+
+// ---- VALIDATION ----
+function validate() {
+  let ok = true
+  const setErr = (inputId, errId, condition) => {
+    document.getElementById(inputId)?.classList.toggle('error', condition)
+    document.getElementById(errId)?.classList.toggle('visible', condition)
+    if (condition) ok = false
+  }
+  const name   = document.getElementById('f-name').value.trim()
+  const phone  = document.getElementById('f-phone').value.trim()
+  const addr   = document.getElementById('f-addr').value.trim()
+  const prov   = document.getElementById('f-province').value
+  const dist   = document.getElementById('f-district').value
+  const sub    = document.getElementById('f-subdistrict').value.trim()
+  const postal = document.getElementById('f-postal').value.trim()
+
+  setErr('f-name',        'err-name',        !name)
+  setErr('f-phone',       'err-phone',       !phone || phone.replace(/\D/g,'').length < 9)
+  setErr('f-addr',        'err-addr',        !addr)
+  setErr('f-province',    'err-province',    !prov)
+  setErr('f-district',    'err-district',    !dist)
+  setErr('f-subdistrict', 'err-subdistrict', !sub)
+  setErr('f-postal',      'err-postal',      !postal)
+  return ok
+}
+
+// ---- SUBMIT ORDER ----
+async function submitOrder() {
+  if (!validate()) { showToast('กรุณากรอกข้อมูลให้ครบถ้วน', 'error'); return }
+  const btn = document.getElementById('btn-submit')
+  btn.disabled = true; btn.textContent = 'กำลังส่งคำสั่งซื้อ...'
+
+  try {
+    const items = getCartItems()
+    const total = getCartTotal()
+    const prov  = document.getElementById('f-province').selectedOptions[0]?.text || ''
+    const dist  = document.getElementById('f-district').value || ''
+    const sub   = document.getElementById('f-subdistrict').value.trim()
+
+    const { data: order, error } = await sb.from('orders').insert({
+      customer_name:  document.getElementById('f-name').value.trim(),
+      customer_phone: document.getElementById('f-phone').value.trim(),
+      address_detail: document.getElementById('f-addr').value.trim(),
+      province:       prov,
+      district:       dist,
+      subdistrict:    sub,
+      postal_code:    document.getElementById('f-postal').value,
+      payment_method: selectedPayment,
+      items:          items,
+      total_amount:   total,
+      notes:          document.getElementById('f-notes').value.trim() || null,
+    }).select().single()
+
+    if (error) throw error
+
+    // Upload slip in background
+    if (slipFile && selectedPayment === 'promptpay') {
+      const slipUrl = await uploadSlip(order.id)
+      if (slipUrl) await sb.from('orders').update({ payment_slip_url: slipUrl }).eq('id', order.id)
+    }
+
+    showSuccess(order, items, total, prov, dist, sub)
+  } catch (e) {
+    console.error(e)
+    showToast('เกิดข้อผิดพลาด กรุณาลองใหม่', 'error')
+    btn.disabled = false; btn.textContent = '✅ ยืนยันคำสั่งซื้อ'
+  }
+}
+
+// ---- SHOW SUCCESS ----
+function showSuccess(order, items, total, prov, dist, sub) {
+  document.getElementById('success-order-num').textContent = order.order_number || '—'
+
+  document.getElementById('success-items').innerHTML =
+    items.map(i =>
+      `<div class="success-info-row"><span>${i.name_th} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
+    ).join('') +
+    `<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px">
+      <span><strong>รวมทั้งสิ้น</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
+
+  const addrDetail = document.getElementById('f-addr').value.trim()
+  const postal     = document.getElementById('f-postal').value
+  const phone      = document.getElementById('f-phone').value.trim()
+  const custName   = document.getElementById('f-name').value.trim()
+  document.getElementById('success-address').innerHTML =
+    `${custName}<br>${addrDetail}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">📞 ${phone}</span>`
+
+  const isPromptPay = selectedPayment === 'promptpay'
+  document.getElementById('success-pay-reminder').style.display = isPromptPay ? 'block' : 'none'
+
+  showView('success')
+  cart = {}; slipFile = null
+  document.getElementById('cart-bar').classList.remove('visible')
+}
+
+function resetAndGoHome() {
+  cart = {}; slipFile = null; selectedPayment = 'promptpay'
+  products.forEach(p => { const el = document.getElementById('qty-' + p.id); if (el) el.textContent = 0 })
+  ;['f-name','f-phone','f-addr','f-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '' })
+  document.getElementById('f-province').value = ''
+  document.getElementById('f-district').innerHTML = '<option value="">— เลือกจังหวัดก่อน —</option>'
+  document.getElementById('f-district').disabled = true
+  document.getElementById('f-subdistrict').value = ''
+  document.getElementById('f-postal').value = ''
+  document.getElementById('slip-preview').style.display = 'none'
+  document.getElementById('upload-text').innerHTML = 'แตะเพื่อแนบสลิปโอนเงิน<br><span style="font-size:11px;opacity:.7">JPG, PNG ขนาดไม่เกิน 5MB</span>'
+  const btn = document.getElementById('btn-submit'); btn.disabled = false; btn.textContent = '✅ ยืนยันคำสั่งซื้อ'
+  selectPayment('promptpay')
+  showView('products')
+}
+
+// ---- TOAST ----
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast')
+  t.textContent = msg; t.className = 'toast show ' + type
+  setTimeout(() => { t.className = 'toast' }, 3200)
+}
+
+// ---- START ----
+init()
+</script>
+</body>
+</html>
