@@ -45,15 +45,15 @@ input,select,textarea{font-family:inherit;outline:none}
 .lang-btn:active{opacity:.7}
 
 /* HERO */
-.hero{background:linear-gradient(160deg,#1A0808 0%,#5A1010 55%,#9B1818 100%);padding:24px 16px 28px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero{background:linear-gradient(160deg,#1A0808 0%,#5A1010 55%,#9B1818 100%);padding:24px 16px 28px;text-align:center;display:flex;flex-direction:column;align-items:center;min-height:130px;justify-content:center}
 .hero-logo-wrap{background:#fff;border-radius:18px;padding:12px 22px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 .hero-logo-img{height:70px;display:block}
 .hero-logo-fallback{color:var(--yellow);font-size:22px;font-weight:700;display:none}
 
 /* SLIDESHOW CARD */
-.products-list{padding:12px 12px 130px;display:flex;flex-direction:column;gap:0}
+.products-list{padding:12px 12px 24px;display:flex;flex-direction:column;gap:0;max-width:480px;margin:0 auto}
 .product-full-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(26,8,8,.13);border:1px solid var(--border)}
-.slideshow{position:relative;overflow:hidden;background:#E8D8C0;aspect-ratio:4/3;max-height:290px}
+.slideshow{position:relative;overflow:hidden;background:#E8D8C0;width:100%;height:260px}
 .slide-track{display:flex;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
 .slide-img{min-width:100%;width:100%;height:100%;object-fit:cover;flex-shrink:0}
 .slide-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:2}
@@ -67,7 +67,7 @@ input,select,textarea{font-family:inherit;outline:none}
 .product-full-info{padding:18px 16px 14px}
 .product-name-main{font-size:24px;font-weight:700;color:var(--dark);line-height:1.15;margin-bottom:2px}
 .product-name-sub{font-size:13px;color:var(--text-muted);letter-spacing:.5px;margin-bottom:8px}
-.product-desc-main{font-size:13px;color:#8A6040;line-height:1.65;margin-bottom:16px}
+
 .product-price-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .product-price-big{font-size:28px;font-weight:700;color:var(--red)}
 .product-price-big .unit{font-size:13px;font-weight:400;color:var(--text-muted);margin-left:3px}
@@ -134,7 +134,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 .summary-total{display:flex;justify-content:space-between;padding:12px 16px;background:var(--cream-dark);font-weight:700;font-size:16px}
 
 /* SUBMIT */
-.btn-submit{width:calc(100% - 24px);margin:12px;padding:16px;background:var(--red);color:var(--white);font-size:17px;font-weight:700;border-radius:14px;transition:all .2s;margin-bottom:28px}
+.btn-submit{width:calc(100% - 24px);margin:12px;padding:16px;background:var(--red);color:var(--white);font-size:17px;font-weight:700;border-radius:14px;transition:all .2s;margin-bottom:20px;display:block}
 .btn-submit:active{transform:scale(.98)}
 .btn-submit:disabled{opacity:.6}
 
@@ -511,9 +511,9 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 const PRODUCTS=[{
   id:'golden-flying-tiger-001',
   name:'Golden Flying Tiger',name_th:'เสือทองบิน',name_my:'ရွှေရတု',
-  description:'Traditional Myanmar cheroot · Naturally aromatic',
-  description_th:'บุหรี่ซิการ์ · สูตรดั้งเดิม · กลิ่นหอมธรรมชาติ',
-  description_my:'မြန်မာ့ရိုးရာ ဆေးပေါ့ · သဘာဝ နံ့သာ',
+
+
+
   price:140,unit:'တစ်စီး',unit_th:'ซอง',unit_en:'pack',
   images:['assets/product_1.png','assets/product_2.png','assets/product_3.png']
 }]
@@ -559,7 +559,7 @@ function renderProducts(){
   const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
   const name=currentLang==='th'?p.name_th:currentLang==='my'?p.name_my:p.name
   const sub=currentLang==='th'?p.name:p.name_th
-  const desc=currentLang==='th'?p.description_th:currentLang==='my'?p.description_my:p.description
+
   const unit=pUnit(p)
   const slides=p.images.map(src=>`<img src="${src}" class="slide-img" alt="${name}" loading="lazy" onerror="this.style.display='none'">`).join('')
   const dots=p.images.map((_,i)=>`<button class="dot${i===0?' active':''}" onclick="goToSlide(${i})"></button>`).join('')
@@ -574,7 +574,7 @@ function renderProducts(){
     <div class="product-full-info">
       <div class="product-name-main">${name}</div>
       <div class="product-name-sub">${sub}</div>
-      <div class="product-desc-main">${desc}</div>
+
       <div class="product-price-row">
         <div class="product-price-big">฿${Number(p.price).toLocaleString()}<span class="unit">/${unit}</span></div>
         <div class="qty-control">
@@ -613,8 +613,8 @@ function getCartTotal(){ return getCartItems().reduce((s,i)=>s+i.subtotal,0) }
 // ═══════════════════════════════════════════════════
 //  VIEWS
 // ═══════════════════════════════════════════════════
-function showView(n){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); const el=document.getElementById('view-'+n); if(el){el.classList.add('active');window.scrollTo(0,0)} }
-function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); showView('checkout') }
+function showView(n){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); const el=document.getElementById('view-'+n); if(el){el.classList.add('active');window.scrollTo(0,0)} if(n==='products') updateCartBar(); else document.getElementById('cart-bar').classList.remove('visible') }
+function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); document.getElementById('cart-bar').classList.remove('visible'); showView('checkout') }
 function renderOrderSummary(){
   const items=getCartItems()
   document.getElementById('order-summary-items').innerHTML=items.map(i=>{
