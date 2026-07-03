@@ -23,7 +23,7 @@ input,select,textarea{font-family:inherit;outline:none}
   --white:#FFFFFF;--border:#E0CDB3;--text-muted:#7A5C3C;
   --green:#27AE60;--red-err:#E74C3C
 }
-.view{display:none}.view.active{display:block}
+.view{display:none !important;height:0;overflow:hidden}.view.active{display:block !important;height:auto;overflow:visible}
 
 /* LOADING */
 #loading{position:fixed;inset:0;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:14px}
@@ -215,7 +215,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 <div class="view" id="view-checkout">
   <div class="header">
     <button class="header-back" onclick="showView('products')">←</button>
-    <div class="header-logo-fallback" style="display:block" data-i18n="checkout_header">မှာယူမှုအချက်အလက်</div>
+    <div class="header-logo-fallback" style="display:block" data-i18n="checkout_header">အမှာစာ အသေးစိတ်</div>
     <div class="lang-switcher">
       <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">မြန်မာ</button>
       <button id="lang-th2" class="lang-btn"        onclick="setLang('th')">ไทย</button>
@@ -376,7 +376,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 // ═══════════════════════════════════════════════════
 const TRANSLATIONS = {
   my:{
-    order_now:'အမှာစာ →',checkout_header:'မှာယူမှုအချက်အလက်',order_summary:'မှာယူသောပစ္စည်းများ',
+    order_now:'အမှာစာ →',checkout_header:'အမှာစာ အသေးစိတ်',order_summary:'မှာယူသောပစ္စည်းများ',
     grand_total:'စုစုပေါင်း',customer_info:'လက်ခံသူ၏ အချက်အလက်',label_name:'နာမည်',
     ph_name:'နာမည် မြတ်မြတ်',err_name:'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',label_phone:'ဖုန်းနံပါတ်',
     err_phone:'မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ',delivery_address:'ပို့ဆောင်ရမည့်လိပ်စာ',
@@ -406,7 +406,7 @@ const TRANSLATIONS = {
     items_unit:'ပစ္စည်း',prod_unit:'တစ်စီး',
   },
   th:{
-    order_now:'สั่งซื้อเลย →',checkout_header:'ข้อมูลคำสั่งซื้อ',order_summary:'รายการสั่งซื้อ',
+    order_now:'สั่งซื้อเลย →',checkout_header:'รายละเอียดคำสั่งซื้อ',order_summary:'รายการสั่งซื้อ',
     grand_total:'ยอดรวมทั้งสิ้น',customer_info:'ข้อมูลผู้รับสินค้า',label_name:'ชื่อ-นามสกุล',
     ph_name:'ชื่อ นามสกุล',err_name:'กรุณากรอกชื่อ-นามสกุล',label_phone:'เบอร์โทรศัพท์',
     err_phone:'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',delivery_address:'ที่อยู่จัดส่ง',
@@ -509,7 +509,7 @@ const PRODUCTS=[{
 
 
 
-  price:150,name_roman:'Shwe Ya Tu',unit:'တစ်စီး',unit_th:'ซอง',unit_en:'pack',
+  price:150,name_roman:'Shwe Ya Tu',unit:'တစ်စီး',unit_th:'pack',unit_en:'pack',
   images:['assets/product_1.png','assets/product_2.png','assets/product_3.png']
 }]
 
@@ -553,7 +553,7 @@ function renderProducts(){
   const list=document.getElementById('products-list'); if(!list) return
   const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
   const name=currentLang==='th'?p.name_th:currentLang==='my'?p.name_my:p.name
-  const sub=currentLang==='my'?p.name_th:(p.name_roman||'Shwe Ya Tu')
+  const sub=currentLang==='my'?p.name_th:p.name
 
   const unit=pUnit(p)
   const slides=p.images.map(src=>`<img src="${src}" class="slide-img" alt="${name}" loading="lazy" onerror="this.style.display='none'">`).join('')
@@ -600,7 +600,7 @@ function updateCartBar(){
 function getCartItems(){
   return Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{
     const p=products.find(x=>x.id===id)
-    return{id,name:p.name,name_th:p.name_th,name_my:p.name_my||p.name_th,price:Number(p.price),qty,subtotal:Number(p.price)*qty,unit:pUnit(p)}
+    return{id,name:p.name,name_roman:p.name_roman||'Shwe Ya Tu',name_th:p.name_th,name_my:p.name_my||p.name_th,price:Number(p.price),qty,subtotal:Number(p.price)*qty,unit:pUnit(p)}
   })
 }
 function getCartTotal(){ return getCartItems().reduce((s,i)=>s+i.subtotal,0) }
@@ -613,7 +613,7 @@ function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary()
 function renderOrderSummary(){
   const items=getCartItems()
   document.getElementById('order-summary-items').innerHTML=items.map(i=>{
-    const nm=currentLang==='my'?(i.name_my||i.name_th):currentLang==='en'?(i.name||i.name_th):i.name_th
+    const nm=currentLang==='my'?(i.name_my||i.name_th):(i.name_roman||'Shwe Ya Tu')
     return `<div class="summary-item"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
   }).join('')
   document.getElementById('summary-total-val').textContent='฿'+Number(getCartTotal()).toLocaleString()
@@ -757,7 +757,7 @@ async function submitOrder(){
 function showSuccess(order,items,total,prov,dist,sub){
   document.getElementById('success-order-num').textContent=order.order_number||'—'
   document.getElementById('success-items').innerHTML=items.map(i=>{
-    const nm=currentLang==='my'?(i.name_my||i.name_th):currentLang==='en'?(i.name||i.name_th):i.name_th
+    const nm=currentLang==='my'?(i.name_my||i.name_th):(i.name_roman||'Shwe Ya Tu')
     return `<div class="success-info-row"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
   }).join('')+`<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px"><span><strong>${t('total_label')}</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
   const name=document.getElementById('f-name').value.trim()
