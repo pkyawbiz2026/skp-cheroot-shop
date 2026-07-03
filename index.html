@@ -643,9 +643,18 @@ function setLang(lang) {
     })
   })
 
-  // Update geo dropdown placeholders
+  // Re-render geo dropdowns with correct language names
   const provSel = document.getElementById('f-province')
-  if (provSel && provSel.options.length > 0) provSel.options[0].text = t('select_province')
+  if (provSel && THAI_PROVINCES.length > 0) {
+    const savedProv = provSel.value
+    provSel.innerHTML = `<option value="">${t('select_province')}</option>`
+    THAI_PROVINCES.forEach((p,i) => {
+      provSel.innerHTML += `<option value="${i}">${geoName(p)}</option>`
+    })
+    if (savedProv) { provSel.value = savedProv; onProvinceChange() }
+  } else if (provSel && provSel.options.length > 0) {
+    provSel.options[0].text = t('select_province')
+  }
   const distSel = document.getElementById('f-district')
   if (distSel && distSel.options.length > 0)
     distSel.options[0].text = distSel.disabled ? t('select_prov_first') : t('select_district')
@@ -821,7 +830,7 @@ function renderOrderSummary() {
 let THAI_PROVINCES = []
 
 async function loadThaiGeoData() {
-  const CACHE_KEY = 'thai_geo_v3'
+  const CACHE_KEY = 'thai_geo_v4'
   try {
     const cached = localStorage.getItem(CACHE_KEY)
     if (cached) { THAI_PROVINCES = JSON.parse(cached); return }
@@ -834,13 +843,17 @@ async function loadThaiGeoData() {
       const districts = p.districts || p.amphure || []
       return {
         n: p.name_th,
+        ne: p.name_en || p.name_th,
         d: districts.map(a => {
           const dName = isBkk ? a.name_th.replace(/^เขต/, '') : a.name_th.replace(/^อำเภอ/, '')
+          const dNameEn = a.name_en || dName
           const subDistricts = a.sub_districts || a.tambon || []
           return {
             n: dName,
+            ne: dNameEn,
             s: subDistricts.map(t => ({
               n: isBkk ? t.name_th.replace(/^แขวง/, '') : t.name_th.replace(/^ตำบล/, ''),
+              ne: t.name_en || t.name_th,
               z: t.zip_code
             }))
           }
@@ -853,12 +866,16 @@ async function loadThaiGeoData() {
   }
 }
 
+function geoName(item) {
+  return currentLang === 'th' ? item.n : (item.ne || item.n)
+}
+
 async function loadGeo() {
   await loadThaiGeoData()
   const sel = document.getElementById('f-province')
   sel.innerHTML = `<option value="">${t('select_province')}</option>`
   THAI_PROVINCES.forEach((p,i) => {
-    sel.innerHTML += `<option value="${i}">${p.n}</option>`
+    sel.innerHTML += `<option value="${i}">${geoName(p)}</option>`
   })
 }
 
@@ -875,7 +892,7 @@ function onProvinceChange() {
   const prov = THAI_PROVINCES[parseInt(idx)]
   if (!prov) return
   prov.d.forEach((d, i) => {
-    distSel.innerHTML += `<option value="${i}">${d.n}</option>`
+    distSel.innerHTML += `<option value="${i}">${geoName(d)}</option>`
   })
   distSel.disabled = false
 }
@@ -893,7 +910,7 @@ function onDistrictChange() {
   const dist = prov.d[parseInt(distIdx)]
   if (!dist) return
   dist.s.forEach(sub => {
-    subSel.innerHTML += `<option value="${sub.n}" data-zip="${sub.z}">${sub.n}</option>`
+    subSel.innerHTML += `<option value="${sub.n}" data-zip="${sub.z}">${geoName(sub)}</option>`
   })
   subSel.disabled = false
 }
