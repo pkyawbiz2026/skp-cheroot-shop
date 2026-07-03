@@ -3,81 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>SKP Heritage</title>
+<title>ရွှေရတု · Golden Flying Tiger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Noto Sans Myanmar','Sarabun',sans-serif;background:#FAF3E8;color:#2C1810;min-height:100vh;overflow-x:hidden}
+body{font-family:'Noto Sans Myanmar','Sarabun',sans-serif;background:#FAF3E8;color:#1A0808;min-height:100vh;overflow-x:hidden}
 button{cursor:pointer;border:none;outline:none;font-family:inherit}
 input,select,textarea{font-family:inherit;outline:none}
 :root{
-  --brown-dark:#2C1810;--brown-mid:#4A1E0A;--brown-light:#8B4513;
-  --gold:#C9951A;--gold-light:#E8B84B;
+  --yellow:#F0BC20;--yellow-dark:#D4A010;--yellow-light:#F8D040;
+  --red:#9B1818;--red-dark:#6A0F0F;--red-light:#C42020;
+  --dark:#1A0808;--mid:#5A1010;
+  --brown-dark:#1A0808;--brown-mid:#5A1010;--brown-light:#9B1818;
+  --gold:#F0BC20;--gold-light:#F8D040;
   --cream:#FAF3E8;--cream-dark:#F0E6D3;
   --white:#FFFFFF;--border:#E0CDB3;--text-muted:#7A5C3C;
-  --green:#27AE60;--red:#E74C3C
+  --green:#27AE60;--red-err:#E74C3C
 }
-/* VIEWS */
 .view{display:none}.view.active{display:block}
 
 /* LOADING */
-#loading{position:fixed;inset:0;background:var(--brown-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:16px}
-.loader-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:28px;letter-spacing:2px}
-.loader-sub{color:#9C7B5C;font-size:13px;letter-spacing:1.5px}
-.spinner{width:36px;height:36px;border:3px solid rgba(201,149,26,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+#loading{position:fixed;inset:0;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:14px}
+.loader-logo{font-family:'Noto Sans Myanmar',sans-serif;color:var(--dark);font-size:30px;font-weight:700;letter-spacing:1px}
+.loader-sub{color:var(--red);font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase}
+.spinner{width:36px;height:36px;border:3px solid rgba(26,8,8,.15);border-top-color:var(--dark);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* HEADER */
-.header{background:var(--brown-dark);padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.header-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:19px;letter-spacing:1px;line-height:1}
-.header-logo span{display:block;font-size:10px;font-style:italic;color:#9C7B5C;letter-spacing:2px;margin-top:2px}
-.header-back{background:none;color:var(--gold);font-size:22px;padding:4px 8px 4px 0;line-height:1}
+.header{background:var(--yellow);padding:10px 14px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(26,8,8,.18)}
+.header-logo-img{height:46px;mix-blend-mode:multiply;display:block;flex-shrink:0}
+.header-logo-fallback{font-family:'Noto Sans Myanmar',sans-serif;color:var(--dark);font-size:17px;font-weight:700;display:none;flex-shrink:0}
+.header-back{background:none;color:var(--dark);font-size:22px;padding:4px 8px 4px 0;line-height:1;flex-shrink:0}
 
 /* LANG SWITCHER */
 .lang-switcher{display:flex;gap:3px;margin-left:auto;flex-shrink:0}
-.lang-btn{background:transparent;color:#9C7B5C;font-size:11px;font-weight:700;padding:4px 7px;border-radius:10px;border:1px solid transparent;letter-spacing:.3px;transition:all .2s;font-family:'Noto Sans Myanmar','Sarabun',sans-serif}
-.lang-btn.active{background:var(--gold);color:var(--brown-dark);border-color:var(--gold)}
+.lang-btn{background:transparent;color:var(--mid);font-size:10px;font-weight:700;padding:4px 6px;border-radius:10px;border:1.5px solid transparent;letter-spacing:.2px;transition:all .2s;font-family:'Noto Sans Myanmar','Sarabun',sans-serif;white-space:nowrap}
+.lang-btn.active{background:var(--dark);color:var(--yellow);border-color:var(--dark)}
 .lang-btn:active{opacity:.7}
 
 /* HERO */
-.hero{background:linear-gradient(160deg,#2C1810 0%,#4A1E0A 60%,#6B2D0F 100%);padding:24px 16px 28px;text-align:center}
-.hero-title{font-family:'Playfair Display',serif;color:var(--gold);font-size:24px;margin-bottom:6px}
-.hero-sub{color:#B89A70;font-size:13px;line-height:1.6}
-.gold-divider{width:48px;height:2px;background:var(--gold);margin:10px auto;opacity:.6}
+.hero{background:linear-gradient(160deg,#1A0808 0%,#5A1010 55%,#9B1818 100%);padding:24px 16px 28px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.hero-logo-wrap{background:#fff;border-radius:18px;padding:12px 22px;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.hero-logo-img{height:70px;display:block}
+.hero-logo-fallback{color:var(--yellow);font-size:22px;font-weight:700;display:none}
 
-/* SECTION LABEL */
-.section-label{padding:16px 16px 8px;font-size:11px;font-weight:700;color:var(--text-muted);letter-spacing:2px;text-transform:uppercase}
+/* SLIDESHOW CARD */
+.products-list{padding:12px 12px 130px;display:flex;flex-direction:column;gap:0}
+.product-full-card{background:var(--white);border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(26,8,8,.13);border:1px solid var(--border)}
+.slideshow{position:relative;overflow:hidden;background:#E8D8C0;aspect-ratio:4/3;max-height:290px}
+.slide-track{display:flex;height:100%;transition:transform .42s cubic-bezier(.4,0,.2,1)}
+.slide-img{min-width:100%;width:100%;height:100%;object-fit:cover;flex-shrink:0}
+.slide-dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:2}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45);cursor:pointer;transition:.2s;border:none;padding:0;flex-shrink:0}
+.dot.active{background:#fff;transform:scale(1.3)}
+.slide-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.32);color:#fff;border:none;width:36px;height:36px;border-radius:50%;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:.15s;padding:0}
+.slide-arrow:active{background:rgba(0,0,0,.6)}
+.slide-arrow.left{left:8px}.slide-arrow.right{right:8px}
 
-/* PRODUCT CARDS */
-.products-list{padding:0 12px 130px;display:flex;flex-direction:column;gap:12px}
-.product-card{background:var(--white);border-radius:14px;overflow:hidden;display:flex;box-shadow:0 2px 8px rgba(44,24,16,.08);border:1px solid var(--border)}
-.product-img{width:110px;min-width:110px;height:115px;flex-shrink:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.product-img img{width:100%;height:100%;object-fit:cover}
-.product-info{padding:12px 12px 10px;flex:1;display:flex;flex-direction:column;gap:3px}
-.product-name-th{font-size:17px;font-weight:700;color:var(--brown-dark);line-height:1.2}
-.product-name-en{font-size:11px;color:var(--text-muted);letter-spacing:.5px}
-.product-desc{font-size:12px;color:#9C7B5C;line-height:1.4;margin-top:2px;flex:1}
-.product-bottom{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-.product-price{font-size:18px;font-weight:700;color:var(--brown-mid)}
-.product-price .unit{font-size:11px;font-weight:400;color:var(--text-muted);margin-left:2px}
-.qty-control{display:flex;align-items:center;background:var(--cream-dark);border-radius:20px;overflow:hidden}
-.qty-btn{width:32px;height:32px;background:none;color:var(--brown-mid);font-size:20px;font-weight:400;display:flex;align-items:center;justify-content:center;transition:background .15s}
+/* PRODUCT INFO */
+.product-full-info{padding:18px 16px 14px}
+.product-name-main{font-size:24px;font-weight:700;color:var(--dark);line-height:1.15;margin-bottom:2px}
+.product-name-sub{font-size:13px;color:var(--text-muted);letter-spacing:.5px;margin-bottom:8px}
+.product-desc-main{font-size:13px;color:#8A6040;line-height:1.65;margin-bottom:16px}
+.product-price-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.product-price-big{font-size:28px;font-weight:700;color:var(--red)}
+.product-price-big .unit{font-size:13px;font-weight:400;color:var(--text-muted);margin-left:3px}
+.qty-control{display:flex;align-items:center;background:var(--cream-dark);border-radius:28px;overflow:hidden;border:2px solid var(--border)}
+.qty-btn{width:38px;height:38px;background:none;color:var(--mid);font-size:24px;display:flex;align-items:center;justify-content:center;transition:background .15s;line-height:1}
 .qty-btn:active{background:var(--border)}
-.qty-val{min-width:28px;text-align:center;font-weight:700;font-size:14px;color:var(--brown-dark)}
+.qty-val{min-width:34px;text-align:center;font-weight:700;font-size:17px;color:var(--dark)}
 
 /* CART BAR */
-.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--brown-dark);padding:12px 16px;display:none;align-items:center;justify-content:space-between;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.35)}
+.cart-bar{position:fixed;bottom:0;left:0;right:0;background:var(--dark);padding:12px 16px;display:none;align-items:center;justify-content:space-between;z-index:200;box-shadow:0 -4px 20px rgba(0,0,0,.4)}
 .cart-bar.visible{display:flex}
 .cart-info{color:var(--white)}
-.cart-count{font-size:12px;color:#9C7B5C}
-.cart-total{font-size:20px;font-weight:700;color:var(--gold)}
-.btn-order{background:var(--gold);color:var(--brown-dark);font-weight:700;font-size:15px;padding:12px 24px;border-radius:25px}
-.btn-order:active{background:var(--gold-light)}
+.cart-count{font-size:12px;color:#C8A060}
+.cart-total{font-size:20px;font-weight:700;color:var(--yellow)}
+.btn-order{background:var(--yellow);color:var(--dark);font-weight:700;font-size:15px;padding:12px 24px;border-radius:26px}
+.btn-order:active{background:var(--yellow-light)}
 
-/* ORDER FORM */
+/* CHECKOUT */
 #view-checkout{background:var(--cream);min-height:100vh}
 .form-section{background:var(--white);margin:10px 12px;border-radius:14px;overflow:hidden;border:1px solid var(--border)}
 .form-section-header{padding:12px 16px;background:var(--cream-dark);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
@@ -85,10 +93,10 @@ input,select,textarea{font-family:inherit;outline:none}
 .form-section-title{font-weight:600;font-size:14px}
 .form-body{padding:14px 16px;display:flex;flex-direction:column;gap:14px}
 .field-label{font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:5px;display:block}
-.field-label .req{color:var(--red);margin-left:2px}
-.field-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:var(--cream);color:var(--brown-dark);transition:border-color .2s}
-.field-input:focus{border-color:var(--gold);background:var(--white)}
-.field-input.error{border-color:var(--red)}
+.field-label .req{color:var(--red-err);margin-left:2px}
+.field-input{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;background:var(--cream);color:var(--dark);transition:border-color .2s}
+.field-input:focus{border-color:var(--yellow);background:var(--white)}
+.field-input.error{border-color:var(--red-err)}
 textarea.field-input{resize:none;min-height:78px}
 select.field-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A5C3C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -96,28 +104,24 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 /* PAYMENT */
 .pay-options{display:flex;flex-direction:column;gap:10px}
 .pay-option{border:2px solid var(--border);border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
-.pay-option.selected{border-color:var(--gold);background:#FDF8EE}
+.pay-option.selected{border-color:var(--yellow);background:#FDF8EE}
 .pay-option input[type=radio]{display:none}
 .pay-icon{font-size:24px}
 .pay-label{flex:1}
 .pay-label strong{display:block;font-size:15px}
 .pay-label span{font-size:12px;color:var(--text-muted)}
 .pay-check{width:22px;height:22px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px}
-.pay-option.selected .pay-check{background:var(--gold);border-color:var(--gold);color:var(--white)}
-
-/* PROMPTPAY BOX */
-.promptpay-box{background:linear-gradient(135deg,#1a3a6b 0%,#1565C0 100%);border-radius:12px;padding:16px;color:white;margin-top:10px;display:none}
+.pay-option.selected .pay-check{background:var(--yellow);border-color:var(--yellow);color:var(--dark)}
+.promptpay-box{background:linear-gradient(135deg,#1a3a6b,#1565C0);border-radius:12px;padding:16px;color:#fff;margin-top:10px;display:none}
 .promptpay-box.visible{display:block}
 .promptpay-title{font-size:12px;opacity:.8;margin-bottom:4px}
 .promptpay-number{font-size:22px;font-weight:700;letter-spacing:2px}
 .promptpay-name{font-size:13px;opacity:.9;margin-top:4px}
 .pp-divider{border:none;border-top:1px solid rgba(255,255,255,.2);margin:12px 0}
 .promptpay-bank{font-size:13px;opacity:.8}
-
-/* UPLOAD BOX */
 .upload-box{border:2px dashed var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--cream);margin-top:10px;display:none}
 .upload-box.visible{display:block}
-.upload-box:hover{border-color:var(--gold);background:#FDF8EE}
+.upload-box:hover{border-color:var(--yellow);background:#FDF8EE}
 .upload-icon{font-size:28px;margin-bottom:6px}
 .upload-text{font-size:13px;color:var(--text-muted)}
 .upload-preview{max-height:120px;border-radius:8px;margin-top:10px}
@@ -130,19 +134,19 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 .summary-total{display:flex;justify-content:space-between;padding:12px 16px;background:var(--cream-dark);font-weight:700;font-size:16px}
 
 /* SUBMIT */
-.btn-submit{width:calc(100% - 24px);margin:12px;padding:16px;background:var(--gold);color:var(--brown-dark);font-size:17px;font-weight:700;border-radius:14px;transition:all .2s;margin-bottom:28px}
+.btn-submit{width:calc(100% - 24px);margin:12px;padding:16px;background:var(--red);color:var(--white);font-size:17px;font-weight:700;border-radius:14px;transition:all .2s;margin-bottom:28px}
 .btn-submit:active{transform:scale(.98)}
 .btn-submit:disabled{opacity:.6}
 
 /* SUCCESS */
 #view-success{min-height:100vh;background:var(--cream)}
-.success-hero{background:linear-gradient(160deg,#1B5E20,#2E7D32);padding:40px 20px;text-align:center;color:white}
+.success-hero{background:linear-gradient(160deg,#1B5E20,#2E7D32);padding:40px 20px;text-align:center;color:#fff}
 .success-icon{font-size:52px;margin-bottom:12px}
 .success-title{font-size:22px;font-weight:700;margin-bottom:4px}
 .success-subtitle{font-size:14px;opacity:.85}
 .order-number-box{margin:16px;background:var(--cream-dark);border-radius:12px;padding:14px 16px;text-align:center;border:1px solid var(--border)}
 .order-number-label{font-size:12px;color:var(--text-muted);margin-bottom:4px}
-.order-number-val{font-size:24px;font-weight:700;color:var(--brown-dark);letter-spacing:2px}
+.order-number-val{font-size:24px;font-weight:700;color:var(--dark);letter-spacing:2px}
 .success-info{background:var(--white);margin:0 12px 12px;border-radius:14px;border:1px solid var(--border);overflow:hidden}
 .success-info-header{padding:10px 14px;background:var(--cream-dark);font-weight:600;font-size:13px;border-bottom:1px solid var(--border)}
 .success-info-body{padding:12px 14px}
@@ -151,137 +155,118 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 .success-info-row span:last-child{font-weight:600;text-align:right;max-width:60%}
 .pay-reminder{margin:0 12px 12px;background:#EBF5FB;border-radius:12px;padding:14px;border:1px solid #AED6F1;font-size:13px;line-height:1.9;color:#1A5276}
 .pay-reminder strong{display:block;margin-bottom:4px;font-size:14px}
-.btn-home{margin:4px 12px 28px;padding:14px;background:var(--brown-dark);color:var(--gold);font-size:15px;font-weight:700;border-radius:14px;width:calc(100% - 24px);display:block}
+.btn-home{margin:4px 12px 28px;padding:14px;background:var(--dark);color:var(--yellow);font-size:15px;font-weight:700;border-radius:14px;width:calc(100% - 24px);display:block;text-align:center}
 
-/* ERROR MESSAGES */
-.error-msg{color:var(--red);font-size:12px;margin-top:4px;display:none}
+/* MISC */
+.error-msg{color:var(--red-err);font-size:12px;margin-top:4px;display:none}
 .error-msg.visible{display:block}
-
-/* TOAST */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brown-dark);color:var(--white);padding:10px 20px;border-radius:25px;font-size:13px;white-space:nowrap;opacity:0;transition:all .3s;z-index:9000;pointer-events:none}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--dark);color:var(--white);padding:10px 20px;border-radius:25px;font-size:13px;white-space:nowrap;opacity:0;transition:all .3s;z-index:9000;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.toast.error{background:var(--red)}
+.toast.error{background:var(--red-err)}
 .toast.success{background:var(--green)}
 </style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
+<!-- LOADING -->
 <div id="loading">
-  <div class="loader-logo">SKP Heritage</div>
-  <div class="loader-sub" data-i18n="loader_sub">လက်ဆောင်ဆေးပေါ့</div>
+  <div class="loader-logo">ရွှေရတု</div>
+  <div class="loader-sub">Golden Flying Tiger</div>
   <div class="spinner"></div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<!-- ===========================
+<!-- ═══════════════════════════
      VIEW: PRODUCTS
-     =========================== -->
+     ═══════════════════════════ -->
 <div class="view active" id="view-products">
+
   <div class="header">
-    <div>
-      <div class="header-logo">SKP Heritage<span data-i18n="loader_sub">လက်ဆောင်ဆေးပေါ့</span></div>
-    </div>
+    <img src="assets/main_logo.png" class="header-logo-img" alt="ရွှေရတု"
+         onerror="this.style.display='none';document.querySelector('.header-logo-fallback').style.display='block'">
+    <div class="header-logo-fallback">ရွှေရတု</div>
     <div class="lang-switcher">
-      <button id="lang-my" class="lang-btn active" onclick="setLang('my')">မြ</button>
-      <button id="lang-th" class="lang-btn" onclick="setLang('th')">ไทย</button>
-      <button id="lang-en" class="lang-btn" onclick="setLang('en')">EN</button>
+      <button id="lang-my"  class="lang-btn active" onclick="setLang('my')">မြန်မာ</button>
+      <button id="lang-th"  class="lang-btn"        onclick="setLang('th')">ไทย</button>
+      <button id="lang-en"  class="lang-btn"        onclick="setLang('en')">EN</button>
     </div>
   </div>
 
   <div class="hero">
-    <div class="hero-title" data-i18n="hero_title">SKP ဆေးပေါ့</div>
-    <div class="gold-divider"></div>
-    <div class="hero-sub" data-i18n="hero_sub">လက်ဖြင့်ပြုလုပ် · ရိုးရာနည်းလမ်း · ကြေးကပ်ကပ်ရွေးချယ်</div>
+    <div class="hero-logo-wrap">
+      <img src="assets/Thai_logo.png" class="hero-logo-img" alt="เสือทองบิน"
+           onerror="this.style.display='none';document.querySelector('.hero-logo-fallback').style.display='block'">
+      <div class="hero-logo-fallback">เสือทองบิน</div>
+    </div>
   </div>
 
-  <div class="section-label" data-i18n="section_products">ကျွန်ုပ်တို့၏ ထုတ်ကုန်များ</div>
-
-  <div class="products-list" id="products-list">
-    <!-- Populated by JS -->
-  </div>
+  <div class="products-list" id="products-list"><!-- JS --></div>
 </div>
 
-<!-- Cart sticky bar -->
+<!-- Cart bar -->
 <div class="cart-bar" id="cart-bar">
   <div class="cart-info">
     <div class="cart-count" id="cart-count">0 ပစ္စည်း</div>
     <div class="cart-total" id="cart-total">฿0</div>
   </div>
-  <button class="btn-order" id="btn-order" onclick="goToCheckout()" data-i18n="order_now">အမှာစာ →</button>
+  <button class="btn-order" onclick="goToCheckout()" data-i18n="order_now">အမှာစာ →</button>
 </div>
 
 
-<!-- ===========================
+<!-- ═══════════════════════════
      VIEW: CHECKOUT
-     =========================== -->
+     ═══════════════════════════ -->
 <div class="view" id="view-checkout">
   <div class="header">
     <button class="header-back" onclick="showView('products')">←</button>
-    <div class="header-logo" data-i18n="checkout_header">မှာယူမှုအချက်အလက်<span data-i18n="checkout_sub">Order Details</span></div>
+    <div class="header-logo-fallback" style="display:block" data-i18n="checkout_header">မှာယူမှုအချက်အလက်</div>
     <div class="lang-switcher">
-      <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">မြ</button>
-      <button id="lang-th2" class="lang-btn" onclick="setLang('th')">ไทย</button>
-      <button id="lang-en2" class="lang-btn" onclick="setLang('en')">EN</button>
+      <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">မြန်မာ</button>
+      <button id="lang-th2" class="lang-btn"        onclick="setLang('th')">ไทย</button>
+      <button id="lang-en2" class="lang-btn"        onclick="setLang('en')">EN</button>
     </div>
   </div>
 
-  <!-- Order Summary -->
   <div class="form-section" style="margin-top:12px">
-    <div class="form-section-header">
-      <span class="form-section-icon">🛒</span>
-      <span class="form-section-title" data-i18n="order_summary">မှာယူသောပစ္စည်းများ</span>
-    </div>
+    <div class="form-section-header"><span class="form-section-icon">🛒</span><span class="form-section-title" data-i18n="order_summary">မှာယူသောပစ္စည်းများ</span></div>
     <div class="order-summary-items" id="order-summary-items"></div>
-    <div class="summary-total">
-      <span data-i18n="grand_total">စုစုပေါင်း</span>
-      <span id="summary-total-val">฿0</span>
-    </div>
+    <div class="summary-total"><span data-i18n="grand_total">စုစုပေါင်း</span><span id="summary-total-val">฿0</span></div>
   </div>
 
-  <!-- Customer Info -->
   <div class="form-section">
-    <div class="form-section-header">
-      <span class="form-section-icon">👤</span>
-      <span class="form-section-title" data-i18n="customer_info">လက်ခံသူ၏ အချက်အလက်</span>
-    </div>
+    <div class="form-section-header"><span class="form-section-icon">👤</span><span class="form-section-title" data-i18n="customer_info">လက်ခံသူ၏ အချက်အလက်</span></div>
     <div class="form-body">
       <div>
-        <label class="field-label"><span data-i18n="label_name">နာမည်</span> <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_name">နာမည်</span><span class="req">*</span></label>
         <input id="f-name" type="text" class="field-input" data-i18n-ph="ph_name" placeholder="နာမည် မြတ်မြတ်" autocomplete="name">
         <div class="error-msg" id="err-name" data-i18n="err_name">ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_phone">ဖုန်းနံပါတ်</span> <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_phone">ဖုန်းနံပါတ်</span><span class="req">*</span></label>
         <input id="f-phone" type="tel" class="field-input" placeholder="0XX-XXX-XXXX" autocomplete="tel" inputmode="numeric">
         <div class="error-msg" id="err-phone" data-i18n="err_phone">မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ</div>
       </div>
     </div>
   </div>
 
-  <!-- Delivery Address -->
   <div class="form-section">
-    <div class="form-section-header">
-      <span class="form-section-icon">📍</span>
-      <span class="form-section-title" data-i18n="delivery_address">ပို့ဆောင်ရမည့်လိပ်စာ</span>
-    </div>
+    <div class="form-section-header"><span class="form-section-icon">📍</span><span class="form-section-title" data-i18n="delivery_address">ပို့ဆောင်ရမည့်လိပ်စာ</span></div>
     <div class="form-body">
       <div>
-        <label class="field-label"><span data-i18n="label_addr">အိမ်အမှတ် / လမ်း / ရပ်ကွက်</span> <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_addr">အိမ်အမှတ် / လမ်း / ရပ်ကွက်</span><span class="req">*</span></label>
         <textarea id="f-addr" class="field-input" data-i18n-ph="ph_addr" placeholder="ဥပမာ ၁၂၃/၄ လမ်းနာမည်" rows="3"></textarea>
         <div class="error-msg" id="err-addr" data-i18n="err_addr">ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_province">ပြည်နယ်/တိုင်း</span> <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_province">ပြည်နယ်/တိုင်း</span><span class="req">*</span></label>
         <select id="f-province" class="field-input" onchange="onProvinceChange()">
           <option value="">— ပြည်နယ်/တိုင်း ရွေးပါ —</option>
         </select>
         <div class="error-msg" id="err-province" data-i18n="err_province">ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_district">ခရိုင်/ကွင်း</span> <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_district">ခရိုင်/ကွင်း</span><span class="req">*</span></label>
         <select id="f-district" class="field-input" disabled onchange="onDistrictChange()">
           <option value="">— ပြည်နယ်/တိုင်းဦးရွေးပါ —</option>
         </select>
@@ -289,14 +274,14 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
       </div>
       <div class="field-row">
         <div>
-          <label class="field-label"><span data-i18n="label_sub">မြို့နယ်/ရပ်ကွက်</span> <span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_sub">မြို့နယ်/ရပ်ကွက်</span><span class="req">*</span></label>
           <select id="f-subdistrict" class="field-input" disabled onchange="onSubDistrictChange()">
             <option value="">— ခရိုင်/ကွင်းဦးရွေးပါ —</option>
           </select>
           <div class="error-msg" id="err-subdistrict" data-i18n="err_sub">ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ</div>
         </div>
         <div>
-          <label class="field-label"><span data-i18n="label_postal">စာပို့ကုဒ်</span> <span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_postal">စာပို့ကုဒ်</span><span class="req">*</span></label>
           <input id="f-postal" type="text" class="field-input" placeholder="xxxxx" inputmode="numeric" maxlength="5">
           <div class="error-msg" id="err-postal" data-i18n="err_postal">ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ</div>
         </div>
@@ -304,12 +289,8 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
     </div>
   </div>
 
-  <!-- Payment Method -->
   <div class="form-section">
-    <div class="form-section-header">
-      <span class="form-section-icon">💳</span>
-      <span class="form-section-title" data-i18n="payment_method">ငွေပေးချေနည်း</span>
-    </div>
+    <div class="form-section-header"><span class="form-section-icon">💳</span><span class="form-section-title" data-i18n="payment_method">ငွေပေးချေနည်း</span></div>
     <div class="form-body">
       <div class="pay-options">
         <label class="pay-option selected" id="opt-promptpay" onclick="selectPayment('promptpay')">
@@ -331,18 +312,14 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
           <span class="pay-check"></span>
         </label>
       </div>
-
-      <!-- PromptPay Info Box -->
       <div class="promptpay-box visible" id="promptpay-box">
         <div class="promptpay-title" data-i18n="pp_box_title">📲 PromptPay သို့ ငွေလွှဲပါ</div>
         <div class="promptpay-number" id="pp-number">—</div>
-        <div class="promptpay-name" id="pp-name">—</div>
+        <div class="promptpay-name"   id="pp-name">—</div>
         <hr class="pp-divider">
-        <div class="promptpay-bank" id="pp-bank">—</div>
+        <div class="promptpay-bank"   id="pp-bank">—</div>
         <div style="font-size:12px;opacity:.7;margin-top:10px" data-i18n="pp_warning">⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ</div>
       </div>
-
-      <!-- Slip Upload -->
       <div class="upload-box visible" id="upload-box" onclick="document.getElementById('slip-input').click()">
         <input type="file" id="slip-input" accept="image/*" onchange="onSlipSelected(event)">
         <div class="upload-icon">📎</div>
@@ -355,740 +332,466 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
     </div>
   </div>
 
-  <!-- Notes -->
   <div class="form-section">
-    <div class="form-section-header">
-      <span class="form-section-icon">📝</span>
-      <span class="form-section-title" data-i18n="label_notes">မှတ်ချက် (မလိုအပ်ပါ)</span>
-    </div>
+    <div class="form-section-header"><span class="form-section-icon">📝</span><span class="form-section-title" data-i18n="label_notes">မှတ်ချက် (မလိုအပ်ပါ)</span></div>
     <div class="form-body">
       <textarea id="f-notes" class="field-input" data-i18n-ph="ph_notes" placeholder="ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ..." rows="2"></textarea>
     </div>
   </div>
 
-  <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">
-    ✅ အမှာစာ အတည်ပြုမည်
-  </button>
+  <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">✅ အမှာစာ အတည်ပြုမည်</button>
 </div>
 
 
-<!-- ===========================
+<!-- ═══════════════════════════
      VIEW: SUCCESS
-     =========================== -->
+     ═══════════════════════════ -->
 <div class="view" id="view-success">
   <div class="success-hero">
     <div class="success-icon">✅</div>
-    <div class="success-title" data-i18n="success_title">အမှာစာ အောင်မြင်ပြီ!</div>
+    <div class="success-title"    data-i18n="success_title">အမှာစာ အောင်မြင်ပြီ!</div>
     <div class="success-subtitle" data-i18n="success_subtitle">သင်၏အမှာစာကို လက်ခံပြီးပါပြီ</div>
   </div>
-
   <div class="order-number-box">
     <div class="order-number-label" data-i18n="order_number_label">သင်၏ အမှာနံပါတ်</div>
     <div class="order-number-val" id="success-order-num">—</div>
     <div style="font-size:12px;color:#7A5C3C;margin-top:4px" data-i18n="order_note_track">ဒီနံပါတ်ကို မှတ်ထားပါ</div>
   </div>
-
   <div class="success-info">
     <div class="success-info-header" data-i18n="success_items_hdr">📋 မှာယူသောပစ္စည်းများ</div>
     <div class="success-info-body" id="success-items"></div>
   </div>
-
   <div class="success-info">
     <div class="success-info-header" data-i18n="success_addr_hdr">📍 ပို့ဆောင်ရမည့်လိပ်စာ</div>
-    <div class="success-info-body">
-      <div id="success-address" style="font-size:14px;line-height:1.9;color:#2C1810"></div>
-    </div>
+    <div class="success-info-body"><div id="success-address" style="font-size:14px;line-height:1.9;color:#1A0808"></div></div>
   </div>
-
   <div class="pay-reminder" id="success-pay-reminder" style="display:none">
     <strong data-i18n="pay_reminder_title">💳 ငွေပေးချေနည်း</strong>
-    <span data-i18n="pay_reminder_1">PromptPay</span> <strong id="success-pp-num">—</strong> <span data-i18n="pay_reminder_2">သို့ မှာယူသောပမာဏ လွှဲပေးပါ</span><br>
+    <span data-i18n="pay_reminder_1">PromptPay</span> <strong id="success-pp-num">—</strong>
+    <span data-i18n="pay_reminder_2">သို့ မှာယူသောပမာဏ လွှဲပေးပါ</span><br>
     <span data-i18n="pay_reminder_3">ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:</span> <strong id="success-line">—</strong>
   </div>
-
   <button class="btn-home" onclick="resetAndGoHome()" data-i18n="btn_home">← ပင်မစာမျက်နှာသို့</button>
 </div>
 
 
 <script>
-// ============================================================
+// ═══════════════════════════════════════════════════
 //  TRANSLATIONS
-// ============================================================
+// ═══════════════════════════════════════════════════
 const TRANSLATIONS = {
-  my: {
-    loader_sub:         'လက်ဆောင်ဆေးပေါ့',
-    hero_title:         'SKP ဆေးပေါ့',
-    hero_sub:           'လက်ဖြင့်ပြုလုပ် · ရိုးရာနည်းလမ်း · ကြေးကပ်ကပ်ရွေးချယ်',
-    section_products:   'ကျွန်ုပ်တို့၏ ထုတ်ကုန်များ',
-    no_products:        'ထုတ်ကုန်မတွေ့ပါ',
-    order_now:          'အမှာစာ →',
-    checkout_header:    'မှာယူမှုအချက်အလက်',
-    checkout_sub:       'Order Details',
-    order_summary:      'မှာယူသောပစ္စည်းများ',
-    grand_total:        'စုစုပေါင်း',
-    customer_info:      'လက်ခံသူ၏ အချက်အလက်',
-    label_name:         'နာမည်',
-    ph_name:            'နာမည် မြတ်မြတ်',
-    err_name:           'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',
-    label_phone:        'ဖုန်းနံပါတ်',
-    err_phone:          'မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ',
-    delivery_address:   'ပို့ဆောင်ရမည့်လိပ်စာ',
-    label_addr:         'အိမ်အမှတ် / လမ်း / ရပ်ကွက်',
-    ph_addr:            'ဥပမာ ၁၂၃/၄ လမ်းနာမည်',
-    err_addr:           'ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ',
-    label_province:     'ပြည်နယ်/တိုင်း',
-    select_province:    '— ပြည်နယ်/တိုင်း ရွေးပါ —',
-    err_province:       'ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ',
-    label_district:     'ခရိုင်/ကွင်း',
-    select_district:    '— ခရိုင်/ကွင်း ရွေးပါ —',
-    select_prov_first:  '— ပြည်နယ်/တိုင်းဦးရွေးပါ —',
-    err_district:       'ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ',
-    label_sub:          'မြို့နယ်/ရပ်ကွက်',
-    select_sub:         '— မြို့နယ် ရွေးပါ —',
-    select_dist_first:  '— ခရိုင်/ကွင်းဦးရွေးပါ —',
-    err_sub:            'ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ',
-    label_postal:       'စာပို့ကုဒ်',
-    err_postal:         'ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ',
-    payment_method:     'ငွေပေးချေနည်း',
-    pay_promptpay:      'လွှဲငွေ / PromptPay',
-    pay_promptpay_desc: 'လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ',
-    pay_cod:            'ငွေချေ (COD)',
-    pay_cod_desc:       'ပစ္စည်းရောက်မှ ငွေပေးချေပါ',
-    pp_box_title:       '📲 PromptPay သို့ ငွေလွှဲပါ',
-    pp_warning:         '⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ',
-    upload_text:        'ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ',
-    upload_sub:         'JPG, PNG ၅MB အောက်',
-    upload_done:        '✅ ပူးတွဲပြီးပါပြီ',
-    upload_done_sub:    'ပြောင်းလဲရန် နှိပ်ပါ',
-    label_notes:        'မှတ်ချက် (မလိုအပ်ပါ)',
-    ph_notes:           'ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ...',
-    btn_submit:         '✅ အမှာစာ အတည်ပြုမည်',
-    btn_submitting:     'အမှာစာ ပေးပို့နေသည်...',
-    success_title:      'အမှာစာ အောင်မြင်ပြီ!',
-    success_subtitle:   'သင်၏အမှာစာကို လက်ခံပြီးပါပြီ',
-    order_number_label: 'သင်၏ အမှာနံပါတ်',
-    order_note_track:   'ဒီနံပါတ်ကို မှတ်ထားပါ',
-    success_items_hdr:  '📋 မှာယူသောပစ္စည်းများ',
-    success_addr_hdr:   '📍 ပို့ဆောင်ရမည့်လိပ်စာ',
-    total_label:        'စုစုပေါင်း',
-    pay_reminder_title: '💳 ငွေပေးချေနည်း',
-    pay_reminder_1:     'PromptPay',
-    pay_reminder_2:     'သို့ မှာယူသောပမာဏ လွှဲပေးပါ',
-    pay_reminder_3:     'ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:',
-    btn_home:           '← ပင်မစာမျက်နှာသို့',
-    toast_required:     'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
-    toast_error:        'အမှားဖြစ်ပွားသည် ထပ်မံကြိုးစားပါ',
-    acc_no:             '· စာရင်းနံပါတ်',
-    items_unit:         'ပစ္စည်း',
+  my:{
+    order_now:'အမှာစာ →',checkout_header:'မှာယူမှုအချက်အလက်',order_summary:'မှာယူသောပစ္စည်းများ',
+    grand_total:'စုစုပေါင်း',customer_info:'လက်ခံသူ၏ အချက်အလက်',label_name:'နာမည်',
+    ph_name:'နာမည် မြတ်မြတ်',err_name:'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',label_phone:'ဖုန်းနံပါတ်',
+    err_phone:'မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ',delivery_address:'ပို့ဆောင်ရမည့်လိပ်စာ',
+    label_addr:'အိမ်အမှတ် / လမ်း / ရပ်ကွက်',ph_addr:'ဥပမာ ၁၂၃/၄ လမ်းနာမည်',
+    err_addr:'ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ',label_province:'ပြည်နယ်/တိုင်း',
+    select_province:'— ပြည်နယ်/တိုင်း ရွေးပါ —',err_province:'ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ',
+    label_district:'ခရိုင်/ကွင်း',select_district:'— ခရိုင်/ကွင်း ရွေးပါ —',
+    select_prov_first:'— ပြည်နယ်/တိုင်းဦးရွေးပါ —',err_district:'ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ',
+    label_sub:'မြို့နယ်/ရပ်ကွက်',select_sub:'— မြို့နယ် ရွေးပါ —',
+    select_dist_first:'— ခရိုင်/ကွင်းဦးရွေးပါ —',err_sub:'ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ',
+    label_postal:'စာပို့ကုဒ်',err_postal:'ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ',
+    payment_method:'ငွေပေးချေနည်း',pay_promptpay:'လွှဲငွေ / PromptPay',
+    pay_promptpay_desc:'လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ',pay_cod:'ငွေချေ (COD)',
+    pay_cod_desc:'ပစ္စည်းရောက်မှ ငွေပေးချေပါ',pp_box_title:'📲 PromptPay သို့ ငွေလွှဲပါ',
+    pp_warning:'⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ',
+    upload_text:'ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ',upload_sub:'JPG, PNG ၅MB အောက်',
+    upload_done:'✅ ပူးတွဲပြီးပါပြီ',upload_done_sub:'ပြောင်းလဲရန် နှိပ်ပါ',
+    label_notes:'မှတ်ချက် (မလိုအပ်ပါ)',ph_notes:'ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ...',
+    btn_submit:'✅ အမှာစာ အတည်ပြုမည်',btn_submitting:'အမှာစာ ပေးပို့နေသည်...',
+    success_title:'အမှာစာ အောင်မြင်ပြီ!',success_subtitle:'သင်၏အမှာစာကို လက်ခံပြီးပါပြီ',
+    order_number_label:'သင်၏ အမှာနံပါတ်',order_note_track:'ဒီနံပါတ်ကို မှတ်ထားပါ',
+    success_items_hdr:'📋 မှာယူသောပစ္စည်းများ',success_addr_hdr:'📍 ပို့ဆောင်ရမည့်လိပ်စာ',
+    total_label:'စုစုပေါင်း',pay_reminder_title:'💳 ငွေပေးချေနည်း',pay_reminder_1:'PromptPay',
+    pay_reminder_2:'သို့ မှာယူသောပမာဏ လွှဲပေးပါ',pay_reminder_3:'ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:',
+    btn_home:'← ပင်မစာမျက်နှာသို့',toast_required:'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
+    toast_error:'အမှားဖြစ်ပွားသည် ထပ်မံကြိုးစားပါ',acc_no:'· စာရင်းနံပါတ်',
+    items_unit:'ပစ္စည်း',prod_unit:'တစ်စီး',
   },
-  th: {
-    loader_sub:         'HANDCRAFTED CHEROOT',
-    hero_title:         'บุหรี่ซิการ์ SKP',
-    hero_sub:           'ผลิตด้วยมือ · ตำรับดั้งเดิม · คัดสรรวัตถุดิบอย่างพิถีพิถัน',
-    section_products:   'สินค้าของเรา',
-    no_products:        'ไม่พบสินค้าในขณะนี้',
-    order_now:          'สั่งซื้อเลย →',
-    checkout_header:    'ข้อมูลคำสั่งซื้อ',
-    checkout_sub:       'Order Details',
-    order_summary:      'รายการสั่งซื้อ',
-    grand_total:        'ยอดรวมทั้งสิ้น',
-    customer_info:      'ข้อมูลผู้รับสินค้า',
-    label_name:         'ชื่อ-นามสกุล',
-    ph_name:            'ชื่อ นามสกุล',
-    err_name:           'กรุณากรอกชื่อ-นามสกุล',
-    label_phone:        'เบอร์โทรศัพท์',
-    err_phone:          'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',
-    delivery_address:   'ที่อยู่จัดส่ง',
-    label_addr:         'บ้านเลขที่ / ซอย / ถนน / หมู่บ้าน',
-    ph_addr:            'เช่น 123/4 ซอยสุขุมวิท 10 ถนนสุขุมวิท',
-    err_addr:           'กรุณากรอกที่อยู่',
-    label_province:     'จังหวัด',
-    select_province:    '— เลือกจังหวัด —',
-    err_province:       'กรุณาเลือกจังหวัด',
-    label_district:     'อำเภอ/เขต',
-    select_district:    '— เลือกอำเภอ/เขต —',
-    select_prov_first:  '— เลือกจังหวัดก่อน —',
-    err_district:       'กรุณาเลือกอำเภอ/เขต',
-    label_sub:          'ตำบล/แขวง',
-    select_sub:         '— เลือกตำบล/แขวง —',
-    select_dist_first:  '— เลือกอำเภอ/เขตก่อน —',
-    err_sub:            'กรุณาเลือกตำบล/แขวง',
-    label_postal:       'รหัสไปรษณีย์',
-    err_postal:         'กรุณากรอกรหัสไปรษณีย์',
-    payment_method:     'วิธีชำระเงิน',
-    pay_promptpay:      'โอนเงิน / PromptPay',
-    pay_promptpay_desc: 'โอนก่อนจัดส่ง · แนบสลิปหลังโอน',
-    pay_cod:            'เก็บปลายทาง (COD)',
-    pay_cod_desc:       'ชำระเงินเมื่อได้รับสินค้า',
-    pp_box_title:       '📲 โอนเงิน PromptPay มาที่',
-    pp_warning:         '⚠️ กรุณาโอนตามยอดที่สั่งซื้อ และแนบสลิปด้านล่าง',
-    upload_text:        'แตะเพื่อแนบสลิปโอนเงิน',
-    upload_sub:         'JPG, PNG ขนาดไม่เกิน 5MB',
-    upload_done:        '✅ แนบสลิปเรียบร้อยแล้ว',
-    upload_done_sub:    'แตะเพื่อเปลี่ยนรูป',
-    label_notes:        'หมายเหตุเพิ่มเติม (ไม่บังคับ)',
-    ph_notes:           'เช่น ส่งตอนบ่าย, ระวังเปราะบาง, ฝากไว้หน้าบ้าน...',
-    btn_submit:         '✅ ยืนยันคำสั่งซื้อ',
-    btn_submitting:     'กำลังส่งคำสั่งซื้อ...',
-    success_title:      'สั่งซื้อสำเร็จแล้ว!',
-    success_subtitle:   'เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว',
-    order_number_label: 'หมายเลขคำสั่งซื้อของคุณ',
-    order_note_track:   'กรุณาจดหมายเลขนี้ไว้สำหรับติดตามสถานะ',
-    success_items_hdr:  '📋 สรุปรายการสั่งซื้อ',
-    success_addr_hdr:   '📍 ที่อยู่จัดส่ง',
-    total_label:        'รวมทั้งสิ้น',
-    pay_reminder_title: '💳 ขั้นตอนการชำระเงิน',
-    pay_reminder_1:     'กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay',
-    pay_reminder_2:     '',
-    pay_reminder_3:     'หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE:',
-    btn_home:           '← กลับหน้าหลัก',
-    toast_required:     'กรุณากรอกข้อมูลให้ครบถ้วน',
-    toast_error:        'เกิดข้อผิดพลาด กรุณาลองใหม่',
-    acc_no:             '· เลขที่',
-    items_unit:         'รายการ',
+  th:{
+    order_now:'สั่งซื้อเลย →',checkout_header:'ข้อมูลคำสั่งซื้อ',order_summary:'รายการสั่งซื้อ',
+    grand_total:'ยอดรวมทั้งสิ้น',customer_info:'ข้อมูลผู้รับสินค้า',label_name:'ชื่อ-นามสกุล',
+    ph_name:'ชื่อ นามสกุล',err_name:'กรุณากรอกชื่อ-นามสกุล',label_phone:'เบอร์โทรศัพท์',
+    err_phone:'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',delivery_address:'ที่อยู่จัดส่ง',
+    label_addr:'บ้านเลขที่ / ซอย / ถนน / หมู่บ้าน',ph_addr:'เช่น 123/4 ซอยสุขุมวิท 10',
+    err_addr:'กรุณากรอกที่อยู่',label_province:'จังหวัด',select_province:'— เลือกจังหวัด —',
+    err_province:'กรุณาเลือกจังหวัด',label_district:'อำเภอ/เขต',select_district:'— เลือกอำเภอ/เขต —',
+    select_prov_first:'— เลือกจังหวัดก่อน —',err_district:'กรุณาเลือกอำเภอ/เขต',
+    label_sub:'ตำบล/แขวง',select_sub:'— เลือกตำบล/แขวง —',select_dist_first:'— เลือกอำเภอ/เขตก่อน —',
+    err_sub:'กรุณาเลือกตำบล/แขวง',label_postal:'รหัสไปรษณีย์',err_postal:'กรุณากรอกรหัสไปรษณีย์',
+    payment_method:'วิธีชำระเงิน',pay_promptpay:'โอนเงิน / PromptPay',
+    pay_promptpay_desc:'โอนก่อนจัดส่ง · แนบสลิปหลังโอน',pay_cod:'เก็บปลายทาง (COD)',
+    pay_cod_desc:'ชำระเงินเมื่อได้รับสินค้า',pp_box_title:'📲 โอนเงิน PromptPay มาที่',
+    pp_warning:'⚠️ กรุณาโอนตามยอดที่สั่งซื้อ และแนบสลิปด้านล่าง',
+    upload_text:'แตะเพื่อแนบสลิปโอนเงิน',upload_sub:'JPG, PNG ขนาดไม่เกิน 5MB',
+    upload_done:'✅ แนบสลิปเรียบร้อยแล้ว',upload_done_sub:'แตะเพื่อเปลี่ยนรูป',
+    label_notes:'หมายเหตุเพิ่มเติม (ไม่บังคับ)',ph_notes:'เช่น ส่งตอนบ่าย, ระวังเปราะบาง...',
+    btn_submit:'✅ ยืนยันคำสั่งซื้อ',btn_submitting:'กำลังส่งคำสั่งซื้อ...',
+    success_title:'สั่งซื้อสำเร็จแล้ว!',success_subtitle:'เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว',
+    order_number_label:'หมายเลขคำสั่งซื้อ',order_note_track:'กรุณาจดหมายเลขนี้ไว้',
+    success_items_hdr:'📋 สรุปรายการสั่งซื้อ',success_addr_hdr:'📍 ที่อยู่จัดส่ง',
+    total_label:'รวมทั้งสิ้น',pay_reminder_title:'💳 ขั้นตอนการชำระเงิน',
+    pay_reminder_1:'กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay',pay_reminder_2:'',
+    pay_reminder_3:'หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE:',btn_home:'← กลับหน้าหลัก',
+    toast_required:'กรุณากรอกข้อมูลให้ครบถ้วน',toast_error:'เกิดข้อผิดพลาด กรุณาลองใหม่',
+    acc_no:'· เลขที่',items_unit:'รายการ',prod_unit:'ซอง',
   },
-  en: {
-    loader_sub:         'HANDCRAFTED CHEROOT',
-    hero_title:         'SKP Cheroot',
-    hero_sub:           'Handcrafted · Traditional Recipe · Carefully Sourced',
-    section_products:   'Our Products',
-    no_products:        'No products available',
-    order_now:          'Order Now →',
-    checkout_header:    'Order Details',
-    checkout_sub:       'Order Details',
-    order_summary:      'Order Summary',
-    grand_total:        'Grand Total',
-    customer_info:      'Recipient Information',
-    label_name:         'Full Name',
-    ph_name:            'First and Last Name',
-    err_name:           'Please enter your name',
-    label_phone:        'Phone Number',
-    err_phone:          'Please enter a valid phone number',
-    delivery_address:   'Delivery Address',
-    label_addr:         'House No / Street / Village',
-    ph_addr:            'e.g. 123/4 Main Street',
-    err_addr:           'Please enter your address',
-    label_province:     'Province',
-    select_province:    '— Select Province —',
-    err_province:       'Please select a province',
-    label_district:     'District',
-    select_district:    '— Select District —',
-    select_prov_first:  '— Select Province First —',
-    err_district:       'Please select a district',
-    label_sub:          'Subdistrict',
-    select_sub:         '— Select Subdistrict —',
-    select_dist_first:  '— Select District First —',
-    err_sub:            'Please select a subdistrict',
-    label_postal:       'Postal Code',
-    err_postal:         'Please enter postal code',
-    payment_method:     'Payment Method',
-    pay_promptpay:      'Bank Transfer / PromptPay',
-    pay_promptpay_desc: 'Pay before delivery · Attach slip after transfer',
-    pay_cod:            'Cash on Delivery (COD)',
-    pay_cod_desc:       'Pay when you receive your order',
-    pp_box_title:       '📲 Transfer via PromptPay to',
-    pp_warning:         '⚠️ Transfer exact order amount and attach slip below',
-    upload_text:        'Tap to attach transfer slip',
-    upload_sub:         'JPG, PNG max 5MB',
-    upload_done:        '✅ Slip attached',
-    upload_done_sub:    'Tap to change',
-    label_notes:        'Additional Notes (Optional)',
-    ph_notes:           'e.g. Deliver in afternoon, handle with care...',
-    btn_submit:         '✅ Confirm Order',
-    btn_submitting:     'Placing order...',
-    success_title:      'Order Placed!',
-    success_subtitle:   "We've received your order",
-    order_number_label: 'Your Order Number',
-    order_note_track:   'Keep this number for tracking',
-    success_items_hdr:  '📋 Order Summary',
-    success_addr_hdr:   '📍 Delivery Address',
-    total_label:        'Total',
-    pay_reminder_title: '💳 Payment Instructions',
-    pay_reminder_1:     'Please transfer the exact amount to PromptPay',
-    pay_reminder_2:     '',
-    pay_reminder_3:     "If you haven't attached your slip, send it to LINE:",
-    btn_home:           '← Back to Home',
-    toast_required:     'Please fill in all required fields',
-    toast_error:        'An error occurred, please try again',
-    acc_no:             '· Acc No.',
-    items_unit:         'item(s)',
+  en:{
+    order_now:'Order Now →',checkout_header:'Order Details',order_summary:'Order Summary',
+    grand_total:'Grand Total',customer_info:'Recipient Information',label_name:'Full Name',
+    ph_name:'First and Last Name',err_name:'Please enter your name',label_phone:'Phone Number',
+    err_phone:'Please enter a valid phone number',delivery_address:'Delivery Address',
+    label_addr:'House No / Street / Village',ph_addr:'e.g. 123/4 Main Street',
+    err_addr:'Please enter your address',label_province:'Province',
+    select_province:'— Select Province —',err_province:'Please select a province',
+    label_district:'District',select_district:'— Select District —',
+    select_prov_first:'— Select Province First —',err_district:'Please select a district',
+    label_sub:'Subdistrict',select_sub:'— Select Subdistrict —',
+    select_dist_first:'— Select District First —',err_sub:'Please select a subdistrict',
+    label_postal:'Postal Code',err_postal:'Please enter postal code',
+    payment_method:'Payment Method',pay_promptpay:'Bank Transfer / PromptPay',
+    pay_promptpay_desc:'Pay before delivery · Attach slip after transfer',
+    pay_cod:'Cash on Delivery (COD)',pay_cod_desc:'Pay when you receive your order',
+    pp_box_title:'📲 Transfer via PromptPay to',
+    pp_warning:'⚠️ Transfer exact order amount and attach slip below',
+    upload_text:'Tap to attach transfer slip',upload_sub:'JPG, PNG max 5MB',
+    upload_done:'✅ Slip attached',upload_done_sub:'Tap to change',
+    label_notes:'Additional Notes (Optional)',ph_notes:'e.g. Deliver in afternoon, handle with care...',
+    btn_submit:'✅ Confirm Order',btn_submitting:'Placing order...',
+    success_title:'Order Placed!',success_subtitle:"We've received your order",
+    order_number_label:'Your Order Number',order_note_track:'Keep this number for tracking',
+    success_items_hdr:'📋 Order Summary',success_addr_hdr:'📍 Delivery Address',
+    total_label:'Total',pay_reminder_title:'💳 Payment Instructions',
+    pay_reminder_1:'Please transfer the exact amount to PromptPay',pay_reminder_2:'',
+    pay_reminder_3:"If you haven't attached your slip, send it to LINE:",
+    btn_home:'← Back to Home',toast_required:'Please fill in all required fields',
+    toast_error:'An error occurred, please try again',acc_no:'· Acc No.',
+    items_unit:'item(s)',prod_unit:'pack',
   }
 }
 
-let currentLang = localStorage.getItem('lang') || 'my'
+let currentLang = localStorage.getItem('lang')||'my'
+function t(k){ return (TRANSLATIONS[currentLang]||TRANSLATIONS.my)[k]||k }
 
-function t(key) {
-  return (TRANSLATIONS[currentLang] || TRANSLATIONS.my)[key] || key
+function setLang(lang){
+  currentLang=lang; localStorage.setItem('lang',lang); document.documentElement.lang=lang
+  document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent=t(el.dataset.i18n) })
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{ el.placeholder=t(el.dataset.i18nPh) })
+  ;['','2'].forEach(s=>{ ;['my','th','en'].forEach(l=>{ const b=document.getElementById('lang-'+l+s); if(b) b.classList.toggle('active',l===lang) }) })
+  const ps=document.getElementById('f-province')
+  if(ps&&THAI_PROVINCES.length){
+    const sv=ps.value; ps.innerHTML=`<option value="">${t('select_province')}</option>`
+    THAI_PROVINCES.forEach((p,i)=>{ ps.innerHTML+=`<option value="${i}">${geoName(p)}</option>` })
+    if(sv){ ps.value=sv; onProvinceChange() }
+  } else if(ps&&ps.options.length) ps.options[0].text=t('select_province')
+  const ds=document.getElementById('f-district')
+  if(ds&&ds.options.length) ds.options[0].text=ds.disabled?t('select_prov_first'):t('select_district')
+  const ss=document.getElementById('f-subdistrict')
+  if(ss&&ss.options.length) ss.options[0].text=ss.disabled?t('select_dist_first'):t('select_sub')
+  updateCartBar(); renderProducts()
 }
 
-function setLang(lang) {
-  currentLang = lang
-  localStorage.setItem('lang', lang)
-  document.documentElement.lang = lang
+// ═══════════════════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════════════════
+const SUPABASE_URL='https://yufalisxhyhcuejmbpsa.supabase.co'
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
+const PROMPTPAY_NUMBER='0XX-XXX-XXXX'
+const ACCOUNT_NAME='ชื่อ-นามสกุล'
+const BANK_NAME='ธนาคาร XXX'
+const ACCOUNT_NUMBER='XXX-X-XXXXX-X'
+const SHOP_LINE='@skpheritage'
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 
-  // Update static text nodes
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t(el.dataset.i18n)
-  })
-  // Update placeholders
-  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-    el.placeholder = t(el.dataset.i18nPh)
-  })
+// ═══════════════════════════════════════════════════
+//  PRODUCT  (hardcoded — single product)
+// ═══════════════════════════════════════════════════
+const PRODUCTS=[{
+  id:'golden-flying-tiger-001',
+  name:'Golden Flying Tiger',name_th:'เสือทองบิน',name_my:'ရွှေရတု',
+  description:'Traditional Myanmar cheroot · Naturally aromatic',
+  description_th:'บุหรี่ซิการ์ · สูตรดั้งเดิม · กลิ่นหอมธรรมชาติ',
+  description_my:'မြန်မာ့ရိုးရာ ဆေးပေါ့ · သဘာဝ နံ့သာ',
+  price:140,unit:'တစ်စီး',unit_th:'ซอง',unit_en:'pack',
+  images:['assets/product_1.jpg','assets/product_2.jpg','assets/product_3.jpg']
+}]
 
-  // Update active lang buttons (both headers)
-  ;['','2'].forEach(suffix => {
-    ;['my','th','en'].forEach(l => {
-      const btn = document.getElementById('lang-' + l + suffix)
-      if (btn) btn.classList.toggle('active', l === lang)
-    })
-  })
+let products=[...PRODUCTS],cart={},slipFile=null,selectedPayment='promptpay'
+let slideIdx=0,slideTimer=null
 
-  // Re-render geo dropdowns with correct language names
-  const provSel = document.getElementById('f-province')
-  if (provSel && THAI_PROVINCES.length > 0) {
-    const savedProv = provSel.value
-    provSel.innerHTML = `<option value="">${t('select_province')}</option>`
-    THAI_PROVINCES.forEach((p,i) => {
-      provSel.innerHTML += `<option value="${i}">${geoName(p)}</option>`
-    })
-    if (savedProv) { provSel.value = savedProv; onProvinceChange() }
-  } else if (provSel && provSel.options.length > 0) {
-    provSel.options[0].text = t('select_province')
-  }
-  const distSel = document.getElementById('f-district')
-  if (distSel && distSel.options.length > 0)
-    distSel.options[0].text = distSel.disabled ? t('select_prov_first') : t('select_district')
-  const subSel = document.getElementById('f-subdistrict')
-  if (subSel && subSel.options.length > 0)
-    subSel.options[0].text = subSel.disabled ? t('select_dist_first') : t('select_sub')
-
-  // Re-render dynamic content
-  updateCartBar()
-  renderProducts()
-}
-
-// ============================================================
-//  ⚙️  CONFIGURATION
-// ============================================================
-const SUPABASE_URL = 'https://yufalisxhyhcuejmbpsa.supabase.co'
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
-
-const PROMPTPAY_NUMBER = '0XX-XXX-XXXX'  // ← เปลี่ยนเป็นเบอร์พร้อมเพย์
-const ACCOUNT_NAME     = 'ชื่อ-นามสกุล'
-const BANK_NAME        = 'ธนาคาร XXX'
-const ACCOUNT_NUMBER   = 'XXX-X-XXXXX-X'
-const SHOP_LINE        = '@skpheritage'
-// ============================================================
-
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
-
-let products = []
-let cart = {}
-let slipFile = null
-let selectedPayment = 'promptpay'
-
-// ---- INIT ----
-async function init() {
-  // Apply saved language
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+async function init(){
   setLang(currentLang)
-
-  document.getElementById('pp-number').textContent = PROMPTPAY_NUMBER
-  document.getElementById('pp-name').textContent   = ACCOUNT_NAME
-  document.getElementById('pp-bank').textContent   = BANK_NAME + ' ' + t('acc_no') + ' ' + ACCOUNT_NUMBER
-  document.getElementById('success-pp-num').textContent = PROMPTPAY_NUMBER
-  document.getElementById('success-line').textContent   = SHOP_LINE
-
-  loadGeo()
-  await loadProducts()
-  document.getElementById('loading').style.display = 'none'
+  document.getElementById('pp-number').textContent=PROMPTPAY_NUMBER
+  document.getElementById('pp-name').textContent=ACCOUNT_NAME
+  document.getElementById('pp-bank').textContent=BANK_NAME+' '+t('acc_no')+' '+ACCOUNT_NUMBER
+  document.getElementById('success-pp-num').textContent=PROMPTPAY_NUMBER
+  document.getElementById('success-line').textContent=SHOP_LINE
+  loadGeo(); renderProducts()
+  setTimeout(()=>{ document.getElementById('loading').style.display='none' },700)
 }
 
-// ---- PRODUCTS ----
-async function loadProducts() {
-  const { data, error } = await sb.from('products').select('*').eq('active', true).order('sort_order')
-  if (error) throw error
-  products = data || []
-  renderProducts()
+// ═══════════════════════════════════════════════════
+//  SLIDESHOW
+// ═══════════════════════════════════════════════════
+function setSlide(idx){
+  const slides=document.querySelectorAll('.slide-img'),dots=document.querySelectorAll('.dot')
+  if(!slides.length) return
+  slideIdx=((idx%slides.length)+slides.length)%slides.length
+  const tr=document.getElementById('slide-track')
+  if(tr) tr.style.transform=`translateX(-${slideIdx*100}%)`
+  dots.forEach((d,i)=>d.classList.toggle('active',i===slideIdx))
 }
+function goToSlide(i){ clearInterval(slideTimer); setSlide(i); slideTimer=setInterval(()=>setSlide(slideIdx+1),3500) }
+function initSlideshow(){ clearInterval(slideTimer); slideIdx=0; setSlide(0); slideTimer=setInterval(()=>setSlide(slideIdx+1),3500) }
 
-const GRAD_COLORS = [
-  ['#3A1008','#6B2D0F'], ['#1A2A4A','#2C4A8A'], ['#1A3A1A','#2A6A2A']
-]
+// ═══════════════════════════════════════════════════
+//  RENDER PRODUCT
+// ═══════════════════════════════════════════════════
+function pUnit(p){ return currentLang==='th'?(p.unit_th||p.unit):currentLang==='en'?(p.unit_en||p.unit):p.unit }
 
-function productPlaceholderSVG(idx) {
-  const [c1, c2] = GRAD_COLORS[(idx - 1) % GRAD_COLORS.length]
-  return `<svg viewBox="0 0 110 115" xmlns="http://www.w3.org/2000/svg" width="110" height="115">
-    <defs><linearGradient id="g${idx}" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/>
-    </linearGradient></defs>
-    <rect width="110" height="115" fill="url(#g${idx})"/>
-    <g transform="translate(55,58) rotate(-35)">
-      <rect x="-35" y="-6" width="70" height="12" rx="6" fill="#8B4513" opacity=".9"/>
-      <rect x="-35" y="-6" width="68" height="5" rx="2.5" fill="#A0522D" opacity=".45"/>
-      <ellipse cx="36" cy="0" rx="5" ry="6" fill="#C8A97A"/>
-      <rect x="-43" y="-5" width="9" height="10" rx="2" fill="#4A1E0A"/>
-    </g>
-    <circle cx="88" cy="22" r="18" fill="#C9951A" opacity=".1"/>
-    <circle cx="18" cy="90" r="12" fill="#C9951A" opacity=".07"/>
-  </svg>`
-}
-
-function renderProducts() {
-  const list = document.getElementById('products-list')
-  if (!list) return
-  if (!products.length) {
-    list.innerHTML = `<div style="text-align:center;padding:40px;color:#7A5C3C">${t('no_products')}</div>`
-    return
-  }
-  list.innerHTML = products.map(p => {
-    const imgHtml = p.image_url
-      ? `<img src="${p.image_url}" alt="${p.name_th}">`
-      : productPlaceholderSVG(p.sort_order || 1)
-    const nameDisplay = currentLang === 'th' ? (p.name_th || p.name) :
-                        currentLang === 'my' ? (p.name_my || p.name_th || p.name) :
-                        (p.name || p.name_th)
-    const nameSub     = currentLang === 'my' ? (p.name_th || p.name) : p.name
-    const descDisplay = currentLang === 'th' ? (p.description_th || p.description || '') :
-                        currentLang === 'my' ? (p.description_my || p.description_th || p.description || '') :
-                        (p.description || p.description_th || '')
-    return `<div class="product-card">
-      <div class="product-img">${imgHtml}</div>
-      <div class="product-info">
-        <div class="product-name-th">${nameDisplay}</div>
-        <div class="product-name-en">${nameSub}</div>
-        <div class="product-desc">${descDisplay}</div>
-        <div class="product-bottom">
-          <div class="product-price">฿${Number(p.price).toLocaleString()}<span class="unit">/${p.unit}</span></div>
-          <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
-            <span class="qty-val" id="qty-${p.id}">0</span>
-            <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
-          </div>
+function renderProducts(){
+  const list=document.getElementById('products-list'); if(!list) return
+  const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
+  const name=currentLang==='th'?p.name_th:currentLang==='my'?p.name_my:p.name
+  const sub=currentLang==='th'?p.name:p.name_th
+  const desc=currentLang==='th'?p.description_th:currentLang==='my'?p.description_my:p.description
+  const unit=pUnit(p)
+  const slides=p.images.map(src=>`<img src="${src}" class="slide-img" alt="${name}" loading="lazy" onerror="this.style.display='none'">`).join('')
+  const dots=p.images.map((_,i)=>`<button class="dot${i===0?' active':''}" onclick="goToSlide(${i})"></button>`).join('')
+  list.innerHTML=`
+  <div class="product-full-card">
+    <div class="slideshow">
+      <div class="slide-track" id="slide-track">${slides}</div>
+      <div class="slide-dots">${dots}</div>
+      <button class="slide-arrow left"  onclick="goToSlide(slideIdx-1)">&#8249;</button>
+      <button class="slide-arrow right" onclick="goToSlide(slideIdx+1)">&#8250;</button>
+    </div>
+    <div class="product-full-info">
+      <div class="product-name-main">${name}</div>
+      <div class="product-name-sub">${sub}</div>
+      <div class="product-desc-main">${desc}</div>
+      <div class="product-price-row">
+        <div class="product-price-big">฿${Number(p.price).toLocaleString()}<span class="unit">/${unit}</span></div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+          <span   class="qty-val"  id="qty-${p.id}">0</span>
+          <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
         </div>
       </div>
-    </div>`
-  }).join('')
+    </div>
+  </div>`
+  setTimeout(initSlideshow,60)
 }
 
-// ---- CART ----
-function changeQty(id, delta) {
-  const cur = cart[id] || 0
-  cart[id] = Math.max(0, cur + delta)
-  const el = document.getElementById('qty-' + id)
-  if (el) el.textContent = cart[id]
+// ═══════════════════════════════════════════════════
+//  CART
+// ═══════════════════════════════════════════════════
+function changeQty(id,delta){
+  cart[id]=Math.max(0,(cart[id]||0)+delta)
+  const el=document.getElementById('qty-'+id); if(el) el.textContent=cart[id]
   updateCartBar()
 }
-
-function updateCartBar() {
-  const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
-  const totalPrice = getCartTotal()
-  document.getElementById('cart-bar').classList.toggle('visible', totalItems > 0)
-  document.getElementById('cart-count').textContent = totalItems + ' ' + t('items_unit')
-  document.getElementById('cart-total').textContent = '฿' + Number(totalPrice).toLocaleString()
+function updateCartBar(){
+  const tot=Object.values(cart).reduce((a,b)=>a+b,0),price=getCartTotal()
+  document.getElementById('cart-bar').classList.toggle('visible',tot>0)
+  document.getElementById('cart-count').textContent=tot+' '+t('items_unit')
+  document.getElementById('cart-total').textContent='฿'+Number(price).toLocaleString()
 }
-
-function getCartItems() {
-  return Object.entries(cart)
-    .filter(([, qty]) => qty > 0)
-    .map(([id, qty]) => {
-      const p = products.find(x => x.id === id)
-      return { id, name: p.name, name_th: p.name_th, name_my: p.name_my || p.name_th, price: Number(p.price), qty, subtotal: Number(p.price) * qty, unit: p.unit }
-    })
+function getCartItems(){
+  return Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{
+    const p=products.find(x=>x.id===id)
+    return{id,name:p.name,name_th:p.name_th,name_my:p.name_my||p.name_th,price:Number(p.price),qty,subtotal:Number(p.price)*qty,unit:pUnit(p)}
+  })
 }
+function getCartTotal(){ return getCartItems().reduce((s,i)=>s+i.subtotal,0) }
 
-function getCartTotal() {
-  return getCartItems().reduce((sum, i) => sum + i.subtotal, 0)
-}
-
-// ---- VIEWS ----
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'))
-  const el = document.getElementById('view-' + name)
-  if (el) { el.classList.add('active'); window.scrollTo(0, 0) }
-}
-
-function goToCheckout() {
-  if (!getCartItems().length) return
-  renderOrderSummary()
-  showView('checkout')
-}
-
-function renderOrderSummary() {
-  const items = getCartItems()
-  document.getElementById('order-summary-items').innerHTML = items.map(i => {
-    const nm = currentLang === 'my' ? (i.name_my || i.name_th) :
-               currentLang === 'en' ? (i.name || i.name_th) : i.name_th
-    return `<div class="summary-item">
-      <span>${nm} × ${i.qty} ${i.unit}</span>
-      <span>฿${Number(i.subtotal).toLocaleString()}</span>
-    </div>`
+// ═══════════════════════════════════════════════════
+//  VIEWS
+// ═══════════════════════════════════════════════════
+function showView(n){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); const el=document.getElementById('view-'+n); if(el){el.classList.add('active');window.scrollTo(0,0)} }
+function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); showView('checkout') }
+function renderOrderSummary(){
+  const items=getCartItems()
+  document.getElementById('order-summary-items').innerHTML=items.map(i=>{
+    const nm=currentLang==='my'?(i.name_my||i.name_th):currentLang==='en'?(i.name||i.name_th):i.name_th
+    return `<div class="summary-item"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
   }).join('')
-  document.getElementById('summary-total-val').textContent = '฿' + Number(getCartTotal()).toLocaleString()
+  document.getElementById('summary-total-val').textContent='฿'+Number(getCartTotal()).toLocaleString()
 }
 
-// ---- THAI GEO ----
-let THAI_PROVINCES = []
-
-async function loadThaiGeoData() {
-  const CACHE_KEY = 'thai_geo_v4'
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (cached) { THAI_PROVINCES = JSON.parse(cached); return }
-  } catch(e) {}
-  try {
-    const r = await fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json')
-    const data = await r.json()
-    THAI_PROVINCES = data.map(p => {
-      const isBkk = p.name_th === 'กรุงเทพมหานคร'
-      const districts = p.districts || p.amphure || []
-      return {
-        n: p.name_th,
-        ne: p.name_en || p.name_th,
-        d: districts.map(a => {
-          const dName = isBkk ? a.name_th.replace(/^เขต/, '') : a.name_th.replace(/^อำเภอ/, '')
-          const dNameEn = a.name_en || dName
-          const subDistricts = a.sub_districts || a.tambon || []
-          return {
-            n: dName,
-            ne: dNameEn,
-            s: subDistricts.map(t => ({
-              n: isBkk ? t.name_th.replace(/^แขวง/, '') : t.name_th.replace(/^ตำบล/, ''),
-              ne: t.name_en || t.name_th,
-              z: t.zip_code
-            }))
-          }
-        })
-      }
+// ═══════════════════════════════════════════════════
+//  THAI GEO
+// ═══════════════════════════════════════════════════
+let THAI_PROVINCES=[]
+async function loadThaiGeoData(){
+  const K='thai_geo_v4'
+  try{ const c=localStorage.getItem(K); if(c){THAI_PROVINCES=JSON.parse(c);return} }catch(e){}
+  try{
+    const r=await fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json')
+    const data=await r.json()
+    THAI_PROVINCES=data.map(p=>{
+      const bkk=p.name_th==='กรุงเทพมหานคร'
+      return{n:p.name_th,ne:p.name_en||p.name_th,d:(p.districts||p.amphure||[]).map(a=>{
+        const dn=bkk?a.name_th.replace(/^เขต/,''):a.name_th.replace(/^อำเภอ/,'')
+        return{n:dn,ne:a.name_en||dn,s:(a.sub_districts||a.tambon||[]).map(t=>({
+          n:bkk?t.name_th.replace(/^แขวง/,''):t.name_th.replace(/^ตำบล/,''),
+          ne:t.name_en||t.name_th,z:t.zip_code
+        }))}
+      })}
     })
-    localStorage.setItem(CACHE_KEY, JSON.stringify(THAI_PROVINCES))
-  } catch(e) {
-    console.error('Failed to load Thai geo data', e)
-  }
+    localStorage.setItem(K,JSON.stringify(THAI_PROVINCES))
+  }catch(e){console.error('Geo load failed',e)}
 }
-
-function geoName(item) {
-  return currentLang === 'th' ? item.n : (item.ne || item.n)
-}
-
-async function loadGeo() {
+function geoName(item){ return currentLang==='th'?item.n:(item.ne||item.n) }
+async function loadGeo(){
   await loadThaiGeoData()
-  const sel = document.getElementById('f-province')
-  sel.innerHTML = `<option value="">${t('select_province')}</option>`
-  THAI_PROVINCES.forEach((p,i) => {
-    sel.innerHTML += `<option value="${i}">${geoName(p)}</option>`
-  })
+  const sel=document.getElementById('f-province')
+  sel.innerHTML=`<option value="">${t('select_province')}</option>`
+  THAI_PROVINCES.forEach((p,i)=>{ sel.innerHTML+=`<option value="${i}">${geoName(p)}</option>` })
+}
+function onProvinceChange(){
+  const idx=document.getElementById('f-province').value
+  const d=document.getElementById('f-district'),s=document.getElementById('f-subdistrict')
+  d.innerHTML=`<option value="">${t('select_district')}</option>`;d.disabled=true
+  s.innerHTML=`<option value="">${t('select_prov_first')}</option>`;s.disabled=true
+  document.getElementById('f-postal').value=''
+  if(!idx) return
+  const prov=THAI_PROVINCES[parseInt(idx)]; if(!prov) return
+  prov.d.forEach((di,i)=>{ d.innerHTML+=`<option value="${i}">${geoName(di)}</option>` })
+  d.disabled=false
+}
+function onDistrictChange(){
+  const pi=document.getElementById('f-province').value,di=document.getElementById('f-district').value
+  const s=document.getElementById('f-subdistrict')
+  s.innerHTML=`<option value="">${t('select_sub')}</option>`;s.disabled=true
+  document.getElementById('f-postal').value=''
+  if(!pi||!di) return
+  const dist=THAI_PROVINCES[parseInt(pi)]?.d[parseInt(di)]; if(!dist) return
+  dist.s.forEach(sub=>{ s.innerHTML+=`<option value="${sub.n}" data-zip="${sub.z}">${geoName(sub)}</option>` })
+  s.disabled=false
+}
+function onSubDistrictChange(){
+  const sel=document.getElementById('f-subdistrict').selectedOptions[0]
+  if(sel?.dataset.zip) document.getElementById('f-postal').value=sel.dataset.zip
 }
 
-function onProvinceChange() {
-  const idx = document.getElementById('f-province').value
-  const distSel = document.getElementById('f-district')
-  const subSel = document.getElementById('f-subdistrict')
-  distSel.innerHTML = `<option value="">${t('select_district')}</option>`
-  distSel.disabled = true
-  subSel.innerHTML = `<option value="">${t('select_prov_first')}</option>`
-  subSel.disabled = true
-  document.getElementById('f-postal').value = ''
-  if (idx === '') return
-  const prov = THAI_PROVINCES[parseInt(idx)]
-  if (!prov) return
-  prov.d.forEach((d, i) => {
-    distSel.innerHTML += `<option value="${i}">${geoName(d)}</option>`
-  })
-  distSel.disabled = false
+// ═══════════════════════════════════════════════════
+//  PAYMENT
+// ═══════════════════════════════════════════════════
+function selectPayment(m){
+  selectedPayment=m; const pp=m==='promptpay'
+  document.getElementById('opt-promptpay').classList.toggle('selected',pp)
+  document.getElementById('opt-cod').classList.toggle('selected',!pp)
+  document.querySelector('#opt-promptpay .pay-check').textContent=pp?'✓':''
+  document.querySelector('#opt-cod .pay-check').textContent=!pp?'✓':''
+  document.getElementById('promptpay-box').classList.toggle('visible',pp)
+  document.getElementById('upload-box').classList.toggle('visible',pp)
 }
-
-function onDistrictChange() {
-  const provIdx = document.getElementById('f-province').value
-  const distIdx = document.getElementById('f-district').value
-  const subSel = document.getElementById('f-subdistrict')
-  subSel.innerHTML = `<option value="">${t('select_sub')}</option>`
-  subSel.disabled = true
-  document.getElementById('f-postal').value = ''
-  if (provIdx === '' || distIdx === '') return
-  const prov = THAI_PROVINCES[parseInt(provIdx)]
-  if (!prov) return
-  const dist = prov.d[parseInt(distIdx)]
-  if (!dist) return
-  dist.s.forEach(sub => {
-    subSel.innerHTML += `<option value="${sub.n}" data-zip="${sub.z}">${geoName(sub)}</option>`
-  })
-  subSel.disabled = false
-}
-
-function onSubDistrictChange() {
-  const subSel = document.getElementById('f-subdistrict')
-  const selected = subSel.selectedOptions[0]
-  if (selected && selected.dataset.zip) {
-    document.getElementById('f-postal').value = selected.dataset.zip
-  }
-}
-
-// ---- PAYMENT ----
-function selectPayment(method) {
-  selectedPayment = method
-  const isPromptPay = method === 'promptpay'
-  document.getElementById('opt-promptpay').classList.toggle('selected', isPromptPay)
-  document.getElementById('opt-cod').classList.toggle('selected', !isPromptPay)
-  document.querySelector('#opt-promptpay .pay-check').textContent = isPromptPay ? '✓' : ''
-  document.querySelector('#opt-cod .pay-check').textContent = !isPromptPay ? '✓' : ''
-  document.getElementById('promptpay-box').classList.toggle('visible', isPromptPay)
-  document.getElementById('upload-box').classList.toggle('visible', isPromptPay)
-}
-
-// ---- SLIP UPLOAD ----
-function onSlipSelected(e) {
-  const file = e.target.files[0]
-  if (!file) return
-  slipFile = file
-  const reader = new FileReader()
-  reader.onload = ev => {
-    const prev = document.getElementById('slip-preview')
-    prev.src = ev.target.result
-    prev.style.display = 'block'
-    document.getElementById('upload-text').innerHTML =
-      `${t('upload_done')}<br><span style="font-size:11px;opacity:.7">${t('upload_done_sub')}</span>`
+function onSlipSelected(e){
+  const file=e.target.files[0]; if(!file) return; slipFile=file
+  const reader=new FileReader()
+  reader.onload=ev=>{
+    const prev=document.getElementById('slip-preview'); prev.src=ev.target.result; prev.style.display='block'
+    document.getElementById('upload-text').innerHTML=`${t('upload_done')}<br><span style="font-size:11px;opacity:.7">${t('upload_done_sub')}</span>`
   }
   reader.readAsDataURL(file)
 }
-
-async function uploadSlip(orderId) {
-  if (!slipFile) return null
-  try {
-    const ext  = slipFile.name.split('.').pop() || 'jpg'
-    const path = `${orderId}.${ext}`
-    const { error } = await sb.storage.from('payment-slips').upload(path, slipFile, { upsert: true })
-    if (error) throw error
-    return sb.storage.from('payment-slips').getPublicUrl(path).data?.publicUrl || null
-  } catch (e) {
-    console.warn('Slip upload failed:', e)
-    return null
-  }
+async function uploadSlip(orderId){
+  if(!slipFile) return null
+  try{
+    const ext=slipFile.name.split('.').pop()||'jpg',path=`${orderId}.${ext}`
+    const{error}=await sb.storage.from('payment-slips').upload(path,slipFile,{upsert:true})
+    if(error) throw error
+    return sb.storage.from('payment-slips').getPublicUrl(path).data?.publicUrl||null
+  }catch(e){console.warn('Slip upload failed:',e);return null}
 }
 
-// ---- VALIDATION ----
-function validate() {
-  let ok = true
-  const setErr = (inputId, errId, condition) => {
-    document.getElementById(inputId)?.classList.toggle('error', condition)
-    document.getElementById(errId)?.classList.toggle('visible', condition)
-    if (condition) ok = false
-  }
-  const name   = document.getElementById('f-name').value.trim()
-  const phone  = document.getElementById('f-phone').value.trim()
-  const addr   = document.getElementById('f-addr').value.trim()
-  const prov   = document.getElementById('f-province').value
-  const dist   = document.getElementById('f-district').value
-  const sub    = document.getElementById('f-subdistrict').value.trim()
-  const postal = document.getElementById('f-postal').value.trim()
-
-  setErr('f-name',        'err-name',        !name)
-  setErr('f-phone',       'err-phone',       !phone || phone.replace(/\D/g,'').length < 9)
-  setErr('f-addr',        'err-addr',        !addr)
-  setErr('f-province',    'err-province',    !prov)
-  setErr('f-district',    'err-district',    !dist)
-  setErr('f-subdistrict', 'err-subdistrict', !sub)
-  setErr('f-postal',      'err-postal',      !postal)
+// ═══════════════════════════════════════════════════
+//  VALIDATION
+// ═══════════════════════════════════════════════════
+function validate(){
+  let ok=true
+  const chk=(inp,err,bad)=>{ document.getElementById(inp)?.classList.toggle('error',bad); document.getElementById(err)?.classList.toggle('visible',bad); if(bad) ok=false }
+  const v=id=>document.getElementById(id)?.value.trim()||''
+  chk('f-name','err-name',!v('f-name'))
+  chk('f-phone','err-phone',!v('f-phone')||v('f-phone').replace(/\D/g,'').length<9)
+  chk('f-addr','err-addr',!v('f-addr'))
+  chk('f-province','err-province',!document.getElementById('f-province').value)
+  chk('f-district','err-district',!document.getElementById('f-district').value)
+  chk('f-subdistrict','err-subdistrict',!v('f-subdistrict'))
+  chk('f-postal','err-postal',!v('f-postal'))
   return ok
 }
 
-// ---- SUBMIT ORDER ----
-async function submitOrder() {
-  if (!validate()) { showToast(t('toast_required'), 'error'); return }
-  const btn = document.getElementById('btn-submit')
-  btn.disabled = true; btn.textContent = t('btn_submitting')
-
-  try {
-    const items = getCartItems()
-    const total = getCartTotal()
-    const prov  = document.getElementById('f-province').selectedOptions[0]?.text || ''
-    const dist  = document.getElementById('f-district').selectedOptions[0]?.text || ''
-    const sub   = document.getElementById('f-subdistrict').value.trim()
-
-    const { data: order, error } = await sb.from('orders').insert({
-      customer_name:  document.getElementById('f-name').value.trim(),
-      customer_phone: document.getElementById('f-phone').value.trim(),
-      address_detail: document.getElementById('f-addr').value.trim(),
-      province:       prov,
-      district:       dist,
-      subdistrict:    sub,
-      postal_code:    document.getElementById('f-postal').value,
-      payment_method: selectedPayment,
-      items:          items,
-      total_amount:   total,
-      status:         'pending',
-      notes:          document.getElementById('f-notes').value.trim() || null,
+// ═══════════════════════════════════════════════════
+//  SUBMIT ORDER
+// ═══════════════════════════════════════════════════
+async function submitOrder(){
+  if(!validate()){ showToast(t('toast_required'),'error'); return }
+  const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
+  try{
+    const items=getCartItems(),total=getCartTotal()
+    const prov=document.getElementById('f-province').selectedOptions[0]?.text||''
+    const dist=document.getElementById('f-district').selectedOptions[0]?.text||''
+    const sub=document.getElementById('f-subdistrict').value.trim()
+    const{data:order,error}=await sb.from('orders').insert({
+      customer_name:document.getElementById('f-name').value.trim(),
+      customer_phone:document.getElementById('f-phone').value.trim(),
+      address_detail:document.getElementById('f-addr').value.trim(),
+      province:prov,district:dist,subdistrict:sub,
+      postal_code:document.getElementById('f-postal').value,
+      payment_method:selectedPayment,items,total_amount:total,status:'pending',
+      notes:document.getElementById('f-notes').value.trim()||null,
     }).select().single()
-
-    if (error) throw error
-
-    if (slipFile && selectedPayment === 'promptpay') {
-      const slipUrl = await uploadSlip(order.id)
-      if (slipUrl) await sb.from('orders').update({ payment_slip_url: slipUrl }).eq('id', order.id)
+    if(error) throw error
+    if(slipFile&&selectedPayment==='promptpay'){
+      const url=await uploadSlip(order.id)
+      if(url) await sb.from('orders').update({payment_slip_url:url}).eq('id',order.id)
     }
-
-    showSuccess(order, items, total, prov, dist, sub)
-  } catch (e) {
-    console.error(e)
-    showToast(t('toast_error'), 'error')
-    btn.disabled = false; btn.textContent = t('btn_submit')
+    showSuccess(order,items,total,prov,dist,sub)
+  }catch(e){
+    console.error(e); showToast(t('toast_error'),'error')
+    btn.disabled=false; btn.textContent=t('btn_submit')
   }
 }
-
-// ---- SHOW SUCCESS ----
-function showSuccess(order, items, total, prov, dist, sub) {
-  document.getElementById('success-order-num').textContent = order.order_number || '—'
-
-  document.getElementById('success-items').innerHTML =
-    items.map(i => {
-      const nm = currentLang === 'my' ? (i.name_my || i.name_th) :
-                 currentLang === 'en' ? (i.name || i.name_th) : i.name_th
-      return `<div class="success-info-row"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
-    }).join('') +
-    `<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px">
-      <span><strong>${t('total_label')}</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
-
-  const addrDetail = document.getElementById('f-addr').value.trim()
-  const postal     = document.getElementById('f-postal').value
-  const phone      = document.getElementById('f-phone').value.trim()
-  const custName   = document.getElementById('f-name').value.trim()
-  document.getElementById('success-address').innerHTML =
-    `${custName}<br>${addrDetail}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">📞 ${phone}</span>`
-
-  const isPromptPay = selectedPayment === 'promptpay'
-  document.getElementById('success-pay-reminder').style.display = isPromptPay ? 'block' : 'none'
-
-  showView('success')
-  cart = {}; slipFile = null
+function showSuccess(order,items,total,prov,dist,sub){
+  document.getElementById('success-order-num').textContent=order.order_number||'—'
+  document.getElementById('success-items').innerHTML=items.map(i=>{
+    const nm=currentLang==='my'?(i.name_my||i.name_th):currentLang==='en'?(i.name||i.name_th):i.name_th
+    return `<div class="success-info-row"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
+  }).join('')+`<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px"><span><strong>${t('total_label')}</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
+  const name=document.getElementById('f-name').value.trim()
+  const addr=document.getElementById('f-addr').value.trim()
+  const postal=document.getElementById('f-postal').value
+  const phone=document.getElementById('f-phone').value.trim()
+  document.getElementById('success-address').innerHTML=`${name}<br>${addr}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">📞 ${phone}</span>`
+  document.getElementById('success-pay-reminder').style.display=selectedPayment==='promptpay'?'block':'none'
+  showView('success'); cart={}; slipFile=null
   document.getElementById('cart-bar').classList.remove('visible')
 }
-
-function resetAndGoHome() {
-  cart = {}; slipFile = null; selectedPayment = 'promptpay'
-  products.forEach(p => { const el = document.getElementById('qty-' + p.id); if (el) el.textContent = 0 })
-  ;['f-name','f-phone','f-addr','f-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '' })
-  document.getElementById('f-province').value = ''
-  document.getElementById('f-district').innerHTML = `<option value="">${t('select_prov_first')}</option>`
-  document.getElementById('f-district').disabled = true
-  const subSel = document.getElementById('f-subdistrict')
-  subSel.innerHTML = `<option value="">${t('select_dist_first')}</option>`
-  subSel.disabled = true
-  document.getElementById('f-postal').value = ''
-  document.getElementById('slip-preview').style.display = 'none'
-  document.getElementById('upload-text').innerHTML =
-    `<span data-i18n="upload_text">${t('upload_text')}</span><br><span style="font-size:11px;opacity:.7" data-i18n="upload_sub">${t('upload_sub')}</span>`
-  const btn = document.getElementById('btn-submit'); btn.disabled = false; btn.textContent = t('btn_submit')
-  selectPayment('promptpay')
-  showView('products')
+function resetAndGoHome(){
+  cart={}; slipFile=null; selectedPayment='promptpay'
+  products.forEach(p=>{ const el=document.getElementById('qty-'+p.id); if(el) el.textContent=0 })
+  ;['f-name','f-phone','f-addr','f-notes'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value='' })
+  document.getElementById('f-province').value=''
+  const d=document.getElementById('f-district'); d.innerHTML=`<option value="">${t('select_prov_first')}</option>`; d.disabled=true
+  const s=document.getElementById('f-subdistrict'); s.innerHTML=`<option value="">${t('select_dist_first')}</option>`; s.disabled=true
+  document.getElementById('f-postal').value=''
+  document.getElementById('slip-preview').style.display='none'
+  document.getElementById('upload-text').innerHTML=`<span>${t('upload_text')}</span><br><span style="font-size:11px;opacity:.7">${t('upload_sub')}</span>`
+  const btn=document.getElementById('btn-submit'); btn.disabled=false; btn.textContent=t('btn_submit')
+  selectPayment('promptpay'); showView('products')
+}
+function showToast(msg,type=''){
+  const el=document.getElementById('toast'); el.textContent=msg; el.className='toast show '+type
+  setTimeout(()=>{ el.className='toast' },3200)
 }
 
-// ---- TOAST ----
-function showToast(msg, type = '') {
-  const t2 = document.getElementById('toast')
-  t2.textContent = msg; t2.className = 'toast show ' + type
-  setTimeout(() => { t2.className = 'toast' }, 3200)
-}
-
-// ---- START ----
 init()
 </script>
 </body>
