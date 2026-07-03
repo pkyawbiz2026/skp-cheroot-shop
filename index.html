@@ -821,7 +821,7 @@ function renderOrderSummary() {
 let THAI_PROVINCES = []
 
 async function loadThaiGeoData() {
-  const CACHE_KEY = 'thai_geo_v2'
+  const CACHE_KEY = 'thai_geo_v3'
   try {
     const cached = localStorage.getItem(CACHE_KEY)
     if (cached) { THAI_PROVINCES = JSON.parse(cached); return }
@@ -831,13 +831,15 @@ async function loadThaiGeoData() {
     const data = await r.json()
     THAI_PROVINCES = data.map(p => {
       const isBkk = p.name_th === 'กรุงเทพมหานคร'
+      const districts = p.districts || p.amphure || []
       return {
         n: p.name_th,
-        d: p.amphure.map(a => {
+        d: districts.map(a => {
           const dName = isBkk ? a.name_th.replace(/^เขต/, '') : a.name_th.replace(/^อำเภอ/, '')
+          const subDistricts = a.sub_districts || a.tambon || []
           return {
             n: dName,
-            s: a.tambon.map(t => ({
+            s: subDistricts.map(t => ({
               n: isBkk ? t.name_th.replace(/^แขวง/, '') : t.name_th.replace(/^ตำบล/, ''),
               z: t.zip_code
             }))
