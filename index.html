@@ -1,4 +1,4 @@
-X<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="my">
 <head>
 <meta charset="UTF-8">
@@ -932,7 +932,7 @@ function onSlipSelected(e) {
   reader.readAsDataURL(file)
 }
 
-as function uploadSlip(orderId) {
+async function uploadSlip(orderId) {
   if (!slipFile) return null
   try {
     const ext  = slipFile.name.split('.').pop() || 'jpg'
@@ -1074,4 +1074,3 @@ init()
 </script>
 </body>
 </html>
-l>
