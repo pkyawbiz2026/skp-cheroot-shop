@@ -23,7 +23,7 @@ input,select,textarea{font-family:inherit;outline:none}
   --white:#FFFFFF;--border:#E0CDB3;--text-muted:#7A5C3C;
   --green:#27AE60;--red-err:#E74C3C
 }
-.view{display:none !important;height:0;overflow:hidden}.view.active{display:block !important;height:auto;overflow:visible}
+.view{display:none !important;height:0;overflow:hidden;pointer-events:none}.view.active{display:block !important;height:auto;overflow:visible;pointer-events:auto}
 
 /* LOADING */
 #loading{position:fixed;inset:0;background:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:14px}
@@ -552,7 +552,7 @@ function pUnit(p){ return currentLang==='th'?(p.unit_th||p.unit):currentLang==='
 function renderProducts(){
   const list=document.getElementById('products-list'); if(!list) return
   const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
-  const name=currentLang==='th'?p.name_th:currentLang==='my'?p.name_my:p.name
+  const name=currentLang==='my'?p.name_my:(p.name_roman||'Shwe Ya Tu')
   const sub=currentLang==='my'?p.name_th:p.name
 
   const unit=pUnit(p)
@@ -609,7 +609,7 @@ function getCartTotal(){ return getCartItems().reduce((s,i)=>s+i.subtotal,0) }
 //  VIEWS
 // ═══════════════════════════════════════════════════
 function showView(n){ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active')); const el=document.getElementById('view-'+n); if(el){el.classList.add('active');window.scrollTo(0,0)} if(n==='products') updateCartBar(); else document.getElementById('cart-bar').classList.remove('visible') }
-function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); document.getElementById('cart-bar').classList.remove('visible'); showView('checkout') }
+function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); document.getElementById('cart-bar').classList.remove('visible'); clearInterval(slideTimer); showView('checkout') }
 function renderOrderSummary(){
   const items=getCartItems()
   document.getElementById('order-summary-items').innerHTML=items.map(i=>{
@@ -780,7 +780,7 @@ function resetAndGoHome(){
   document.getElementById('slip-preview').style.display='none'
   document.getElementById('upload-text').innerHTML=`<span>${t('upload_text')}</span><br><span style="font-size:11px;opacity:.7">${t('upload_sub')}</span>`
   const btn=document.getElementById('btn-submit'); btn.disabled=false; btn.textContent=t('btn_submit')
-  selectPayment('promptpay'); showView('products')
+  selectPayment('promptpay'); showView('products'); renderProducts()
 }
 function showToast(msg,type=''){
   const el=document.getElementById('toast'); el.textContent=msg; el.className='toast show '+type
