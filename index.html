@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="my">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>SKP Heritage - à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸­à¸­à¸à¹à¸¥à¸à¹</title>
+<title>SKP Heritage</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Sarabun',sans-serif;background:#FAF3E8;color:#2C1810;min-height:100vh;overflow-x:hidden}
+body{font-family:'Noto Sans Myanmar','Sarabun',sans-serif;background:#FAF3E8;color:#2C1810;min-height:100vh;overflow-x:hidden}
 button{cursor:pointer;border:none;outline:none;font-family:inherit}
 input,select,textarea{font-family:inherit;outline:none}
 :root{
@@ -31,10 +31,16 @@ input,select,textarea{font-family:inherit;outline:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* HEADER */
-.header{background:var(--brown-dark);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.header{background:var(--brown-dark);padding:12px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
 .header-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:19px;letter-spacing:1px;line-height:1}
 .header-logo span{display:block;font-size:10px;font-style:italic;color:#9C7B5C;letter-spacing:2px;margin-top:2px}
 .header-back{background:none;color:var(--gold);font-size:22px;padding:4px 8px 4px 0;line-height:1}
+
+/* LANG SWITCHER */
+.lang-switcher{display:flex;gap:3px;margin-left:auto;flex-shrink:0}
+.lang-btn{background:transparent;color:#9C7B5C;font-size:11px;font-weight:700;padding:4px 7px;border-radius:10px;border:1px solid transparent;letter-spacing:.3px;transition:all .2s;font-family:'Noto Sans Myanmar','Sarabun',sans-serif}
+.lang-btn.active{background:var(--gold);color:var(--brown-dark);border-color:var(--gold)}
+.lang-btn:active{opacity:.7}
 
 /* HERO */
 .hero{background:linear-gradient(160deg,#2C1810 0%,#4A1E0A 60%,#6B2D0F 100%);padding:24px 16px 28px;text-align:center}
@@ -143,7 +149,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 .success-info-row{display:flex;justify-content:space-between;padding:6px 0;font-size:13px}
 .success-info-row span:first-child{color:var(--text-muted)}
 .success-info-row span:last-child{font-weight:600;text-align:right;max-width:60%}
-.pay-reminder{margin:0 12px 12px;background:#EBF5FB;border-radius:12px;padding:14px;border:1px solid #AED6F1;font-size:13px;line-height:1.7;color:#1A5276}
+.pay-reminder{margin:0 12px 12px;background:#EBF5FB;border-radius:12px;padding:14px;border:1px solid #AED6F1;font-size:13px;line-height:1.9;color:#1A5276}
 .pay-reminder strong{display:block;margin-bottom:4px;font-size:14px}
 .btn-home{margin:4px 12px 28px;padding:14px;background:var(--brown-dark);color:var(--gold);font-size:15px;font-weight:700;border-radius:14px;width:calc(100% - 24px);display:block}
 
@@ -163,7 +169,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 <!-- LOADING SCREEN -->
 <div id="loading">
   <div class="loader-logo">SKP Heritage</div>
-  <div class="loader-sub">HANDCRAFTED CHEROOT</div>
+  <div class="loader-sub" data-i18n="loader_sub">လက်ဆောင်ဆေးပေါ့</div>
   <div class="spinner"></div>
 </div>
 
@@ -176,17 +182,22 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 <div class="view active" id="view-products">
   <div class="header">
     <div>
-      <div class="header-logo">SKP Heritage<span>Handcrafted Cheroot</span></div>
+      <div class="header-logo">SKP Heritage<span data-i18n="loader_sub">လက်ဆောင်ဆေးပေါ့</span></div>
+    </div>
+    <div class="lang-switcher">
+      <button id="lang-my" class="lang-btn active" onclick="setLang('my')">မြ</button>
+      <button id="lang-th" class="lang-btn" onclick="setLang('th')">ไทย</button>
+      <button id="lang-en" class="lang-btn" onclick="setLang('en')">EN</button>
     </div>
   </div>
 
   <div class="hero">
-    <div class="hero-title">à¸à¸¸à¸«à¸£à¸µà¹à¸à¸´à¸à¸²à¸£à¹ SKP</div>
+    <div class="hero-title" data-i18n="hero_title">SKP ဆေးပေါ့</div>
     <div class="gold-divider"></div>
-    <div class="hero-sub">à¸à¸¥à¸´à¸à¸à¹à¸§à¸¢à¸¡à¸·à¸­ Â· à¸à¸³à¸£à¸±à¸à¸à¸±à¹à¸à¹à¸à¸´à¸¡ Â· à¸à¸±à¸à¸ªà¸£à¸£à¸§à¸±à¸à¸à¸¸à¸à¸´à¸à¸­à¸¢à¹à¸²à¸à¸à¸´à¸à¸µà¸à¸´à¸à¸±à¸</div>
+    <div class="hero-sub" data-i18n="hero_sub">လက်ဖြင့်ပြုလုပ် · ရိုးရာနည်းလမ်း · ကြေးကပ်ကပ်ရွေးချယ်</div>
   </div>
 
-  <div class="section-label">à¸ªà¸´à¸à¸à¹à¸²à¸à¸­à¸à¹à¸£à¸²</div>
+  <div class="section-label" data-i18n="section_products">ကျွန်ုပ်တို့၏ ထုတ်ကုန်များ</div>
 
   <div class="products-list" id="products-list">
     <!-- Populated by JS -->
@@ -196,10 +207,10 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 <!-- Cart sticky bar -->
 <div class="cart-bar" id="cart-bar">
   <div class="cart-info">
-    <div class="cart-count" id="cart-count">0 à¸£à¸²à¸¢à¸à¸²à¸£</div>
-    <div class="cart-total" id="cart-total">à¸¿0</div>
+    <div class="cart-count" id="cart-count">0 ပစ္စည်း</div>
+    <div class="cart-total" id="cart-total">฿0</div>
   </div>
-  <button class="btn-order" onclick="goToCheckout()">à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¹à¸¥à¸¢ â</button>
+  <button class="btn-order" id="btn-order" onclick="goToCheckout()" data-i18n="order_now">အမှာစာ →</button>
 </div>
 
 
@@ -208,39 +219,44 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
      =========================== -->
 <div class="view" id="view-checkout">
   <div class="header">
-    <button class="header-back" onclick="showView('products')">â</button>
-    <div class="header-logo">à¸à¹à¸­à¸¡à¸¹à¸¥à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­<span>Order Details</span></div>
+    <button class="header-back" onclick="showView('products')">←</button>
+    <div class="header-logo" data-i18n="checkout_header">မှာယူမှုအချက်အလက်<span data-i18n="checkout_sub">Order Details</span></div>
+    <div class="lang-switcher">
+      <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">မြ</button>
+      <button id="lang-th2" class="lang-btn" onclick="setLang('th')">ไทย</button>
+      <button id="lang-en2" class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
   </div>
 
   <!-- Order Summary -->
   <div class="form-section" style="margin-top:12px">
     <div class="form-section-header">
-      <span class="form-section-icon">ð</span>
-      <span class="form-section-title">à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸±à¹à¸à¸à¸·à¹à¸­</span>
+      <span class="form-section-icon">🛒</span>
+      <span class="form-section-title" data-i18n="order_summary">မှာယူသောပစ္စည်းများ</span>
     </div>
     <div class="order-summary-items" id="order-summary-items"></div>
     <div class="summary-total">
-      <span>à¸¢à¸­à¸à¸£à¸§à¸¡à¸à¸±à¹à¸à¸ªà¸´à¹à¸</span>
-      <span id="summary-total-val">à¸¿0</span>
+      <span data-i18n="grand_total">စုစုပေါင်း</span>
+      <span id="summary-total-val">฿0</span>
     </div>
   </div>
 
   <!-- Customer Info -->
   <div class="form-section">
     <div class="form-section-header">
-      <span class="form-section-icon">ð¤</span>
-      <span class="form-section-title">à¸à¹à¸­à¸¡à¸¹à¸¥à¸à¸¹à¹à¸£à¸±à¸à¸ªà¸´à¸à¸à¹à¸²</span>
+      <span class="form-section-icon">👤</span>
+      <span class="form-section-title" data-i18n="customer_info">လက်ခံသူ၏ အချက်အလက်</span>
     </div>
     <div class="form-body">
       <div>
-        <label class="field-label">à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥ <span class="req">*</span></label>
-        <input id="f-name" type="text" class="field-input" placeholder="à¸à¸·à¹à¸­ à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥" autocomplete="name">
-        <div class="error-msg" id="err-name">à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥</div>
+        <label class="field-label"><span data-i18n="label_name">နာမည်</span> <span class="req">*</span></label>
+        <input id="f-name" type="text" class="field-input" data-i18n-ph="ph_name" placeholder="နာမည် မြတ်မြတ်" autocomplete="name">
+        <div class="error-msg" id="err-name" data-i18n="err_name">ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ</div>
       </div>
       <div>
-        <label class="field-label">à¹à¸à¸­à¸£à¹à¹à¸à¸£à¸¨à¸±à¸à¸à¹ <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_phone">ဖုန်းနံပါတ်</span> <span class="req">*</span></label>
         <input id="f-phone" type="tel" class="field-input" placeholder="0XX-XXX-XXXX" autocomplete="tel" inputmode="numeric">
-        <div class="error-msg" id="err-phone">à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¹à¸à¸­à¸£à¹à¹à¸à¸£à¸¨à¸±à¸à¸à¹à¸à¸µà¹à¸à¸¹à¸à¸à¹à¸­à¸</div>
+        <div class="error-msg" id="err-phone" data-i18n="err_phone">မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ</div>
       </div>
     </div>
   </div>
@@ -248,41 +264,41 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
   <!-- Delivery Address -->
   <div class="form-section">
     <div class="form-section-header">
-      <span class="form-section-icon">ð</span>
-      <span class="form-section-title">à¸à¸µà¹à¸­à¸¢à¸¹à¹à¸à¸±à¸à¸ªà¹à¸</span>
+      <span class="form-section-icon">📍</span>
+      <span class="form-section-title" data-i18n="delivery_address">ပို့ဆောင်ရမည့်လိပ်စာ</span>
     </div>
     <div class="form-body">
       <div>
-        <label class="field-label">à¸à¹à¸²à¸à¹à¸¥à¸à¸à¸µà¹ / à¸à¸­à¸¢ / à¸à¸à¸ / à¸«à¸¡à¸¹à¹à¸à¹à¸²à¸ <span class="req">*</span></label>
-        <textarea id="f-addr" class="field-input" placeholder="à¹à¸à¹à¸ 123/4 à¸à¸­à¸¢à¸ªà¸¸à¸à¸¸à¸¡à¸§à¸´à¸ 10 à¸à¸à¸à¸ªà¸¸à¸à¸¸à¸¡à¸§à¸´à¸" rows="3"></textarea>
-        <div class="error-msg" id="err-addr">à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¸µà¹à¸­à¸¢à¸¹à¹</div>
+        <label class="field-label"><span data-i18n="label_addr">အိမ်အမှတ် / လမ်း / ရပ်ကွက်</span> <span class="req">*</span></label>
+        <textarea id="f-addr" class="field-input" data-i18n-ph="ph_addr" placeholder="ဥပမာ ၁၂၃/၄ လမ်းနာမည်" rows="3"></textarea>
+        <div class="error-msg" id="err-addr" data-i18n="err_addr">ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ</div>
       </div>
       <div>
-        <label class="field-label">à¸à¸±à¸à¸«à¸§à¸±à¸ <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_province">ပြည်နယ်/တိုင်း</span> <span class="req">*</span></label>
         <select id="f-province" class="field-input" onchange="onProvinceChange()">
-          <option value="">â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸ â</option>
+          <option value="">— ပြည်နယ်/တိုင်း ရွေးပါ —</option>
         </select>
-        <div class="error-msg" id="err-province">à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸</div>
+        <div class="error-msg" id="err-province" data-i18n="err_province">ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ</div>
       </div>
       <div>
-        <label class="field-label">à¸­à¸³à¹à¸ à¸­/à¹à¸à¸ <span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_district">ခရိုင်/ကွင်း</span> <span class="req">*</span></label>
         <select id="f-district" class="field-input" disabled onchange="onDistrictChange()">
-          <option value="">â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸à¸à¹à¸­à¸ â</option>
+          <option value="">— ပြည်နယ်/တိုင်းဦးရွေးပါ —</option>
         </select>
-        <div class="error-msg" id="err-district">à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸</div>
+        <div class="error-msg" id="err-district" data-i18n="err_district">ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ</div>
       </div>
       <div class="field-row">
         <div>
-          <label class="field-label">à¸à¸³à¸à¸¥/à¹à¸à¸§à¸ <span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_sub">မြို့နယ်/ရပ်ကွက်</span> <span class="req">*</span></label>
           <select id="f-subdistrict" class="field-input" disabled onchange="onSubDistrictChange()">
-            <option value="">â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸à¸à¹à¸­à¸ â</option>
+            <option value="">— ခရိုင်/ကွင်းဦးရွေးပါ —</option>
           </select>
-          <div class="error-msg" id="err-subdistrict">à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸à¸³à¸à¸¥/à¹à¸à¸§à¸</div>
+          <div class="error-msg" id="err-subdistrict" data-i18n="err_sub">ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ</div>
         </div>
         <div>
-          <label class="field-label">à¸£à¸«à¸±à¸ªà¹à¸à¸£à¸©à¸à¸µà¸¢à¹ <span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_postal">စာပို့ကုဒ်</span> <span class="req">*</span></label>
           <input id="f-postal" type="text" class="field-input" placeholder="xxxxx" inputmode="numeric" maxlength="5">
-          <div class="error-msg" id="err-postal">à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸£à¸«à¸±à¸ªà¹à¸à¸£à¸©à¸à¸µà¸¢à¹</div>
+          <div class="error-msg" id="err-postal" data-i18n="err_postal">ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ</div>
         </div>
       </div>
     </div>
@@ -291,26 +307,26 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
   <!-- Payment Method -->
   <div class="form-section">
     <div class="form-section-header">
-      <span class="form-section-icon">ð³</span>
-      <span class="form-section-title">à¸§à¸´à¸à¸µà¸à¸³à¸£à¸°à¹à¸à¸´à¸</span>
+      <span class="form-section-icon">💳</span>
+      <span class="form-section-title" data-i18n="payment_method">ငွေပေးချေနည်း</span>
     </div>
     <div class="form-body">
       <div class="pay-options">
         <label class="pay-option selected" id="opt-promptpay" onclick="selectPayment('promptpay')">
           <input type="radio" name="payment" value="promptpay" checked>
-          <span class="pay-icon">ð²</span>
+          <span class="pay-icon">📲</span>
           <span class="pay-label">
-            <strong>à¹à¸­à¸à¹à¸à¸´à¸ / PromptPay</strong>
-            <span>à¹à¸­à¸à¸à¹à¸­à¸à¸à¸±à¸à¸ªà¹à¸ Â· à¹à¸à¸à¸ªà¸¥à¸´à¸à¸«à¸¥à¸±à¸à¹à¸­à¸</span>
+            <strong data-i18n="pay_promptpay">လွှဲငွေ / PromptPay</strong>
+            <span data-i18n="pay_promptpay_desc">လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ</span>
           </span>
-          <span class="pay-check">â</span>
+          <span class="pay-check">✓</span>
         </label>
         <label class="pay-option" id="opt-cod" onclick="selectPayment('cod')">
           <input type="radio" name="payment" value="cod">
-          <span class="pay-icon">ð¦</span>
+          <span class="pay-icon">📦</span>
           <span class="pay-label">
-            <strong>à¹à¸à¹à¸à¸à¸¥à¸²à¸¢à¸à¸²à¸ (COD)</strong>
-            <span>à¸à¸³à¸£à¸°à¹à¸à¸´à¸à¹à¸¡à¸·à¹à¸­à¹à¸à¹à¸£à¸±à¸à¸ªà¸´à¸à¸à¹à¸²</span>
+            <strong data-i18n="pay_cod">ငွေချေ (COD)</strong>
+            <span data-i18n="pay_cod_desc">ပစ္စည်းရောက်မှ ငွေပေးချေပါ</span>
           </span>
           <span class="pay-check"></span>
         </label>
@@ -318,19 +334,22 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 
       <!-- PromptPay Info Box -->
       <div class="promptpay-box visible" id="promptpay-box">
-        <div class="promptpay-title">ð² à¹à¸­à¸à¹à¸à¸´à¸ PromptPay à¸¡à¸²à¸à¸µà¹</div>
-        <div class="promptpay-number" id="pp-number">â</div>
-        <div class="promptpay-name" id="pp-name">â</div>
+        <div class="promptpay-title" data-i18n="pp_box_title">📲 PromptPay သို့ ငွေလွှဲပါ</div>
+        <div class="promptpay-number" id="pp-number">—</div>
+        <div class="promptpay-name" id="pp-name">—</div>
         <hr class="pp-divider">
-        <div class="promptpay-bank" id="pp-bank">â</div>
-        <div style="font-size:12px;opacity:.7;margin-top:10px">â ï¸ à¸à¸£à¸¸à¸à¸²à¹à¸­à¸à¸à¸²à¸¡à¸¢à¸­à¸à¸à¸µà¹à¸ªà¸±à¹à¸à¸à¸·à¹à¸­ à¹à¸¥à¸°à¹à¸à¸à¸ªà¸¥à¸´à¸à¸à¹à¸²à¸à¸¥à¹à¸²à¸</div>
+        <div class="promptpay-bank" id="pp-bank">—</div>
+        <div style="font-size:12px;opacity:.7;margin-top:10px" data-i18n="pp_warning">⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ</div>
       </div>
 
       <!-- Slip Upload -->
       <div class="upload-box visible" id="upload-box" onclick="document.getElementById('slip-input').click()">
         <input type="file" id="slip-input" accept="image/*" onchange="onSlipSelected(event)">
-        <div class="upload-icon">ð</div>
-        <div class="upload-text" id="upload-text">à¹à¸à¸°à¹à¸à¸·à¹à¸­à¹à¸à¸à¸ªà¸¥à¸´à¸à¹à¸­à¸à¹à¸à¸´à¸<br><span style="font-size:11px;opacity:.7">JPG, PNG à¸à¸à¸²à¸à¹à¸¡à¹à¹à¸à¸´à¸ 5MB</span></div>
+        <div class="upload-icon">📎</div>
+        <div class="upload-text" id="upload-text">
+          <span data-i18n="upload_text">ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ</span><br>
+          <span style="font-size:11px;opacity:.7" data-i18n="upload_sub">JPG, PNG ၅MB အောက်</span>
+        </div>
         <img id="slip-preview" class="upload-preview" style="display:none">
       </div>
     </div>
@@ -339,16 +358,16 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
   <!-- Notes -->
   <div class="form-section">
     <div class="form-section-header">
-      <span class="form-section-icon">ð</span>
-      <span class="form-section-title">à¸«à¸¡à¸²à¸¢à¹à¸«à¸à¸¸à¹à¸à¸´à¹à¸¡à¹à¸à¸´à¸¡ (à¹à¸¡à¹à¸à¸±à¸à¸à¸±à¸)</span>
+      <span class="form-section-icon">📝</span>
+      <span class="form-section-title" data-i18n="label_notes">မှတ်ချက် (မလိုအပ်ပါ)</span>
     </div>
     <div class="form-body">
-      <textarea id="f-notes" class="field-input" placeholder="à¹à¸à¹à¸ à¸ªà¹à¸à¸à¸­à¸à¸à¹à¸²à¸¢, à¸£à¸°à¸§à¸±à¸à¹à¸à¸£à¸²à¸°à¸à¸²à¸, à¸à¸²à¸à¹à¸§à¹à¸«à¸à¹à¸²à¸à¹à¸²à¸..." rows="2"></textarea>
+      <textarea id="f-notes" class="field-input" data-i18n-ph="ph_notes" placeholder="ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ..." rows="2"></textarea>
     </div>
   </div>
 
-  <button class="btn-submit" id="btn-submit" onclick="submitOrder()">
-    â à¸¢à¸·à¸à¸¢à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­
+  <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">
+    ✅ အမှာစာ အတည်ပြုမည်
   </button>
 </div>
 
@@ -358,66 +377,315 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
      =========================== -->
 <div class="view" id="view-success">
   <div class="success-hero">
-    <div class="success-icon">â</div>
-    <div class="success-title">à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸ªà¸³à¹à¸£à¹à¸à¹à¸¥à¹à¸§!</div>
-    <div class="success-subtitle">à¹à¸£à¸²à¹à¸à¹à¸£à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸à¸­à¸à¸à¸¸à¸à¹à¸£à¸µà¸¢à¸à¸£à¹à¸­à¸¢à¹à¸¥à¹à¸§</div>
+    <div class="success-icon">✅</div>
+    <div class="success-title" data-i18n="success_title">အမှာစာ အောင်မြင်ပြီ!</div>
+    <div class="success-subtitle" data-i18n="success_subtitle">သင်၏အမှာစာကို လက်ခံပြီးပါပြီ</div>
   </div>
 
   <div class="order-number-box">
-    <div class="order-number-label">à¸«à¸¡à¸²à¸¢à¹à¸¥à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸à¸­à¸à¸à¸¸à¸</div>
-    <div class="order-number-val" id="success-order-num">â</div>
-    <div style="font-size:12px;color:#7A5C3C;margin-top:4px">à¸à¸£à¸¸à¸à¸²à¸à¸à¸«à¸¡à¸²à¸¢à¹à¸¥à¸à¸à¸µà¹à¹à¸§à¹à¸ªà¸³à¸«à¸£à¸±à¸à¸à¸´à¸à¸à¸²à¸¡à¸ªà¸à¸²à¸à¸°</div>
+    <div class="order-number-label" data-i18n="order_number_label">သင်၏ အမှာနံပါတ်</div>
+    <div class="order-number-val" id="success-order-num">—</div>
+    <div style="font-size:12px;color:#7A5C3C;margin-top:4px" data-i18n="order_note_track">ဒီနံပါတ်ကို မှတ်ထားပါ</div>
   </div>
 
   <div class="success-info">
-    <div class="success-info-header">ð à¸ªà¸£à¸¸à¸à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸±à¹à¸à¸à¸·à¹à¸­</div>
+    <div class="success-info-header" data-i18n="success_items_hdr">📋 မှာယူသောပစ္စည်းများ</div>
     <div class="success-info-body" id="success-items"></div>
   </div>
 
   <div class="success-info">
-    <div class="success-info-header">ð à¸à¸µà¹à¸­à¸¢à¸¹à¹à¸à¸±à¸à¸ªà¹à¸</div>
+    <div class="success-info-header" data-i18n="success_addr_hdr">📍 ပို့ဆောင်ရမည့်လိပ်စာ</div>
     <div class="success-info-body">
       <div id="success-address" style="font-size:14px;line-height:1.9;color:#2C1810"></div>
     </div>
   </div>
 
   <div class="pay-reminder" id="success-pay-reminder" style="display:none">
-    <strong>ð³ à¸à¸±à¹à¸à¸à¸­à¸à¸à¸²à¸£à¸à¸³à¸£à¸°à¹à¸à¸´à¸</strong>
-    à¸à¸£à¸¸à¸à¸²à¹à¸­à¸à¹à¸à¸´à¸à¸à¸²à¸¡à¸¢à¸­à¸à¸à¸µà¹à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸¡à¸²à¸à¸µà¹ PromptPay <strong id="success-pp-num">â</strong><br>
-    à¸«à¸²à¸à¸¢à¸±à¸à¹à¸¡à¹à¹à¸à¹à¹à¸à¸à¸ªà¸¥à¸´à¸ à¸à¸£à¸¸à¸à¸²à¸ªà¹à¸à¸ªà¸¥à¸´à¸à¸¡à¸²à¸à¸µà¹ LINE: <strong id="success-line">â</strong>
+    <strong data-i18n="pay_reminder_title">💳 ငွေပေးချေနည်း</strong>
+    <span data-i18n="pay_reminder_1">PromptPay</span> <strong id="success-pp-num">—</strong> <span data-i18n="pay_reminder_2">သို့ မှာယူသောပမာဏ လွှဲပေးပါ</span><br>
+    <span data-i18n="pay_reminder_3">ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:</span> <strong id="success-line">—</strong>
   </div>
 
-  <button class="btn-home" onclick="resetAndGoHome()">â à¸à¸¥à¸±à¸à¸«à¸à¹à¸²à¸«à¸¥à¸±à¸</button>
+  <button class="btn-home" onclick="resetAndGoHome()" data-i18n="btn_home">← ပင်မစာမျက်နှာသို့</button>
 </div>
 
 
 <script>
 // ============================================================
-//  âï¸  CONFIGURATION â à¹à¸à¹à¹à¸à¸à¹à¸­à¸¡à¸¹à¸¥à¸à¹à¸²à¸à¸¥à¹à¸²à¸à¸à¸µà¹à¸à¹à¸­à¸à¹à¸à¹à¸à¸²à¸
+//  TRANSLATIONS
+// ============================================================
+const TRANSLATIONS = {
+  my: {
+    loader_sub:         'လက်ဆောင်ဆေးပေါ့',
+    hero_title:         'SKP ဆေးပေါ့',
+    hero_sub:           'လက်ဖြင့်ပြုလုပ် · ရိုးရာနည်းလမ်း · ကြေးကပ်ကပ်ရွေးချယ်',
+    section_products:   'ကျွန်ုပ်တို့၏ ထုတ်ကုန်များ',
+    no_products:        'ထုတ်ကုန်မတွေ့ပါ',
+    order_now:          'အမှာစာ →',
+    checkout_header:    'မှာယူမှုအချက်အလက်',
+    checkout_sub:       'Order Details',
+    order_summary:      'မှာယူသောပစ္စည်းများ',
+    grand_total:        'စုစုပေါင်း',
+    customer_info:      'လက်ခံသူ၏ အချက်အလက်',
+    label_name:         'နာမည်',
+    ph_name:            'နာမည် မြတ်မြတ်',
+    err_name:           'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',
+    label_phone:        'ဖုန်းနံပါတ်',
+    err_phone:          'မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ',
+    delivery_address:   'ပို့ဆောင်ရမည့်လိပ်စာ',
+    label_addr:         'အိမ်အမှတ် / လမ်း / ရပ်ကွက်',
+    ph_addr:            'ဥပမာ ၁၂၃/၄ လမ်းနာမည်',
+    err_addr:           'ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ',
+    label_province:     'ပြည်နယ်/တိုင်း',
+    select_province:    '— ပြည်နယ်/တိုင်း ရွေးပါ —',
+    err_province:       'ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ',
+    label_district:     'ခရိုင်/ကွင်း',
+    select_district:    '— ခရိုင်/ကွင်း ရွေးပါ —',
+    select_prov_first:  '— ပြည်နယ်/တိုင်းဦးရွေးပါ —',
+    err_district:       'ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ',
+    label_sub:          'မြို့နယ်/ရပ်ကွက်',
+    select_sub:         '— မြို့နယ် ရွေးပါ —',
+    select_dist_first:  '— ခရိုင်/ကွင်းဦးရွေးပါ —',
+    err_sub:            'ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ',
+    label_postal:       'စာပို့ကုဒ်',
+    err_postal:         'ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ',
+    payment_method:     'ငွေပေးချေနည်း',
+    pay_promptpay:      'လွှဲငွေ / PromptPay',
+    pay_promptpay_desc: 'လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ',
+    pay_cod:            'ငွေချေ (COD)',
+    pay_cod_desc:       'ပစ္စည်းရောက်မှ ငွေပေးချေပါ',
+    pp_box_title:       '📲 PromptPay သို့ ငွေလွှဲပါ',
+    pp_warning:         '⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ',
+    upload_text:        'ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ',
+    upload_sub:         'JPG, PNG ၅MB အောက်',
+    upload_done:        '✅ ပူးတွဲပြီးပါပြီ',
+    upload_done_sub:    'ပြောင်းလဲရန် နှိပ်ပါ',
+    label_notes:        'မှတ်ချက် (မလိုအပ်ပါ)',
+    ph_notes:           'ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ...',
+    btn_submit:         '✅ အမှာစာ အတည်ပြုမည်',
+    btn_submitting:     'အမှာစာ ပေးပို့နေသည်...',
+    success_title:      'အမှာစာ အောင်မြင်ပြီ!',
+    success_subtitle:   'သင်၏အမှာစာကို လက်ခံပြီးပါပြီ',
+    order_number_label: 'သင်၏ အမှာနံပါတ်',
+    order_note_track:   'ဒီနံပါတ်ကို မှတ်ထားပါ',
+    success_items_hdr:  '📋 မှာယူသောပစ္စည်းများ',
+    success_addr_hdr:   '📍 ပို့ဆောင်ရမည့်လိပ်စာ',
+    total_label:        'စုစုပေါင်း',
+    pay_reminder_title: '💳 ငွေပေးချေနည်း',
+    pay_reminder_1:     'PromptPay',
+    pay_reminder_2:     'သို့ မှာယူသောပမာဏ လွှဲပေးပါ',
+    pay_reminder_3:     'ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:',
+    btn_home:           '← ပင်မစာမျက်နှာသို့',
+    toast_required:     'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
+    toast_error:        'အမှားဖြစ်ပွားသည် ထပ်မံကြိုးစားပါ',
+    acc_no:             '· စာရင်းနံပါတ်',
+    items_unit:         'ပစ္စည်း',
+  },
+  th: {
+    loader_sub:         'HANDCRAFTED CHEROOT',
+    hero_title:         'บุหรี่ซิการ์ SKP',
+    hero_sub:           'ผลิตด้วยมือ · ตำรับดั้งเดิม · คัดสรรวัตถุดิบอย่างพิถีพิถัน',
+    section_products:   'สินค้าของเรา',
+    no_products:        'ไม่พบสินค้าในขณะนี้',
+    order_now:          'สั่งซื้อเลย →',
+    checkout_header:    'ข้อมูลคำสั่งซื้อ',
+    checkout_sub:       'Order Details',
+    order_summary:      'รายการสั่งซื้อ',
+    grand_total:        'ยอดรวมทั้งสิ้น',
+    customer_info:      'ข้อมูลผู้รับสินค้า',
+    label_name:         'ชื่อ-นามสกุล',
+    ph_name:            'ชื่อ นามสกุล',
+    err_name:           'กรุณากรอกชื่อ-นามสกุล',
+    label_phone:        'เบอร์โทรศัพท์',
+    err_phone:          'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',
+    delivery_address:   'ที่อยู่จัดส่ง',
+    label_addr:         'บ้านเลขที่ / ซอย / ถนน / หมู่บ้าน',
+    ph_addr:            'เช่น 123/4 ซอยสุขุมวิท 10 ถนนสุขุมวิท',
+    err_addr:           'กรุณากรอกที่อยู่',
+    label_province:     'จังหวัด',
+    select_province:    '— เลือกจังหวัด —',
+    err_province:       'กรุณาเลือกจังหวัด',
+    label_district:     'อำเภอ/เขต',
+    select_district:    '— เลือกอำเภอ/เขต —',
+    select_prov_first:  '— เลือกจังหวัดก่อน —',
+    err_district:       'กรุณาเลือกอำเภอ/เขต',
+    label_sub:          'ตำบล/แขวง',
+    select_sub:         '— เลือกตำบล/แขวง —',
+    select_dist_first:  '— เลือกอำเภอ/เขตก่อน —',
+    err_sub:            'กรุณาเลือกตำบล/แขวง',
+    label_postal:       'รหัสไปรษณีย์',
+    err_postal:         'กรุณากรอกรหัสไปรษณีย์',
+    payment_method:     'วิธีชำระเงิน',
+    pay_promptpay:      'โอนเงิน / PromptPay',
+    pay_promptpay_desc: 'โอนก่อนจัดส่ง · แนบสลิปหลังโอน',
+    pay_cod:            'เก็บปลายทาง (COD)',
+    pay_cod_desc:       'ชำระเงินเมื่อได้รับสินค้า',
+    pp_box_title:       '📲 โอนเงิน PromptPay มาที่',
+    pp_warning:         '⚠️ กรุณาโอนตามยอดที่สั่งซื้อ และแนบสลิปด้านล่าง',
+    upload_text:        'แตะเพื่อแนบสลิปโอนเงิน',
+    upload_sub:         'JPG, PNG ขนาดไม่เกิน 5MB',
+    upload_done:        '✅ แนบสลิปเรียบร้อยแล้ว',
+    upload_done_sub:    'แตะเพื่อเปลี่ยนรูป',
+    label_notes:        'หมายเหตุเพิ่มเติม (ไม่บังคับ)',
+    ph_notes:           'เช่น ส่งตอนบ่าย, ระวังเปราะบาง, ฝากไว้หน้าบ้าน...',
+    btn_submit:         '✅ ยืนยันคำสั่งซื้อ',
+    btn_submitting:     'กำลังส่งคำสั่งซื้อ...',
+    success_title:      'สั่งซื้อสำเร็จแล้ว!',
+    success_subtitle:   'เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว',
+    order_number_label: 'หมายเลขคำสั่งซื้อของคุณ',
+    order_note_track:   'กรุณาจดหมายเลขนี้ไว้สำหรับติดตามสถานะ',
+    success_items_hdr:  '📋 สรุปรายการสั่งซื้อ',
+    success_addr_hdr:   '📍 ที่อยู่จัดส่ง',
+    total_label:        'รวมทั้งสิ้น',
+    pay_reminder_title: '💳 ขั้นตอนการชำระเงิน',
+    pay_reminder_1:     'กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay',
+    pay_reminder_2:     '',
+    pay_reminder_3:     'หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE:',
+    btn_home:           '← กลับหน้าหลัก',
+    toast_required:     'กรุณากรอกข้อมูลให้ครบถ้วน',
+    toast_error:        'เกิดข้อผิดพลาด กรุณาลองใหม่',
+    acc_no:             '· เลขที่',
+    items_unit:         'รายการ',
+  },
+  en: {
+    loader_sub:         'HANDCRAFTED CHEROOT',
+    hero_title:         'SKP Cheroot',
+    hero_sub:           'Handcrafted · Traditional Recipe · Carefully Sourced',
+    section_products:   'Our Products',
+    no_products:        'No products available',
+    order_now:          'Order Now →',
+    checkout_header:    'Order Details',
+    checkout_sub:       'Order Details',
+    order_summary:      'Order Summary',
+    grand_total:        'Grand Total',
+    customer_info:      'Recipient Information',
+    label_name:         'Full Name',
+    ph_name:            'First and Last Name',
+    err_name:           'Please enter your name',
+    label_phone:        'Phone Number',
+    err_phone:          'Please enter a valid phone number',
+    delivery_address:   'Delivery Address',
+    label_addr:         'House No / Street / Village',
+    ph_addr:            'e.g. 123/4 Main Street',
+    err_addr:           'Please enter your address',
+    label_province:     'Province',
+    select_province:    '— Select Province —',
+    err_province:       'Please select a province',
+    label_district:     'District',
+    select_district:    '— Select District —',
+    select_prov_first:  '— Select Province First —',
+    err_district:       'Please select a district',
+    label_sub:          'Subdistrict',
+    select_sub:         '— Select Subdistrict —',
+    select_dist_first:  '— Select District First —',
+    err_sub:            'Please select a subdistrict',
+    label_postal:       'Postal Code',
+    err_postal:         'Please enter postal code',
+    payment_method:     'Payment Method',
+    pay_promptpay:      'Bank Transfer / PromptPay',
+    pay_promptpay_desc: 'Pay before delivery · Attach slip after transfer',
+    pay_cod:            'Cash on Delivery (COD)',
+    pay_cod_desc:       'Pay when you receive your order',
+    pp_box_title:       '📲 Transfer via PromptPay to',
+    pp_warning:         '⚠️ Transfer exact order amount and attach slip below',
+    upload_text:        'Tap to attach transfer slip',
+    upload_sub:         'JPG, PNG max 5MB',
+    upload_done:        '✅ Slip attached',
+    upload_done_sub:    'Tap to change',
+    label_notes:        'Additional Notes (Optional)',
+    ph_notes:           'e.g. Deliver in afternoon, handle with care...',
+    btn_submit:         '✅ Confirm Order',
+    btn_submitting:     'Placing order...',
+    success_title:      'Order Placed!',
+    success_subtitle:   "We've received your order",
+    order_number_label: 'Your Order Number',
+    order_note_track:   'Keep this number for tracking',
+    success_items_hdr:  '📋 Order Summary',
+    success_addr_hdr:   '📍 Delivery Address',
+    total_label:        'Total',
+    pay_reminder_title: '💳 Payment Instructions',
+    pay_reminder_1:     'Please transfer the exact amount to PromptPay',
+    pay_reminder_2:     '',
+    pay_reminder_3:     "If you haven't attached your slip, send it to LINE:",
+    btn_home:           '← Back to Home',
+    toast_required:     'Please fill in all required fields',
+    toast_error:        'An error occurred, please try again',
+    acc_no:             '· Acc No.',
+    items_unit:         'item(s)',
+  }
+}
+
+let currentLang = localStorage.getItem('lang') || 'my'
+
+function t(key) {
+  return (TRANSLATIONS[currentLang] || TRANSLATIONS.my)[key] || key
+}
+
+function setLang(lang) {
+  currentLang = lang
+  localStorage.setItem('lang', lang)
+  document.documentElement.lang = lang
+
+  // Update static text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n)
+  })
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPh)
+  })
+
+  // Update active lang buttons (both headers)
+  ;['','2'].forEach(suffix => {
+    ;['my','th','en'].forEach(l => {
+      const btn = document.getElementById('lang-' + l + suffix)
+      if (btn) btn.classList.toggle('active', l === lang)
+    })
+  })
+
+  // Update geo dropdown placeholders
+  const provSel = document.getElementById('f-province')
+  if (provSel && provSel.options.length > 0) provSel.options[0].text = t('select_province')
+  const distSel = document.getElementById('f-district')
+  if (distSel && distSel.options.length > 0)
+    distSel.options[0].text = distSel.disabled ? t('select_prov_first') : t('select_district')
+  const subSel = document.getElementById('f-subdistrict')
+  if (subSel && subSel.options.length > 0)
+    subSel.options[0].text = subSel.disabled ? t('select_dist_first') : t('select_sub')
+
+  // Re-render dynamic content
+  updateCartBar()
+  renderProducts()
+}
+
+// ============================================================
+//  ⚙️  CONFIGURATION
 // ============================================================
 const SUPABASE_URL = 'https://yufalisxhyhcuejmbpsa.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
 
-const PROMPTPAY_NUMBER = '0XX-XXX-XXXX'  // â à¹à¸à¸¥à¸µà¹à¸¢à¸à¹à¸à¹à¸à¹à¸à¸­à¸£à¹à¸à¸£à¹à¸­à¸¡à¹à¸à¸¢à¹à¸à¸­à¸à¸à¸¸à¸
-const ACCOUNT_NAME     = 'à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥' // â à¸à¸·à¹à¸­à¹à¸à¹à¸²à¸à¸­à¸à¸à¸±à¸à¸à¸µ
-const BANK_NAME        = 'à¸à¸à¸²à¸à¸²à¸£ XXX'    // â à¸à¸·à¹à¸­à¸à¸à¸²à¸à¸²à¸£
-const ACCOUNT_NUMBER   = 'XXX-X-XXXXX-X' // â à¹à¸¥à¸à¸à¸µà¹à¸à¸±à¸à¸à¸µ
-const SHOP_LINE        = '@skpheritage'  // â à¹à¸¥à¸à¹à¸£à¹à¸²à¸à¸à¹à¸²à¸à¸­à¸à¸à¸¸à¸
+const PROMPTPAY_NUMBER = '0XX-XXX-XXXX'  // ← เปลี่ยนเป็นเบอร์พร้อมเพย์
+const ACCOUNT_NAME     = 'ชื่อ-นามสกุล'
+const BANK_NAME        = 'ธนาคาร XXX'
+const ACCOUNT_NUMBER   = 'XXX-X-XXXXX-X'
+const SHOP_LINE        = '@skpheritage'
 // ============================================================
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 
 let products = []
 let cart = {}
-let geoData = null
 let slipFile = null
 let selectedPayment = 'promptpay'
 
 // ---- INIT ----
 async function init() {
+  // Apply saved language
+  setLang(currentLang)
+
   document.getElementById('pp-number').textContent = PROMPTPAY_NUMBER
   document.getElementById('pp-name').textContent   = ACCOUNT_NAME
-  document.getElementById('pp-bank').textContent   = BANK_NAME + ' Â· à¹à¸¥à¸à¸à¸µà¹ ' + ACCOUNT_NUMBER
+  document.getElementById('pp-bank').textContent   = BANK_NAME + ' ' + t('acc_no') + ' ' + ACCOUNT_NUMBER
   document.getElementById('success-pp-num').textContent = PROMPTPAY_NUMBER
   document.getElementById('success-line').textContent   = SHOP_LINE
 
@@ -458,24 +726,32 @@ function productPlaceholderSVG(idx) {
 
 function renderProducts() {
   const list = document.getElementById('products-list')
+  if (!list) return
   if (!products.length) {
-    list.innerHTML = '<div style="text-align:center;padding:40px;color:#7A5C3C">à¹à¸¡à¹à¸à¸à¸ªà¸´à¸à¸à¹à¸²à¹à¸à¸à¸à¸°à¸à¸µà¹</div>'
+    list.innerHTML = `<div style="text-align:center;padding:40px;color:#7A5C3C">${t('no_products')}</div>`
     return
   }
   list.innerHTML = products.map(p => {
     const imgHtml = p.image_url
       ? `<img src="${p.image_url}" alt="${p.name_th}">`
       : productPlaceholderSVG(p.sort_order || 1)
+    const nameDisplay = currentLang === 'th' ? (p.name_th || p.name) :
+                        currentLang === 'my' ? (p.name_my || p.name_th || p.name) :
+                        (p.name || p.name_th)
+    const nameSub     = currentLang === 'my' ? (p.name_th || p.name) : p.name
+    const descDisplay = currentLang === 'th' ? (p.description_th || p.description || '') :
+                        currentLang === 'my' ? (p.description_my || p.description_th || p.description || '') :
+                        (p.description || p.description_th || '')
     return `<div class="product-card">
       <div class="product-img">${imgHtml}</div>
       <div class="product-info">
-        <div class="product-name-th">${p.name_th || p.name}</div>
-        <div class="product-name-en">${p.name}</div>
-        <div class="product-desc">${p.description_th || p.description || ''}</div>
+        <div class="product-name-th">${nameDisplay}</div>
+        <div class="product-name-en">${nameSub}</div>
+        <div class="product-desc">${descDisplay}</div>
         <div class="product-bottom">
-          <div class="product-price">à¸¿${Number(p.price).toLocaleString()}<span class="unit">/${p.unit}</span></div>
+          <div class="product-price">฿${Number(p.price).toLocaleString()}<span class="unit">/${p.unit}</span></div>
           <div class="qty-control">
-            <button class="qty-btn" onclick="changeQty('${p.id}',-1)">â</button>
+            <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
             <span class="qty-val" id="qty-${p.id}">0</span>
             <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
           </div>
@@ -498,8 +774,8 @@ function updateCartBar() {
   const totalItems = Object.values(cart).reduce((a, b) => a + b, 0)
   const totalPrice = getCartTotal()
   document.getElementById('cart-bar').classList.toggle('visible', totalItems > 0)
-  document.getElementById('cart-count').textContent = totalItems + ' à¸£à¸²à¸¢à¸à¸²à¸£'
-  document.getElementById('cart-total').textContent = 'à¸¿' + Number(totalPrice).toLocaleString()
+  document.getElementById('cart-count').textContent = totalItems + ' ' + t('items_unit')
+  document.getElementById('cart-total').textContent = '฿' + Number(totalPrice).toLocaleString()
 }
 
 function getCartItems() {
@@ -507,7 +783,7 @@ function getCartItems() {
     .filter(([, qty]) => qty > 0)
     .map(([id, qty]) => {
       const p = products.find(x => x.id === id)
-      return { id, name: p.name, name_th: p.name_th, price: Number(p.price), qty, subtotal: Number(p.price) * qty, unit: p.unit }
+      return { id, name: p.name, name_th: p.name_th, name_my: p.name_my || p.name_th, price: Number(p.price), qty, subtotal: Number(p.price) * qty, unit: p.unit }
     })
 }
 
@@ -530,16 +806,18 @@ function goToCheckout() {
 
 function renderOrderSummary() {
   const items = getCartItems()
-  document.getElementById('order-summary-items').innerHTML = items.map(i =>
-    `<div class="summary-item">
-      <span>${i.name_th} Ã ${i.qty} ${i.unit}</span>
-      <span>à¸¿${Number(i.subtotal).toLocaleString()}</span>
+  document.getElementById('order-summary-items').innerHTML = items.map(i => {
+    const nm = currentLang === 'my' ? (i.name_my || i.name_th) :
+               currentLang === 'en' ? (i.name || i.name_th) : i.name_th
+    return `<div class="summary-item">
+      <span>${nm} × ${i.qty} ${i.unit}</span>
+      <span>฿${Number(i.subtotal).toLocaleString()}</span>
     </div>`
-  ).join('')
-  document.getElementById('summary-total-val').textContent = 'à¸¿' + Number(getCartTotal()).toLocaleString()
+  }).join('')
+  document.getElementById('summary-total-val').textContent = '฿' + Number(getCartTotal()).toLocaleString()
 }
 
-// ---- THAI GEO (fetched dynamically from authoritative source) ----
+// ---- THAI GEO ----
 let THAI_PROVINCES = []
 
 async function loadThaiGeoData() {
@@ -552,15 +830,15 @@ async function loadThaiGeoData() {
     const r = await fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json')
     const data = await r.json()
     THAI_PROVINCES = data.map(p => {
-      const isBkk = p.name_th === 'à¸à¸£à¸¸à¸à¹à¸à¸à¸¡à¸«à¸²à¸à¸à¸£'
+      const isBkk = p.name_th === 'กรุงเทพมหานคร'
       return {
         n: p.name_th,
         d: p.amphure.map(a => {
-          const dName = isBkk ? a.name_th.replace(/^à¹à¸à¸/, '') : a.name_th.replace(/^à¸­à¸³à¹à¸ à¸­/, '')
+          const dName = isBkk ? a.name_th.replace(/^เขต/, '') : a.name_th.replace(/^อำเภอ/, '')
           return {
             n: dName,
             s: a.tambon.map(t => ({
-              n: isBkk ? t.name_th.replace(/^à¹à¸à¸§à¸/, '') : t.name_th.replace(/^à¸à¸³à¸à¸¥/, ''),
+              n: isBkk ? t.name_th.replace(/^แขวง/, '') : t.name_th.replace(/^ตำบล/, ''),
               z: t.zip_code
             }))
           }
@@ -573,11 +851,10 @@ async function loadThaiGeoData() {
   }
 }
 
-
 async function loadGeo() {
   await loadThaiGeoData()
   const sel = document.getElementById('f-province')
-  sel.innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸ â</option>'
+  sel.innerHTML = `<option value="">${t('select_province')}</option>`
   THAI_PROVINCES.forEach((p,i) => {
     sel.innerHTML += `<option value="${i}">${p.n}</option>`
   })
@@ -587,9 +864,9 @@ function onProvinceChange() {
   const idx = document.getElementById('f-province').value
   const distSel = document.getElementById('f-district')
   const subSel = document.getElementById('f-subdistrict')
-  distSel.innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸ â</option>'
+  distSel.innerHTML = `<option value="">${t('select_district')}</option>`
   distSel.disabled = true
-  subSel.innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸à¸à¹à¸­à¸ â</option>'
+  subSel.innerHTML = `<option value="">${t('select_prov_first')}</option>`
   subSel.disabled = true
   document.getElementById('f-postal').value = ''
   if (idx === '') return
@@ -605,7 +882,7 @@ function onDistrictChange() {
   const provIdx = document.getElementById('f-province').value
   const distIdx = document.getElementById('f-district').value
   const subSel = document.getElementById('f-subdistrict')
-  subSel.innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸à¸³à¸à¸¥/à¹à¸à¸§à¸ â</option>'
+  subSel.innerHTML = `<option value="">${t('select_sub')}</option>`
   subSel.disabled = true
   document.getElementById('f-postal').value = ''
   if (provIdx === '' || distIdx === '') return
@@ -633,8 +910,8 @@ function selectPayment(method) {
   const isPromptPay = method === 'promptpay'
   document.getElementById('opt-promptpay').classList.toggle('selected', isPromptPay)
   document.getElementById('opt-cod').classList.toggle('selected', !isPromptPay)
-  document.querySelector('#opt-promptpay .pay-check').textContent = isPromptPay ? 'â' : ''
-  document.querySelector('#opt-cod .pay-check').textContent = !isPromptPay ? 'â' : ''
+  document.querySelector('#opt-promptpay .pay-check').textContent = isPromptPay ? '✓' : ''
+  document.querySelector('#opt-cod .pay-check').textContent = !isPromptPay ? '✓' : ''
   document.getElementById('promptpay-box').classList.toggle('visible', isPromptPay)
   document.getElementById('upload-box').classList.toggle('visible', isPromptPay)
 }
@@ -649,12 +926,13 @@ function onSlipSelected(e) {
     const prev = document.getElementById('slip-preview')
     prev.src = ev.target.result
     prev.style.display = 'block'
-    document.getElementById('upload-text').innerHTML = 'â à¹à¸à¸à¸ªà¸¥à¸´à¸à¹à¸£à¸µà¸¢à¸à¸£à¹à¸­à¸¢à¹à¸¥à¹à¸§<br><span style="font-size:11px;opacity:.7">à¹à¸à¸°à¹à¸à¸·à¹à¸­à¹à¸à¸¥à¸µà¹à¸¢à¸à¸£à¸¹à¸</span>'
+    document.getElementById('upload-text').innerHTML =
+      `${t('upload_done')}<br><span style="font-size:11px;opacity:.7">${t('upload_done_sub')}</span>`
   }
   reader.readAsDataURL(file)
 }
 
-async function uploadSlip(orderId) {
+as function uploadSlip(orderId) {
   if (!slipFile) return null
   try {
     const ext  = slipFile.name.split('.').pop() || 'jpg'
@@ -696,9 +974,9 @@ function validate() {
 
 // ---- SUBMIT ORDER ----
 async function submitOrder() {
-  if (!validate()) { showToast('à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¹à¸­à¸¡à¸¹à¸¥à¹à¸«à¹à¸à¸£à¸à¸à¹à¸§à¸', 'error'); return }
+  if (!validate()) { showToast(t('toast_required'), 'error'); return }
   const btn = document.getElementById('btn-submit')
-  btn.disabled = true; btn.textContent = 'à¸à¸³à¸¥à¸±à¸à¸ªà¹à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­...'
+  btn.disabled = true; btn.textContent = t('btn_submitting')
 
   try {
     const items = getCartItems()
@@ -724,7 +1002,6 @@ async function submitOrder() {
 
     if (error) throw error
 
-    // Upload slip in background
     if (slipFile && selectedPayment === 'promptpay') {
       const slipUrl = await uploadSlip(order.id)
       if (slipUrl) await sb.from('orders').update({ payment_slip_url: slipUrl }).eq('id', order.id)
@@ -733,28 +1010,30 @@ async function submitOrder() {
     showSuccess(order, items, total, prov, dist, sub)
   } catch (e) {
     console.error(e)
-    showToast('à¹à¸à¸´à¸à¸à¹à¸­à¸à¸´à¸à¸à¸¥à¸²à¸ à¸à¸£à¸¸à¸à¸²à¸¥à¸­à¸à¹à¸«à¸¡à¹', 'error')
-    btn.disabled = false; btn.textContent = 'â à¸¢à¸·à¸à¸¢à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­'
+    showToast(t('toast_error'), 'error')
+    btn.disabled = false; btn.textContent = t('btn_submit')
   }
 }
 
 // ---- SHOW SUCCESS ----
 function showSuccess(order, items, total, prov, dist, sub) {
-  document.getElementById('success-order-num').textContent = order.order_number || 'â'
+  document.getElementById('success-order-num').textContent = order.order_number || '—'
 
   document.getElementById('success-items').innerHTML =
-    items.map(i =>
-      `<div class="success-info-row"><span>${i.name_th} Ã ${i.qty} ${i.unit}</span><span>à¸¿${Number(i.subtotal).toLocaleString()}</span></div>`
-    ).join('') +
+    items.map(i => {
+      const nm = currentLang === 'my' ? (i.name_my || i.name_th) :
+                 currentLang === 'en' ? (i.name || i.name_th) : i.name_th
+      return `<div class="success-info-row"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
+    }).join('') +
     `<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px">
-      <span><strong>à¸£à¸§à¸¡à¸à¸±à¹à¸à¸ªà¸´à¹à¸</strong></span><span><strong>à¸¿${Number(total).toLocaleString()}</strong></span></div>`
+      <span><strong>${t('total_label')}</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
 
   const addrDetail = document.getElementById('f-addr').value.trim()
   const postal     = document.getElementById('f-postal').value
   const phone      = document.getElementById('f-phone').value.trim()
   const custName   = document.getElementById('f-name').value.trim()
   document.getElementById('success-address').innerHTML =
-    `${custName}<br>${addrDetail}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">ð ${phone}</span>`
+    `${custName}<br>${addrDetail}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">📞 ${phone}</span>`
 
   const isPromptPay = selectedPayment === 'promptpay'
   document.getElementById('success-pay-reminder').style.display = isPromptPay ? 'block' : 'none'
@@ -769,24 +1048,25 @@ function resetAndGoHome() {
   products.forEach(p => { const el = document.getElementById('qty-' + p.id); if (el) el.textContent = 0 })
   ;['f-name','f-phone','f-addr','f-notes'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '' })
   document.getElementById('f-province').value = ''
-  document.getElementById('f-district').innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸à¸à¹à¸­à¸ â</option>'
+  document.getElementById('f-district').innerHTML = `<option value="">${t('select_prov_first')}</option>`
   document.getElementById('f-district').disabled = true
   const subSel = document.getElementById('f-subdistrict')
-  subSel.innerHTML = '<option value="">â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸à¸à¹à¸­à¸ â</option>'
+  subSel.innerHTML = `<option value="">${t('select_dist_first')}</option>`
   subSel.disabled = true
   document.getElementById('f-postal').value = ''
   document.getElementById('slip-preview').style.display = 'none'
-  document.getElementById('upload-text').innerHTML = 'à¹à¸à¸°à¹à¸à¸·à¹à¸­à¹à¸à¸à¸ªà¸¥à¸´à¸à¹à¸­à¸à¹à¸à¸´à¸<br><span style="font-size:11px;opacity:.7">JPG, PNG à¸à¸à¸²à¸à¹à¸¡à¹à¹à¸à¸´à¸ 5MB</span>'
-  const btn = document.getElementById('btn-submit'); btn.disabled = false; btn.textContent = 'â à¸¢à¸·à¸à¸¢à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­'
+  document.getElementById('upload-text').innerHTML =
+    `<span data-i18n="upload_text">${t('upload_text')}</span><br><span style="font-size:11px;opacity:.7" data-i18n="upload_sub">${t('upload_sub')}</span>`
+  const btn = document.getElementById('btn-submit'); btn.disabled = false; btn.textContent = t('btn_submit')
   selectPayment('promptpay')
   showView('products')
 }
 
 // ---- TOAST ----
 function showToast(msg, type = '') {
-  const t = document.getElementById('toast')
-  t.textContent = msg; t.className = 'toast show ' + type
-  setTimeout(() => { t.className = 'toast' }, 3200)
+  const t2 = document.getElementById('toast')
+  t2.textContent = msg; t2.className = 'toast show ' + type
+  setTimeout(() => { t2.className = 'toast' }, 3200)
 }
 
 // ---- START ----
@@ -794,3 +1074,4 @@ init()
 </script>
 </body>
 </html>
+l>
