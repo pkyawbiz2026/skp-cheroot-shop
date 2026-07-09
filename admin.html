@@ -263,6 +263,7 @@ input,select,textarea{font-family:inherit;outline:none}
 //  CONFIGURATION
 // ============================================================
 const ADMIN_FUNCTION_URL = 'https://yufalisxhyhcuejmbpsa.supabase.co/functions/v1/admin-orders'
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
 const ADMIN_PASSWORD_KEY = 'skp_admin_pw'  // localStorage key
 
 let adminPassword = ''
@@ -283,7 +284,7 @@ function doLogin() {
 async function callAdmin(action, extra = {}) {
   const res = await fetch(ADMIN_FUNCTION_URL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY },
     body: JSON.stringify({ password: adminPassword, action, ...extra })
   })
   const json = await res.json()
