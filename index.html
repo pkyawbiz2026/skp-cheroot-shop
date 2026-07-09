@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>ရွှေရတု · Golden Flying Tiger</title>
+<title>áá½á¾á±ááá¯ Â· Golden Flying Tiger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -170,25 +170,25 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 
 <!-- LOADING -->
 <div id="loading">
-  <div class="loader-logo">ရွှေရတု</div>
+  <div class="loader-logo">áá½á¾á±ááá¯</div>
   <div class="loader-sub">Golden Flying Tiger</div>
   <div class="spinner"></div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════
+<!-- âââââââââââââââââââââââââââ
      VIEW: PRODUCTS
-     ═══════════════════════════ -->
+     âââââââââââââââââââââââââââ -->
 <div class="view active" id="view-products">
 
   <div class="header">
-    <img src="assets/main_logo.png" class="header-logo-img" alt="ရွှေရတု"
+    <img src="assets/main_logo.png" class="header-logo-img" alt="áá½á¾á±ááá¯"
          onerror="this.style.display='none';document.querySelector('.header-logo-fallback').style.display='block'">
-    <div class="header-logo-fallback">ရွှေရတု</div>
+    <div class="header-logo-fallback">áá½á¾á±ááá¯</div>
     <div class="lang-switcher">
-      <button id="lang-my"  class="lang-btn active" onclick="setLang('my')">မြန်မာ</button>
-      <button id="lang-th"  class="lang-btn"        onclick="setLang('th')">ไทย</button>
+      <button id="lang-my"  class="lang-btn active" onclick="setLang('my')">áá¼ááºáá¬</button>
+      <button id="lang-th"  class="lang-btn"        onclick="setLang('th')">à¹à¸à¸¢</button>
       <button id="lang-en"  class="lang-btn"        onclick="setLang('en')">EN</button>
     </div>
   </div>
@@ -199,125 +199,125 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
 <!-- Cart bar -->
 <div class="cart-bar" id="cart-bar">
   <div class="cart-info">
-    <div class="cart-count" id="cart-count">0 ပစ္စည်း</div>
-    <div class="cart-total" id="cart-total">฿0</div>
+    <div class="cart-count" id="cart-count">0 ááá¹áááºá¸</div>
+    <div class="cart-total" id="cart-total">à¸¿0</div>
   </div>
-  <button class="btn-order" onclick="goToCheckout()" data-i18n="order_now">အမှာစာ →</button>
+  <button class="btn-order" onclick="goToCheckout()" data-i18n="order_now">á¡áá¾á¬áá¬ â</button>
 </div>
 
 
-<!-- ═══════════════════════════
+<!-- âââââââââââââââââââââââââââ
      VIEW: CHECKOUT
-     ═══════════════════════════ -->
+     âââââââââââââââââââââââââââ -->
 <div class="view" id="view-checkout">
   <div class="header">
-    <button class="header-back" onclick="showView('products')">←</button>
-    <div class="header-logo-fallback" style="display:block" data-i18n="checkout_header">အမှာစာ အသေးစိတ်</div>
+    <button class="header-back" onclick="showView('products')">â</button>
+    <div class="header-logo-fallback" style="display:block" data-i18n="checkout_header">á¡áá¾á¬áá¬ á¡áá±á¸áá­ááº</div>
     <div class="lang-switcher">
-      <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">မြန်မာ</button>
-      <button id="lang-th2" class="lang-btn"        onclick="setLang('th')">ไทย</button>
+      <button id="lang-my2" class="lang-btn active" onclick="setLang('my')">áá¼ááºáá¬</button>
+      <button id="lang-th2" class="lang-btn"        onclick="setLang('th')">à¹à¸à¸¢</button>
       <button id="lang-en2" class="lang-btn"        onclick="setLang('en')">EN</button>
     </div>
   </div>
 
   <div class="form-section" style="margin-top:12px">
-    <div class="form-section-header"><span class="form-section-icon">🛒</span><span class="form-section-title" data-i18n="order_summary">မှာယူသောပစ္စည်းများ</span></div>
+    <div class="form-section-header"><span class="form-section-icon">ð</span><span class="form-section-title" data-i18n="order_summary">áá¾á¬áá°áá±á¬ááá¹áááºá¸áá»á¬á¸</span></div>
     <div class="order-summary-items" id="order-summary-items"></div>
-    <div class="summary-total"><span data-i18n="grand_total">စုစုပေါင်း</span><span id="summary-total-val">฿0</span></div>
+    <div class="summary-total"><span data-i18n="grand_total">áá¯áá¯áá±á«ááºá¸</span><span id="summary-total-val">à¸¿0</span></div>
   </div>
 
   <div class="form-section">
-    <div class="form-section-header"><span class="form-section-icon">👤</span><span class="form-section-title" data-i18n="customer_info">လက်ခံသူ၏ အချက်အလက်</span></div>
+    <div class="form-section-header"><span class="form-section-icon">ð¤</span><span class="form-section-title" data-i18n="customer_info">áááºáá¶áá°á á¡áá»ááºá¡áááº</span></div>
     <div class="form-body">
       <div>
-        <label class="field-label"><span data-i18n="label_name">နာမည်</span><span class="req">*</span></label>
-        <input id="f-name" type="text" class="field-input" data-i18n-ph="ph_name" placeholder="နာမည် မြတ်မြတ်" autocomplete="name">
-        <div class="error-msg" id="err-name" data-i18n="err_name">ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ</div>
+        <label class="field-label"><span data-i18n="label_name">áá¬áááº</span><span class="req">*</span></label>
+        <input id="f-name" type="text" class="field-input" data-i18n-ph="ph_name" placeholder="áá¬áááº áá¼ááºáá¼ááº" autocomplete="name">
+        <div class="error-msg" id="err-name" data-i18n="err_name">áá»á±á¸áá°á¸áá¼á¯á áá¬áááºáá¼áá·áºáá«</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_phone">ဖုန်းနံပါတ်</span><span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_phone">áá¯ááºá¸áá¶áá«ááº</span><span class="req">*</span></label>
         <input id="f-phone" type="tel" class="field-input" placeholder="0XX-XXX-XXXX" autocomplete="tel" inputmode="numeric">
-        <div class="error-msg" id="err-phone" data-i18n="err_phone">မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ</div>
+        <div class="error-msg" id="err-phone" data-i18n="err_phone">áá¾ááºáááºáá±á¬áá¯ááºá¸áá¶áá«ááºáá¼áá·áºáá«</div>
       </div>
     </div>
   </div>
 
   <div class="form-section">
-    <div class="form-section-header"><span class="form-section-icon">📍</span><span class="form-section-title" data-i18n="delivery_address">ပို့ဆောင်ရမည့်လိပ်စာ</span></div>
+    <div class="form-section-header"><span class="form-section-icon">ð</span><span class="form-section-title" data-i18n="delivery_address">áá­á¯á·áá±á¬ááºáááá·áºáá­ááºáá¬</span></div>
     <div class="form-body">
       <div>
-        <label class="field-label"><span data-i18n="label_addr">အိမ်အမှတ် / လမ်း / ရပ်ကွက်</span><span class="req">*</span></label>
-        <textarea id="f-addr" class="field-input" data-i18n-ph="ph_addr" placeholder="ဥပမာ ၁၂၃/၄ လမ်းနာမည်" rows="3"></textarea>
-        <div class="error-msg" id="err-addr" data-i18n="err_addr">ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ</div>
+        <label class="field-label"><span data-i18n="label_addr">á¡á­ááºá¡áá¾ááº / áááºá¸ / áááºáá½ááº</span><span class="req">*</span></label>
+        <textarea id="f-addr" class="field-input" data-i18n-ph="ph_addr" placeholder="á¥ááá¬ ááá/á áááºá¸áá¬áááº" rows="3"></textarea>
+        <div class="error-msg" id="err-addr" data-i18n="err_addr">áá»á±á¸áá°á¸áá¼á¯á áá­ááºáá¬áá¼áá·áºáá«</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_province">ပြည်နယ်/တိုင်း</span><span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_province">áá¼ááºáááº/áá­á¯ááºá¸</span><span class="req">*</span></label>
         <select id="f-province" class="field-input" onchange="onProvinceChange()">
-          <option value="">— ပြည်နယ်/တိုင်း ရွေးပါ —</option>
+          <option value="">â áá¼ááºáááº/áá­á¯ááºá¸ áá½á±á¸áá« â</option>
         </select>
-        <div class="error-msg" id="err-province" data-i18n="err_province">ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ</div>
+        <div class="error-msg" id="err-province" data-i18n="err_province">áá»á±á¸áá°á¸áá¼á¯á áá¼ááºáááº/áá­á¯ááºá¸ áá½á±á¸áá«</div>
       </div>
       <div>
-        <label class="field-label"><span data-i18n="label_district">ခရိုင်/ကွင်း</span><span class="req">*</span></label>
+        <label class="field-label"><span data-i18n="label_district">ááá­á¯ááº/áá½ááºá¸</span><span class="req">*</span></label>
         <select id="f-district" class="field-input" disabled onchange="onDistrictChange()">
-          <option value="">— ပြည်နယ်/တိုင်းဦးရွေးပါ —</option>
+          <option value="">â áá¼ááºáááº/áá­á¯ááºá¸á¦á¸áá½á±á¸áá« â</option>
         </select>
-        <div class="error-msg" id="err-district" data-i18n="err_district">ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ</div>
+        <div class="error-msg" id="err-district" data-i18n="err_district">áá»á±á¸áá°á¸áá¼á¯á ááá­á¯ááº/áá½ááºá¸ áá½á±á¸áá«</div>
       </div>
       <div class="field-row">
         <div>
-          <label class="field-label"><span data-i18n="label_sub">မြို့နယ်/ရပ်ကွက်</span><span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_sub">áá¼á­á¯á·áááº/áááºáá½ááº</span><span class="req">*</span></label>
           <select id="f-subdistrict" class="field-input" disabled onchange="onSubDistrictChange()">
-            <option value="">— ခရိုင်/ကွင်းဦးရွေးပါ —</option>
+            <option value="">â ááá­á¯ááº/áá½ááºá¸á¦á¸áá½á±á¸áá« â</option>
           </select>
-          <div class="error-msg" id="err-subdistrict" data-i18n="err_sub">ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ</div>
+          <div class="error-msg" id="err-subdistrict" data-i18n="err_sub">áá»á±á¸áá°á¸áá¼á¯á áá¼á­á¯á·áááº/áááºáá½ááº áá½á±á¸áá«</div>
         </div>
         <div>
-          <label class="field-label"><span data-i18n="label_postal">စာပို့ကုဒ်</span><span class="req">*</span></label>
+          <label class="field-label"><span data-i18n="label_postal">áá¬áá­á¯á·áá¯ááº</span><span class="req">*</span></label>
           <input id="f-postal" type="text" class="field-input" placeholder="xxxxx" inputmode="numeric" maxlength="5">
-          <div class="error-msg" id="err-postal" data-i18n="err_postal">ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ</div>
+          <div class="error-msg" id="err-postal" data-i18n="err_postal">áá»á±á¸áá°á¸áá¼á¯á áá¬áá­á¯á·áá¯ááºáá¼áá·áºáá«</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="form-section">
-    <div class="form-section-header"><span class="form-section-icon">💳</span><span class="form-section-title" data-i18n="payment_method">ငွေပေးချေနည်း</span></div>
+    <div class="form-section-header"><span class="form-section-icon">ð³</span><span class="form-section-title" data-i18n="payment_method">áá½á±áá±á¸áá»á±áááºá¸</span></div>
     <div class="form-body">
       <div class="pay-options">
         <label class="pay-option selected" id="opt-promptpay" onclick="selectPayment('promptpay')">
           <input type="radio" name="payment" value="promptpay" checked>
-          <span class="pay-icon">📲</span>
+          <span class="pay-icon">ð²</span>
           <span class="pay-label">
-            <strong data-i18n="pay_promptpay">လွှဲငွေ / PromptPay</strong>
-            <span data-i18n="pay_promptpay_desc">လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ</span>
+            <strong data-i18n="pay_promptpay">áá½á¾á²áá½á± / PromptPay</strong>
+            <span data-i18n="pay_promptpay_desc">áá½á¾á²áá¼á®á¸áá¾ áá±á¸áá­á¯á·áááº Â· áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áá«</span>
           </span>
-          <span class="pay-check">✓</span>
+          <span class="pay-check">â</span>
         </label>
         <label class="pay-option" id="opt-cod" onclick="selectPayment('cod')">
           <input type="radio" name="payment" value="cod">
-          <span class="pay-icon">📦</span>
+          <span class="pay-icon">ð¦</span>
           <span class="pay-label">
-            <strong data-i18n="pay_cod">ငွေချေ (COD)</strong>
-            <span data-i18n="pay_cod_desc">ပစ္စည်းရောက်မှ ငွေပေးချေပါ</span>
+            <strong data-i18n="pay_cod">áá½á±áá»á± (COD)</strong>
+            <span data-i18n="pay_cod_desc">ááá¹áááºá¸áá±á¬ááºáá¾ áá½á±áá±á¸áá»á±áá«</span>
           </span>
           <span class="pay-check"></span>
         </label>
       </div>
       <div class="promptpay-box visible" id="promptpay-box">
-        <div class="promptpay-title" data-i18n="pp_box_title">📲 PromptPay သို့ ငွေလွှဲပါ</div>
-        <div class="promptpay-number" id="pp-number">—</div>
-        <div class="promptpay-name"   id="pp-name">—</div>
+        <div class="promptpay-title" data-i18n="pp_box_title">ð² PromptPay áá­á¯á· áá½á±áá½á¾á²áá«</div>
+        <div class="promptpay-number" id="pp-number">â</div>
+        <div class="promptpay-name"   id="pp-name">â</div>
         <hr class="pp-divider">
-        <div class="promptpay-bank"   id="pp-bank">—</div>
-        <div style="font-size:12px;opacity:.7;margin-top:10px" data-i18n="pp_warning">⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ</div>
+        <div class="promptpay-bank"   id="pp-bank">â</div>
+        <div style="font-size:12px;opacity:.7;margin-top:10px" data-i18n="pp_warning">â ï¸ áá¾á¬áá°áá±á¬ááá¬áá¡áá­á¯ááºá¸ áá½á¾á²áá¼á®á¸ áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áá«</div>
       </div>
       <div class="upload-box visible" id="upload-box" onclick="document.getElementById('slip-input').click()">
         <input type="file" id="slip-input" accept="image/*" onchange="onSlipSelected(event)">
-        <div class="upload-icon">📎</div>
+        <div class="upload-icon">ð</div>
         <div class="upload-text" id="upload-text">
-          <span data-i18n="upload_text">ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ</span><br>
-          <span style="font-size:11px;opacity:.7" data-i18n="upload_sub">JPG, PNG ၅MB အောက်</span>
+          <span data-i18n="upload_text">áá½á±áá½á¾á²áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áááº áá¾á­ááºáá«</span><br>
+          <span style="font-size:11px;opacity:.7" data-i18n="upload_sub">JPG, PNG áMB á¡á±á¬ááº</span>
         </div>
         <img id="slip-preview" class="upload-preview" style="display:none">
       </div>
@@ -325,141 +325,141 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
   </div>
 
   <div class="form-section">
-    <div class="form-section-header"><span class="form-section-icon">📝</span><span class="form-section-title" data-i18n="label_notes">မှတ်ချက် (မလိုအပ်ပါ)</span></div>
+    <div class="form-section-header"><span class="form-section-icon">ð</span><span class="form-section-title" data-i18n="label_notes">áá¾ááºáá»ááº (ááá­á¯á¡ááºáá«)</span></div>
     <div class="form-body">
-      <textarea id="f-notes" class="field-input" data-i18n-ph="ph_notes" placeholder="ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ..." rows="2"></textarea>
+      <textarea id="f-notes" class="field-input" data-i18n-ph="ph_notes" placeholder="á¥ááá¬ - áá±á·áááºá¸áá­á¯á·áá«, ááá­áá¼áá·áºáááºáá«..." rows="2"></textarea>
     </div>
   </div>
 
-  <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">✅ အမှာစာ အတည်ပြုမည်</button>
+  <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">â á¡áá¾á¬áá¬ á¡áááºáá¼á¯áááº</button>
 </div>
 
 
-<!-- ═══════════════════════════
+<!-- âââââââââââââââââââââââââââ
      VIEW: SUCCESS
-     ═══════════════════════════ -->
+     âââââââââââââââââââââââââââ -->
 <div class="view" id="view-success">
   <div class="success-hero">
-    <div class="success-icon">✅</div>
-    <div class="success-title"    data-i18n="success_title">အမှာစာ အောင်မြင်ပြီ!</div>
-    <div class="success-subtitle" data-i18n="success_subtitle">သင်၏အမှာစာကို လက်ခံပြီးပါပြီ</div>
+    <div class="success-icon">â</div>
+    <div class="success-title"    data-i18n="success_title">á¡áá¾á¬áá¬ á¡á±á¬ááºáá¼ááºáá¼á®!</div>
+    <div class="success-subtitle" data-i18n="success_subtitle">áááºáá¡áá¾á¬áá¬áá­á¯ áááºáá¶áá¼á®á¸áá«áá¼á®</div>
   </div>
   <div class="order-number-box">
-    <div class="order-number-label" data-i18n="order_number_label">သင်၏ အမှာနံပါတ်</div>
-    <div class="order-number-val" id="success-order-num">—</div>
-    <div style="font-size:12px;color:#7A5C3C;margin-top:4px" data-i18n="order_note_track">ဒီနံပါတ်ကို မှတ်ထားပါ</div>
+    <div class="order-number-label" data-i18n="order_number_label">áááºá á¡áá¾á¬áá¶áá«ááº</div>
+    <div class="order-number-val" id="success-order-num">â</div>
+    <div style="font-size:12px;color:#7A5C3C;margin-top:4px" data-i18n="order_note_track">áá®áá¶áá«ááºáá­á¯ áá¾ááºáá¬á¸áá«</div>
   </div>
   <div class="success-info">
-    <div class="success-info-header" data-i18n="success_items_hdr">📋 မှာယူသောပစ္စည်းများ</div>
+    <div class="success-info-header" data-i18n="success_items_hdr">ð áá¾á¬áá°áá±á¬ááá¹áááºá¸áá»á¬á¸</div>
     <div class="success-info-body" id="success-items"></div>
   </div>
   <div class="success-info">
-    <div class="success-info-header" data-i18n="success_addr_hdr">📍 ပို့ဆောင်ရမည့်လိပ်စာ</div>
+    <div class="success-info-header" data-i18n="success_addr_hdr">ð áá­á¯á·áá±á¬ááºáááá·áºáá­ááºáá¬</div>
     <div class="success-info-body"><div id="success-address" style="font-size:14px;line-height:1.9;color:#1A0808"></div></div>
   </div>
   <div class="pay-reminder" id="success-pay-reminder" style="display:none">
-    <strong data-i18n="pay_reminder_title">💳 ငွေပေးချေနည်း</strong>
-    <span data-i18n="pay_reminder_1">PromptPay</span> <strong id="success-pp-num">—</strong>
-    <span data-i18n="pay_reminder_2">သို့ မှာယူသောပမာဏ လွှဲပေးပါ</span><br>
-    <span data-i18n="pay_reminder_3">ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:</span> <strong id="success-line">—</strong>
+    <strong data-i18n="pay_reminder_title">ð³ áá½á±áá±á¸áá»á±áááºá¸</strong>
+    <span data-i18n="pay_reminder_1">PromptPay</span> <strong id="success-pp-num">â</strong>
+    <span data-i18n="pay_reminder_2">áá­á¯á· áá¾á¬áá°áá±á¬ááá¬á áá½á¾á²áá±á¸áá«</span><br>
+    <span data-i18n="pay_reminder_3">áá¼ááºáá­á¯ááºá¸ ááá°á¸áá½á²ááá±á¸áá«á LINE:</span> <strong id="success-line">â</strong>
   </div>
-  <button class="btn-home" onclick="resetAndGoHome()" data-i18n="btn_home">← ပင်မစာမျက်နှာသို့</button>
+  <button class="btn-home" onclick="resetAndGoHome()" data-i18n="btn_home">â áááºááá¬áá»ááºáá¾á¬áá­á¯á·</button>
 </div>
 
 
 <script>
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  TRANSLATIONS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 const TRANSLATIONS = {
   my:{
-    order_now:'အမှာစာ →',checkout_header:'အမှာစာ အသေးစိတ်',order_summary:'မှာယူသောပစ္စည်းများ',
-    grand_total:'စုစုပေါင်း',customer_info:'လက်ခံသူ၏ အချက်အလက်',label_name:'နာမည်',
-    ph_name:'နာမည် မြတ်မြတ်',err_name:'ကျေးဇူးပြု၍ နာမည်ဖြည့်ပါ',label_phone:'ဖုန်းနံပါတ်',
-    err_phone:'မှန်ကန်သောဖုန်းနံပါတ်ဖြည့်ပါ',delivery_address:'ပို့ဆောင်ရမည့်လိပ်စာ',
-    label_addr:'အိမ်အမှတ် / လမ်း / ရပ်ကွက်',ph_addr:'ဥပမာ ၁၂၃/၄ လမ်းနာမည်',
-    err_addr:'ကျေးဇူးပြု၍ လိပ်စာဖြည့်ပါ',label_province:'ပြည်နယ်/တိုင်း',
-    select_province:'— ပြည်နယ်/တိုင်း ရွေးပါ —',err_province:'ကျေးဇူးပြု၍ ပြည်နယ်/တိုင်း ရွေးပါ',
-    label_district:'ခရိုင်/ကွင်း',select_district:'— ခရိုင်/ကွင်း ရွေးပါ —',
-    select_prov_first:'— ပြည်နယ်/တိုင်းဦးရွေးပါ —',err_district:'ကျေးဇူးပြု၍ ခရိုင်/ကွင်း ရွေးပါ',
-    label_sub:'မြို့နယ်/ရပ်ကွက်',select_sub:'— မြို့နယ် ရွေးပါ —',
-    select_dist_first:'— ခရိုင်/ကွင်းဦးရွေးပါ —',err_sub:'ကျေးဇူးပြု၍ မြို့နယ်/ရပ်ကွက် ရွေးပါ',
-    label_postal:'စာပို့ကုဒ်',err_postal:'ကျေးဇူးပြု၍ စာပို့ကုဒ်ဖြည့်ပါ',
-    payment_method:'ငွေပေးချေနည်း',pay_promptpay:'လွှဲငွေ / PromptPay',
-    pay_promptpay_desc:'လွှဲပြီးမှ ပေးပို့မည် · ဖြတ်ပိုင်းပူးတွဲပါ',pay_cod:'ငွေချေ (COD)',
-    pay_cod_desc:'ပစ္စည်းရောက်မှ ငွေပေးချေပါ',pp_box_title:'📲 PromptPay သို့ ငွေလွှဲပါ',
-    pp_warning:'⚠️ မှာယူသောပမာဏအတိုင်း လွှဲပြီး ဖြတ်ပိုင်းပူးတွဲပါ',
-    upload_text:'ငွေလွှဲဖြတ်ပိုင်းပူးတွဲရန် နှိပ်ပါ',upload_sub:'JPG, PNG ၅MB အောက်',
-    upload_done:'✅ ပူးတွဲပြီးပါပြီ',upload_done_sub:'ပြောင်းလဲရန် နှိပ်ပါ',
-    label_notes:'မှတ်ချက် (မလိုအပ်ပါ)',ph_notes:'ဥပမာ - နေ့ခင်းပို့ပါ, သတိဖြင့်တင်ပါ...',
-    btn_submit:'✅ အမှာစာ အတည်ပြုမည်',btn_submitting:'အမှာစာ ပေးပို့နေသည်...',
-    success_title:'အမှာစာ အောင်မြင်ပြီ!',success_subtitle:'သင်၏အမှာစာကို လက်ခံပြီးပါပြီ',
-    order_number_label:'သင်၏ အမှာနံပါတ်',order_note_track:'ဒီနံပါတ်ကို မှတ်ထားပါ',
-    success_items_hdr:'📋 မှာယူသောပစ္စည်းများ',success_addr_hdr:'📍 ပို့ဆောင်ရမည့်လိပ်စာ',
-    total_label:'စုစုပေါင်း',pay_reminder_title:'💳 ငွေပေးချေနည်း',pay_reminder_1:'PromptPay',
-    pay_reminder_2:'သို့ မှာယူသောပမာဏ လွှဲပေးပါ',pay_reminder_3:'ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:',
-    btn_home:'← ပင်မစာမျက်နှာသို့',toast_required:'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
-    toast_error:'အမှားဖြစ်ပွားသည် ထပ်မံကြိုးစားပါ',acc_no:'· စာရင်းနံပါတ်',
-    items_unit:'ပစ္စည်း',prod_unit:'တစ်စီး',
+    order_now:'á¡áá¾á¬áá¬ â',checkout_header:'á¡áá¾á¬áá¬ á¡áá±á¸áá­ááº',order_summary:'áá¾á¬áá°áá±á¬ááá¹áááºá¸áá»á¬á¸',
+    grand_total:'áá¯áá¯áá±á«ááºá¸',customer_info:'áááºáá¶áá°á á¡áá»ááºá¡áááº',label_name:'áá¬áááº',
+    ph_name:'áá¬áááº áá¼ááºáá¼ááº',err_name:'áá»á±á¸áá°á¸áá¼á¯á áá¬áááºáá¼áá·áºáá«',label_phone:'áá¯ááºá¸áá¶áá«ááº',
+    err_phone:'áá¾ááºáááºáá±á¬áá¯ááºá¸áá¶áá«ááºáá¼áá·áºáá«',delivery_address:'áá­á¯á·áá±á¬ááºáááá·áºáá­ááºáá¬',
+    label_addr:'á¡á­ááºá¡áá¾ááº / áááºá¸ / áááºáá½ááº',ph_addr:'á¥ááá¬ ááá/á áááºá¸áá¬áááº',
+    err_addr:'áá»á±á¸áá°á¸áá¼á¯á áá­ááºáá¬áá¼áá·áºáá«',label_province:'áá¼ááºáááº/áá­á¯ááºá¸',
+    select_province:'â áá¼ááºáááº/áá­á¯ááºá¸ áá½á±á¸áá« â',err_province:'áá»á±á¸áá°á¸áá¼á¯á áá¼ááºáááº/áá­á¯ááºá¸ áá½á±á¸áá«',
+    label_district:'ááá­á¯ááº/áá½ááºá¸',select_district:'â ááá­á¯ááº/áá½ááºá¸ áá½á±á¸áá« â',
+    select_prov_first:'â áá¼ááºáááº/áá­á¯ááºá¸á¦á¸áá½á±á¸áá« â',err_district:'áá»á±á¸áá°á¸áá¼á¯á ááá­á¯ááº/áá½ááºá¸ áá½á±á¸áá«',
+    label_sub:'áá¼á­á¯á·áááº/áááºáá½ááº',select_sub:'â áá¼á­á¯á·áááº áá½á±á¸áá« â',
+    select_dist_first:'â ááá­á¯ááº/áá½ááºá¸á¦á¸áá½á±á¸áá« â',err_sub:'áá»á±á¸áá°á¸áá¼á¯á áá¼á­á¯á·áááº/áááºáá½ááº áá½á±á¸áá«',
+    label_postal:'áá¬áá­á¯á·áá¯ááº',err_postal:'áá»á±á¸áá°á¸áá¼á¯á áá¬áá­á¯á·áá¯ááºáá¼áá·áºáá«',
+    payment_method:'áá½á±áá±á¸áá»á±áááºá¸',pay_promptpay:'áá½á¾á²áá½á± / PromptPay',
+    pay_promptpay_desc:'áá½á¾á²áá¼á®á¸áá¾ áá±á¸áá­á¯á·áááº Â· áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áá«',pay_cod:'áá½á±áá»á± (COD)',
+    pay_cod_desc:'ááá¹áááºá¸áá±á¬ááºáá¾ áá½á±áá±á¸áá»á±áá«',pp_box_title:'ð² PromptPay áá­á¯á· áá½á±áá½á¾á²áá«',
+    pp_warning:'â ï¸ áá¾á¬áá°áá±á¬ááá¬áá¡áá­á¯ááºá¸ áá½á¾á²áá¼á®á¸ áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áá«',
+    upload_text:'áá½á±áá½á¾á²áá¼ááºáá­á¯ááºá¸áá°á¸áá½á²áááº áá¾á­ááºáá«',upload_sub:'JPG, PNG áMB á¡á±á¬ááº',
+    upload_done:'â áá°á¸áá½á²áá¼á®á¸áá«áá¼á®',upload_done_sub:'áá¼á±á¬ááºá¸áá²áááº áá¾á­ááºáá«',
+    label_notes:'áá¾ááºáá»ááº (ááá­á¯á¡ááºáá«)',ph_notes:'á¥ááá¬ - áá±á·áááºá¸áá­á¯á·áá«, ááá­áá¼áá·áºáááºáá«...',
+    btn_submit:'â á¡áá¾á¬áá¬ á¡áááºáá¼á¯áááº',btn_submitting:'á¡áá¾á¬áá¬ áá±á¸áá­á¯á·áá±áááº...',
+    success_title:'á¡áá¾á¬áá¬ á¡á±á¬ááºáá¼ááºáá¼á®!',success_subtitle:'áááºáá¡áá¾á¬áá¬áá­á¯ áááºáá¶áá¼á®á¸áá«áá¼á®',
+    order_number_label:'áááºá á¡áá¾á¬áá¶áá«ááº',order_note_track:'áá®áá¶áá«ááºáá­á¯ áá¾ááºáá¬á¸áá«',
+    success_items_hdr:'ð áá¾á¬áá°áá±á¬ááá¹áááºá¸áá»á¬á¸',success_addr_hdr:'ð áá­á¯á·áá±á¬ááºáááá·áºáá­ááºáá¬',
+    total_label:'áá¯áá¯áá±á«ááºá¸',pay_reminder_title:'ð³ áá½á±áá±á¸áá»á±áááºá¸',pay_reminder_1:'PromptPay',
+    pay_reminder_2:'áá­á¯á· áá¾á¬áá°áá±á¬ááá¬á áá½á¾á²áá±á¸áá«',pay_reminder_3:'áá¼ááºáá­á¯ááºá¸ ááá°á¸áá½á²ááá±á¸áá«á LINE:',
+    btn_home:'â áááºááá¬áá»ááºáá¾á¬áá­á¯á·',toast_required:'áá»á±á¸áá°á¸áá¼á¯á áá­á¯á¡ááºáá±á¬á¡áá»ááºá¡áááºáá»á¬á¸ áá¼áá·áºáá«',
+    toast_error:'á¡áá¾á¬á¸áá¼ááºáá½á¬á¸áááº áááºáá¶áá¼á­á¯á¸áá¬á¸áá«',acc_no:'Â· áá¬áááºá¸áá¶áá«ááº',
+    items_unit:'ááá¹áááºá¸',prod_unit:'áááºáá®á¸',
   },
   th:{
-    order_now:'สั่งซื้อเลย →',checkout_header:'รายละเอียดคำสั่งซื้อ',order_summary:'รายการสั่งซื้อ',
-    grand_total:'ยอดรวมทั้งสิ้น',customer_info:'ข้อมูลผู้รับสินค้า',label_name:'ชื่อ-นามสกุล',
-    ph_name:'ชื่อ นามสกุล',err_name:'กรุณากรอกชื่อ-นามสกุล',label_phone:'เบอร์โทรศัพท์',
-    err_phone:'กรุณากรอกเบอร์โทรศัพท์ที่ถูกต้อง',delivery_address:'ที่อยู่จัดส่ง',
-    label_addr:'บ้านเลขที่ / ซอย / ถนน / หมู่บ้าน',ph_addr:'เช่น 123/4 ซอยสุขุมวิท 10',
-    err_addr:'กรุณากรอกที่อยู่',label_province:'จังหวัด',select_province:'— เลือกจังหวัด —',
-    err_province:'กรุณาเลือกจังหวัด',label_district:'อำเภอ/เขต',select_district:'— เลือกอำเภอ/เขต —',
-    select_prov_first:'— เลือกจังหวัดก่อน —',err_district:'กรุณาเลือกอำเภอ/เขต',
-    label_sub:'ตำบล/แขวง',select_sub:'— เลือกตำบล/แขวง —',select_dist_first:'— เลือกอำเภอ/เขตก่อน —',
-    err_sub:'กรุณาเลือกตำบล/แขวง',label_postal:'รหัสไปรษณีย์',err_postal:'กรุณากรอกรหัสไปรษณีย์',
-    payment_method:'วิธีชำระเงิน',pay_promptpay:'โอนเงิน / PromptPay',
-    pay_promptpay_desc:'โอนก่อนจัดส่ง · แนบสลิปหลังโอน',pay_cod:'เก็บปลายทาง (COD)',
-    pay_cod_desc:'ชำระเงินเมื่อได้รับสินค้า',pp_box_title:'📲 โอนเงิน PromptPay มาที่',
-    pp_warning:'⚠️ กรุณาโอนตามยอดที่สั่งซื้อ และแนบสลิปด้านล่าง',
-    upload_text:'แตะเพื่อแนบสลิปโอนเงิน',upload_sub:'JPG, PNG ขนาดไม่เกิน 5MB',
-    upload_done:'✅ แนบสลิปเรียบร้อยแล้ว',upload_done_sub:'แตะเพื่อเปลี่ยนรูป',
-    label_notes:'หมายเหตุเพิ่มเติม (ไม่บังคับ)',ph_notes:'เช่น ส่งตอนบ่าย, ระวังเปราะบาง...',
-    btn_submit:'✅ ยืนยันคำสั่งซื้อ',btn_submitting:'กำลังส่งคำสั่งซื้อ...',
-    success_title:'สั่งซื้อสำเร็จแล้ว!',success_subtitle:'เราได้รับคำสั่งซื้อของคุณเรียบร้อยแล้ว',
-    order_number_label:'หมายเลขคำสั่งซื้อ',order_note_track:'กรุณาจดหมายเลขนี้ไว้',
-    success_items_hdr:'📋 สรุปรายการสั่งซื้อ',success_addr_hdr:'📍 ที่อยู่จัดส่ง',
-    total_label:'รวมทั้งสิ้น',pay_reminder_title:'💳 ขั้นตอนการชำระเงิน',
-    pay_reminder_1:'กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay',pay_reminder_2:'',
-    pay_reminder_3:'หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE:',btn_home:'← กลับหน้าหลัก',
-    toast_required:'กรุณากรอกข้อมูลให้ครบถ้วน',toast_error:'เกิดข้อผิดพลาด กรุณาลองใหม่',
-    acc_no:'· เลขที่',items_unit:'รายการ',prod_unit:'ซอง',
+    order_now:'à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¹à¸¥à¸¢ â',checkout_header:'à¸£à¸²à¸¢à¸¥à¸°à¹à¸­à¸µà¸¢à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­',order_summary:'à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸±à¹à¸à¸à¸·à¹à¸­',
+    grand_total:'à¸¢à¸­à¸à¸£à¸§à¸¡à¸à¸±à¹à¸à¸ªà¸´à¹à¸',customer_info:'à¸à¹à¸­à¸¡à¸¹à¸¥à¸à¸¹à¹à¸£à¸±à¸à¸ªà¸´à¸à¸à¹à¸²',label_name:'à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥',
+    ph_name:'à¸à¸·à¹à¸­ à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥',err_name:'à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥',label_phone:'à¹à¸à¸­à¸£à¹à¹à¸à¸£à¸¨à¸±à¸à¸à¹',
+    err_phone:'à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¹à¸à¸­à¸£à¹à¹à¸à¸£à¸¨à¸±à¸à¸à¹à¸à¸µà¹à¸à¸¹à¸à¸à¹à¸­à¸',delivery_address:'à¸à¸µà¹à¸­à¸¢à¸¹à¹à¸à¸±à¸à¸ªà¹à¸',
+    label_addr:'à¸à¹à¸²à¸à¹à¸¥à¸à¸à¸µà¹ / à¸à¸­à¸¢ / à¸à¸à¸ / à¸«à¸¡à¸¹à¹à¸à¹à¸²à¸',ph_addr:'à¹à¸à¹à¸ 123/4 à¸à¸­à¸¢à¸ªà¸¸à¸à¸¸à¸¡à¸§à¸´à¸ 10',
+    err_addr:'à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¸µà¹à¸­à¸¢à¸¹à¹',label_province:'à¸à¸±à¸à¸«à¸§à¸±à¸',select_province:'â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸ â',
+    err_province:'à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸',label_district:'à¸­à¸³à¹à¸ à¸­/à¹à¸à¸',select_district:'â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸ â',
+    select_prov_first:'â à¹à¸¥à¸·à¸­à¸à¸à¸±à¸à¸«à¸§à¸±à¸à¸à¹à¸­à¸ â',err_district:'à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸',
+    label_sub:'à¸à¸³à¸à¸¥/à¹à¸à¸§à¸',select_sub:'â à¹à¸¥à¸·à¸­à¸à¸à¸³à¸à¸¥/à¹à¸à¸§à¸ â',select_dist_first:'â à¹à¸¥à¸·à¸­à¸à¸­à¸³à¹à¸ à¸­/à¹à¸à¸à¸à¹à¸­à¸ â',
+    err_sub:'à¸à¸£à¸¸à¸à¸²à¹à¸¥à¸·à¸­à¸à¸à¸³à¸à¸¥/à¹à¸à¸§à¸',label_postal:'à¸£à¸«à¸±à¸ªà¹à¸à¸£à¸©à¸à¸µà¸¢à¹',err_postal:'à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸£à¸«à¸±à¸ªà¹à¸à¸£à¸©à¸à¸µà¸¢à¹',
+    payment_method:'à¸§à¸´à¸à¸µà¸à¸³à¸£à¸°à¹à¸à¸´à¸',pay_promptpay:'à¹à¸­à¸à¹à¸à¸´à¸ / PromptPay',
+    pay_promptpay_desc:'à¹à¸­à¸à¸à¹à¸­à¸à¸à¸±à¸à¸ªà¹à¸ Â· à¹à¸à¸à¸ªà¸¥à¸´à¸à¸«à¸¥à¸±à¸à¹à¸­à¸',pay_cod:'à¹à¸à¹à¸à¸à¸¥à¸²à¸¢à¸à¸²à¸ (COD)',
+    pay_cod_desc:'à¸à¸³à¸£à¸°à¹à¸à¸´à¸à¹à¸¡à¸·à¹à¸­à¹à¸à¹à¸£à¸±à¸à¸ªà¸´à¸à¸à¹à¸²',pp_box_title:'ð² à¹à¸­à¸à¹à¸à¸´à¸ PromptPay à¸¡à¸²à¸à¸µà¹',
+    pp_warning:'â ï¸ à¸à¸£à¸¸à¸à¸²à¹à¸­à¸à¸à¸²à¸¡à¸¢à¸­à¸à¸à¸µà¹à¸ªà¸±à¹à¸à¸à¸·à¹à¸­ à¹à¸¥à¸°à¹à¸à¸à¸ªà¸¥à¸´à¸à¸à¹à¸²à¸à¸¥à¹à¸²à¸',
+    upload_text:'à¹à¸à¸°à¹à¸à¸·à¹à¸­à¹à¸à¸à¸ªà¸¥à¸´à¸à¹à¸­à¸à¹à¸à¸´à¸',upload_sub:'JPG, PNG à¸à¸à¸²à¸à¹à¸¡à¹à¹à¸à¸´à¸ 5MB',
+    upload_done:'â à¹à¸à¸à¸ªà¸¥à¸´à¸à¹à¸£à¸µà¸¢à¸à¸£à¹à¸­à¸¢à¹à¸¥à¹à¸§',upload_done_sub:'à¹à¸à¸°à¹à¸à¸·à¹à¸­à¹à¸à¸¥à¸µà¹à¸¢à¸à¸£à¸¹à¸',
+    label_notes:'à¸«à¸¡à¸²à¸¢à¹à¸«à¸à¸¸à¹à¸à¸´à¹à¸¡à¹à¸à¸´à¸¡ (à¹à¸¡à¹à¸à¸±à¸à¸à¸±à¸)',ph_notes:'à¹à¸à¹à¸ à¸ªà¹à¸à¸à¸­à¸à¸à¹à¸²à¸¢, à¸£à¸°à¸§à¸±à¸à¹à¸à¸£à¸²à¸°à¸à¸²à¸...',
+    btn_submit:'â à¸¢à¸·à¸à¸¢à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­',btn_submitting:'à¸à¸³à¸¥à¸±à¸à¸ªà¹à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­...',
+    success_title:'à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸ªà¸³à¹à¸£à¹à¸à¹à¸¥à¹à¸§!',success_subtitle:'à¹à¸£à¸²à¹à¸à¹à¸£à¸±à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸à¸­à¸à¸à¸¸à¸à¹à¸£à¸µà¸¢à¸à¸£à¹à¸­à¸¢à¹à¸¥à¹à¸§',
+    order_number_label:'à¸«à¸¡à¸²à¸¢à¹à¸¥à¸à¸à¸³à¸ªà¸±à¹à¸à¸à¸·à¹à¸­',order_note_track:'à¸à¸£à¸¸à¸à¸²à¸à¸à¸«à¸¡à¸²à¸¢à¹à¸¥à¸à¸à¸µà¹à¹à¸§à¹',
+    success_items_hdr:'ð à¸ªà¸£à¸¸à¸à¸£à¸²à¸¢à¸à¸²à¸£à¸ªà¸±à¹à¸à¸à¸·à¹à¸­',success_addr_hdr:'ð à¸à¸µà¹à¸­à¸¢à¸¹à¹à¸à¸±à¸à¸ªà¹à¸',
+    total_label:'à¸£à¸§à¸¡à¸à¸±à¹à¸à¸ªà¸´à¹à¸',pay_reminder_title:'ð³ à¸à¸±à¹à¸à¸à¸­à¸à¸à¸²à¸£à¸à¸³à¸£à¸°à¹à¸à¸´à¸',
+    pay_reminder_1:'à¸à¸£à¸¸à¸à¸²à¹à¸­à¸à¹à¸à¸´à¸à¸à¸²à¸¡à¸¢à¸­à¸à¸à¸µà¹à¸ªà¸±à¹à¸à¸à¸·à¹à¸­à¸¡à¸²à¸à¸µà¹ PromptPay',pay_reminder_2:'',
+    pay_reminder_3:'à¸«à¸²à¸à¸¢à¸±à¸à¹à¸¡à¹à¹à¸à¹à¹à¸à¸à¸ªà¸¥à¸´à¸ à¸à¸£à¸¸à¸à¸²à¸ªà¹à¸à¸ªà¸¥à¸´à¸à¸¡à¸²à¸à¸µà¹ LINE:',btn_home:'â à¸à¸¥à¸±à¸à¸«à¸à¹à¸²à¸«à¸¥à¸±à¸',
+    toast_required:'à¸à¸£à¸¸à¸à¸²à¸à¸£à¸­à¸à¸à¹à¸­à¸¡à¸¹à¸¥à¹à¸«à¹à¸à¸£à¸à¸à¹à¸§à¸',toast_error:'à¹à¸à¸´à¸à¸à¹à¸­à¸à¸´à¸à¸à¸¥à¸²à¸ à¸à¸£à¸¸à¸à¸²à¸¥à¸­à¸à¹à¸«à¸¡à¹',
+    acc_no:'Â· à¹à¸¥à¸à¸à¸µà¹',items_unit:'à¸£à¸²à¸¢à¸à¸²à¸£',prod_unit:'à¸à¸­à¸',
   },
   en:{
-    order_now:'Order Now →',checkout_header:'Order Details',order_summary:'Order Summary',
+    order_now:'Order Now â',checkout_header:'Order Details',order_summary:'Order Summary',
     grand_total:'Grand Total',customer_info:'Recipient Information',label_name:'Full Name',
     ph_name:'First and Last Name',err_name:'Please enter your name',label_phone:'Phone Number',
     err_phone:'Please enter a valid phone number',delivery_address:'Delivery Address',
     label_addr:'House No / Street / Village',ph_addr:'e.g. 123/4 Main Street',
     err_addr:'Please enter your address',label_province:'Province',
-    select_province:'— Select Province —',err_province:'Please select a province',
-    label_district:'District',select_district:'— Select District —',
-    select_prov_first:'— Select Province First —',err_district:'Please select a district',
-    label_sub:'Subdistrict',select_sub:'— Select Subdistrict —',
-    select_dist_first:'— Select District First —',err_sub:'Please select a subdistrict',
+    select_province:'â Select Province â',err_province:'Please select a province',
+    label_district:'District',select_district:'â Select District â',
+    select_prov_first:'â Select Province First â',err_district:'Please select a district',
+    label_sub:'Subdistrict',select_sub:'â Select Subdistrict â',
+    select_dist_first:'â Select District First â',err_sub:'Please select a subdistrict',
     label_postal:'Postal Code',err_postal:'Please enter postal code',
     payment_method:'Payment Method',pay_promptpay:'Bank Transfer / PromptPay',
-    pay_promptpay_desc:'Pay before delivery · Attach slip after transfer',
+    pay_promptpay_desc:'Pay before delivery Â· Attach slip after transfer',
     pay_cod:'Cash on Delivery (COD)',pay_cod_desc:'Pay when you receive your order',
-    pp_box_title:'📲 Transfer via PromptPay to',
-    pp_warning:'⚠️ Transfer exact order amount and attach slip below',
+    pp_box_title:'ð² Transfer via PromptPay to',
+    pp_warning:'â ï¸ Transfer exact order amount and attach slip below',
     upload_text:'Tap to attach transfer slip',upload_sub:'JPG, PNG max 5MB',
-    upload_done:'✅ Slip attached',upload_done_sub:'Tap to change',
+    upload_done:'â Slip attached',upload_done_sub:'Tap to change',
     label_notes:'Additional Notes (Optional)',ph_notes:'e.g. Deliver in afternoon, handle with care...',
-    btn_submit:'✅ Confirm Order',btn_submitting:'Placing order...',
+    btn_submit:'â Confirm Order',btn_submitting:'Placing order...',
     success_title:'Order Placed!',success_subtitle:"We've received your order",
     order_number_label:'Your Order Number',order_note_track:'Keep this number for tracking',
-    success_items_hdr:'📋 Order Summary',success_addr_hdr:'📍 Delivery Address',
-    total_label:'Total',pay_reminder_title:'💳 Payment Instructions',
+    success_items_hdr:'ð Order Summary',success_addr_hdr:'ð Delivery Address',
+    total_label:'Total',pay_reminder_title:'ð³ Payment Instructions',
     pay_reminder_1:'Please transfer the exact amount to PromptPay',pay_reminder_2:'',
     pay_reminder_3:"If you haven't attached your slip, send it to LINE:",
-    btn_home:'← Back to Home',toast_required:'Please fill in all required fields',
-    toast_error:'An error occurred, please try again',acc_no:'· Acc No.',
+    btn_home:'â Back to Home',toast_required:'Please fill in all required fields',
+    toast_error:'An error occurred, please try again',acc_no:'Â· Acc No.',
     items_unit:'item(s)',prod_unit:'pack',
   }
 }
@@ -485,38 +485,38 @@ function setLang(lang){
   updateCartBar(); renderProducts()
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CONFIG
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 const SUPABASE_URL='https://yufalisxhyhcuejmbpsa.supabase.co'
 const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
 const PROMPTPAY_NUMBER='0XX-XXX-XXXX'
-const ACCOUNT_NAME='ชื่อ-นามสกุล'
-const BANK_NAME='ธนาคาร XXX'
+const ACCOUNT_NAME='à¸à¸·à¹à¸­-à¸à¸²à¸¡à¸ªà¸à¸¸à¸¥'
+const BANK_NAME='à¸à¸à¸²à¸à¸²à¸£ XXX'
 const ACCOUNT_NUMBER='XXX-X-XXXXX-X'
 const SHOP_LINE='@skpheritage'
 const SHEETS_WEBHOOK='https://script.google.com/macros/s/AKfycbwSlSxfQmyVR4_NRb15QmAZFlAhYJuNy_yHmbnHnvv_g534MVcMwebrUgOOH-98Mn2w8w/exec'
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 
-// ═══════════════════════════════════════════════════
-//  PRODUCT  (hardcoded — single product)
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
+//  PRODUCT  (hardcoded â single product)
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 const PRODUCTS=[{
   id:'golden-flying-tiger-001',
-  name:'Golden Flying Tiger',name_th:'เสือทองบิน',name_my:'ရွှေရတု',
+  name:'Golden Flying Tiger',name_th:'à¹à¸ªà¸·à¸­à¸à¸­à¸à¸à¸´à¸',name_my:'áá½á¾á±ááá¯',
 
 
 
-  price:150,name_roman:'Shwe Ya Tu',unit:'တစ်စီး',unit_th:'pack',unit_en:'pack',
+  price:150,name_roman:'Shwe Ya Tu',unit:'áááºáá®á¸',unit_th:'pack',unit_en:'pack',
   images:['assets/product_1.png','assets/product_2.png','assets/product_3.png']
 }]
 
 let products=[...PRODUCTS],cart={},slipFile=null,selectedPayment='promptpay'
 let slideIdx=0,slideTimer=null
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  INIT
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 async function init(){
   setLang(currentLang)
   document.getElementById('pp-number').textContent=PROMPTPAY_NUMBER
@@ -528,9 +528,9 @@ async function init(){
   setTimeout(()=>{ document.getElementById('loading').style.display='none' },700)
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SLIDESHOW
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function setSlide(idx){
   const slides=document.querySelectorAll('.slide-img'),dots=document.querySelectorAll('.dot')
   if(!slides.length) return
@@ -542,14 +542,14 @@ function setSlide(idx){
 function goToSlide(i){ clearInterval(slideTimer); setSlide(i); slideTimer=setInterval(()=>setSlide(slideIdx+1),3500) }
 function initSlideshow(){ clearInterval(slideTimer); slideIdx=0; setSlide(0); slideTimer=setInterval(()=>setSlide(slideIdx+1),3500) }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  RENDER PRODUCT
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function pUnit(p){ return currentLang==='th'?(p.unit_th||p.unit):currentLang==='en'?(p.unit_en||p.unit):p.unit }
 
 function renderProducts(){
   const list=document.getElementById('products-list'); if(!list) return
-  const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
+  const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">â</div>'; return }
   const name=currentLang==='my'?p.name_my:(p.name_roman||'Shwe Ya Tu')
   const sub=currentLang==='my'?p.name_th:p.name
 
@@ -569,9 +569,9 @@ function renderProducts(){
       <div class="product-name-sub">${sub}</div>
 
       <div class="product-price-row">
-        <div class="product-price-big">฿${Number(p.price).toLocaleString()}<span class="unit">/${unit}</span></div>
+        <div class="product-price-big">à¸¿${Number(p.price).toLocaleString()}<span class="unit">/${unit}</span></div>
         <div class="qty-control">
-          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">â</button>
           <span   class="qty-val"  id="qty-${p.id}">0</span>
           <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
         </div>
@@ -581,9 +581,9 @@ function renderProducts(){
   setTimeout(initSlideshow,60)
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  CART
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function changeQty(id,delta){
   cart[id]=Math.max(0,(cart[id]||0)+delta)
   const el=document.getElementById('qty-'+id); if(el) el.textContent=cart[id]
@@ -593,7 +593,7 @@ function updateCartBar(){
   const tot=Object.values(cart).reduce((a,b)=>a+b,0),price=getCartTotal()
   const onProducts=document.getElementById('view-products')?.classList.contains('active');document.getElementById('cart-bar').classList.toggle('visible',tot>0&&onProducts)
   document.getElementById('cart-count').textContent=tot+' '+t('items_unit')
-  document.getElementById('cart-total').textContent='฿'+Number(price).toLocaleString()
+  document.getElementById('cart-total').textContent='à¸¿'+Number(price).toLocaleString()
 }
 function getCartItems(){
   return Object.entries(cart).filter(([,q])=>q>0).map(([id,qty])=>{
@@ -603,23 +603,23 @@ function getCartItems(){
 }
 function getCartTotal(){ return getCartItems().reduce((s,i)=>s+i.subtotal,0) }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  VIEWS
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function showView(n){ document.querySelectorAll('.view').forEach(v=>{v.classList.remove('active');v.style.display='none'}); const el=document.getElementById('view-'+n); if(el){el.classList.add('active');el.style.display='block';window.scrollTo(0,0)} if(n==='products') updateCartBar(); else document.getElementById('cart-bar').classList.remove('visible') }
 function goToCheckout(){ if(!getCartItems().length) return; renderOrderSummary(); document.getElementById('cart-bar').classList.remove('visible'); clearInterval(slideTimer); showView('checkout') }
 function renderOrderSummary(){
   const items=getCartItems()
   document.getElementById('order-summary-items').innerHTML=items.map(i=>{
     const nm=currentLang==='my'?(i.name_my||i.name_th):(i.name_roman||'Shwe Ya Tu')
-    return `<div class="summary-item"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
+    return `<div class="summary-item"><span>${nm} Ã ${i.qty} ${i.unit}</span><span>à¸¿${Number(i.subtotal).toLocaleString()}</span></div>`
   }).join('')
-  document.getElementById('summary-total-val').textContent='฿'+Number(getCartTotal()).toLocaleString()
+  document.getElementById('summary-total-val').textContent='à¸¿'+Number(getCartTotal()).toLocaleString()
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  THAI GEO
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 let THAI_PROVINCES=[]
 async function loadThaiGeoData(){
   const K='thai_geo_v4'
@@ -628,11 +628,11 @@ async function loadThaiGeoData(){
     const r=await fetch('https://raw.githubusercontent.com/kongvut/thai-province-data/refs/heads/master/api/latest/province_with_district_and_sub_district.json')
     const data=await r.json()
     THAI_PROVINCES=data.map(p=>{
-      const bkk=p.name_th==='กรุงเทพมหานคร'
+      const bkk=p.name_th==='à¸à¸£à¸¸à¸à¹à¸à¸à¸¡à¸«à¸²à¸à¸à¸£'
       return{n:p.name_th,ne:p.name_en||p.name_th,d:(p.districts||p.amphure||[]).map(a=>{
-        const dn=bkk?a.name_th.replace(/^เขต/,''):a.name_th.replace(/^อำเภอ/,'')
+        const dn=bkk?a.name_th.replace(/^à¹à¸à¸/,''):a.name_th.replace(/^à¸­à¸³à¹à¸ à¸­/,'')
         return{n:dn,ne:a.name_en||dn,s:(a.sub_districts||a.tambon||[]).map(t=>({
-          n:bkk?t.name_th.replace(/^แขวง/,''):t.name_th.replace(/^ตำบล/,''),
+          n:bkk?t.name_th.replace(/^à¹à¸à¸§à¸/,''):t.name_th.replace(/^à¸à¸³à¸à¸¥/,''),
           ne:t.name_en||t.name_th,z:t.zip_code
         }))}
       })}
@@ -673,15 +673,15 @@ function onSubDistrictChange(){
   if(sel?.dataset.zip) document.getElementById('f-postal').value=sel.dataset.zip
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  PAYMENT
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function selectPayment(m){
   selectedPayment=m; const pp=m==='promptpay'
   document.getElementById('opt-promptpay').classList.toggle('selected',pp)
   document.getElementById('opt-cod').classList.toggle('selected',!pp)
-  document.querySelector('#opt-promptpay .pay-check').textContent=pp?'✓':''
-  document.querySelector('#opt-cod .pay-check').textContent=!pp?'✓':''
+  document.querySelector('#opt-promptpay .pay-check').textContent=pp?'â':''
+  document.querySelector('#opt-cod .pay-check').textContent=!pp?'â':''
   document.getElementById('promptpay-box').classList.toggle('visible',pp)
   document.getElementById('upload-box').classList.toggle('visible',pp)
 }
@@ -704,9 +704,9 @@ async function uploadSlip(orderId){
   }catch(e){console.warn('Slip upload failed:',e);return null}
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  VALIDATION
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 function validate(){
   let ok=true
   const chk=(inp,err,bad)=>{ document.getElementById(inp)?.classList.toggle('error',bad); document.getElementById(err)?.classList.toggle('visible',bad); if(bad) ok=false }
@@ -721,9 +721,9 @@ function validate(){
   return ok
 }
 
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 //  SUBMIT ORDER
-// ═══════════════════════════════════════════════════
+// âââââââââââââââââââââââââââââââââââââââââââââââââââ
 async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
@@ -756,7 +756,7 @@ async function submitOrder(){
       const itemStr=items.map(i=>`${i.name_roman||'Shwe Ya Tu'} x${i.qty}`).join(', ')
       const totalQty=items.reduce((s,i)=>s+i.qty,0)
       fetch(SHEETS_WEBHOOK,{method:'POST',body:JSON.stringify({
-        orderNo:order.order_number||'—',
+        orderNo:order.order_number||'â',
         date:dateStr,time:timeStr,
         name:document.getElementById('f-name').value.trim(),
         phone:document.getElementById('f-phone').value.trim(),
@@ -766,14 +766,14 @@ async function submitOrder(){
         items:itemStr,qty:totalQty,total:total,
         payment:selectedPayment,hasSlip:!!slipFile,
         notes:document.getElementById('f-notes').value.trim()
-      })}).catch(()=>{}) // silent fail — Supabase is the primary store
+      })}).catch(()=>{}) // silent fail â Supabase is the primary store
     }
   }catch(e){
     console.error(e); showToast(t('toast_error'),'error')
     btn.disabled=false; btn.textContent=t('btn_submit')
   }
 }
-function showSuccess(order,items,total,prov,dist,sub)
+function showSuccess(order,items,total,prov,dist,sub){
     // Log to Google Sheets backup
     if(SHEETS_WEBHOOK){
       const now=new Date()
@@ -783,7 +783,7 @@ function showSuccess(order,items,total,prov,dist,sub)
       const itemStr=items.map(i=>`${i.name_roman||'Shwe Ya Tu'} x${i.qty}`).join(', ')
       const totalQty=items.reduce((s,i)=>s+i.qty,0)
       fetch(SHEETS_WEBHOOK,{method:'POST',body:JSON.stringify({
-        orderNo:order.order_number||'—',
+        orderNo:order.order_number||'â',
         date:dateStr,time:timeStr,
         name:document.getElementById('f-name').value.trim(),
         phone:document.getElementById('f-phone').value.trim(),
@@ -793,18 +793,18 @@ function showSuccess(order,items,total,prov,dist,sub)
         items:itemStr,qty:totalQty,total:total,
         payment:selectedPayment,hasSlip:!!slipFile,
         notes:document.getElementById('f-notes').value.trim()
-      })}).catch(()=>{}) // silent fail — Supabase is the primary store
-    }{
-  document.getElementById('success-order-num').textContent=order.order_number||'—'
+      })}).catch(()=>{}) // silent fail â Supabase is the primary store
+    }
+  document.getElementById('success-order-num').textContent=order.order_number||'â'
   document.getElementById('success-items').innerHTML=items.map(i=>{
     const nm=currentLang==='my'?(i.name_my||i.name_th):(i.name_roman||'Shwe Ya Tu')
-    return `<div class="success-info-row"><span>${nm} × ${i.qty} ${i.unit}</span><span>฿${Number(i.subtotal).toLocaleString()}</span></div>`
-  }).join('')+`<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px"><span><strong>${t('total_label')}</strong></span><span><strong>฿${Number(total).toLocaleString()}</strong></span></div>`
+    return `<div class="success-info-row"><span>${nm} Ã ${i.qty} ${i.unit}</span><span>à¸¿${Number(i.subtotal).toLocaleString()}</span></div>`
+  }).join('')+`<div class="success-info-row" style="border-top:1px solid #E0CDB3;margin-top:6px;padding-top:8px"><span><strong>${t('total_label')}</strong></span><span><strong>à¸¿${Number(total).toLocaleString()}</strong></span></div>`
   const name=document.getElementById('f-name').value.trim()
   const addr=document.getElementById('f-addr').value.trim()
   const postal=document.getElementById('f-postal').value
   const phone=document.getElementById('f-phone').value.trim()
-  document.getElementById('success-address').innerHTML=`${name}<br>${addr}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">📞 ${phone}</span>`
+  document.getElementById('success-address').innerHTML=`${name}<br>${addr}<br>${sub} ${dist}<br>${prov} ${postal}<br><span style="color:#7A5C3C">ð ${phone}</span>`
   document.getElementById('success-pay-reminder').style.display=selectedPayment==='promptpay'?'block':'none'
   showView('success'); cart={}; slipFile=null
   document.getElementById('cart-bar').classList.remove('visible')
