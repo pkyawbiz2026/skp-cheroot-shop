@@ -501,22 +501,37 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 // ═══════════════════════════════════════════════════
 //  PRODUCT  (hardcoded — single product)
 // ═══════════════════════════════════════════════════
-const PRODUCTS=[{
-  id:'golden-flying-tiger-001',
-  name:'Golden Flying Tiger',name_th:'เสือทองบิน',name_my:'ရွှေရတု',
-
-
-
-  price:150,name_roman:'Shwe Ya Tu',unit:'တစ်စီး',unit_th:'pack',unit_en:'pack',
-  images:['assets/product_1.png','assets/product_2.png','assets/product_3.png']
-}]
-
-let products=[...PRODUCTS],cart={},slipFile=null,selectedPayment='promptpay'
+let products=[],cart={},slipFile=null,selectedPayment='promptpay'
 let slideIdx=0,slideTimer=null
 
 // ═══════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════
+async function loadProductsFromDB(){
+  try{
+    var r=await fetch("https://yufalisxhyhcuejmbpsa.supabase.co/rest/v1/products?active=eq.true&order=sort_order.asc&select=*",{
+      headers:{apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw"}
+    });
+    var data=await r.json();
+    if(Array.isArray(data)&&data.length>0){
+      products=data.map(function(p){
+        return {
+          id:p.id,
+          name:p.name||"",
+          name_th:p.name_th||"",
+          name_my:p.name_my||"",
+          name_roman:p.name_roman||p.name||"",
+          price:parseFloat(p.price)||0,
+          unit:p.unit||"",
+          unit_th:p.unit||"",
+          unit_en:p.unit_en||"box",
+          images:Array.isArray(p.images)&&p.images.length>0?p.images:["assets/product_1.png"]
+        };
+      });
+    }
+  } catch(e){ console.error("loadProductsFromDB failed:",e); }
+}
+
 async function init(){
   setLang(currentLang)
   document.getElementById('pp-number').textContent=PROMPTPAY_NUMBER
@@ -524,7 +539,7 @@ async function init(){
   document.getElementById('pp-bank').textContent=BANK_NAME+' '+t('acc_no')+' '+ACCOUNT_NUMBER
   document.getElementById('success-pp-num').textContent=PROMPTPAY_NUMBER
   document.getElementById('success-line').textContent=SHOP_LINE
-  loadGeo(); renderProducts()
+  loadGeo(); await loadProductsFromDB(); renderProducts()
   setTimeout(()=>{ document.getElementById('loading').style.display='none' },700)
 }
 
