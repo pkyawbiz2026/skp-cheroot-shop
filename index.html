@@ -331,6 +331,8 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
     </div>
   </div>
 
+    <!-- honeypot: bots fill this, humans do not -->
+    <input type="text" id="hp_website" name="website" style="display:none!important;position:absolute;left:-9999px;width:1px;height:1px;" tabindex="-1" autocomplete="off">
   <button class="btn-submit" id="btn-submit" onclick="submitOrder()" data-i18n="btn_submit">✅ အမှာစာ အတည်ပြုမည်</button>
 </div>
 
@@ -495,7 +497,7 @@ const ACCOUNT_NAME='ชื่อ-นามสกุล'
 const BANK_NAME='ธนาคาร XXX'
 const ACCOUNT_NUMBER='XXX-X-XXXXX-X'
 const SHOP_LINE='@skpheritage'
-const SHEETS_WEBHOOK='https://script.google.com/macros/s/AKfycbwSlSxfQmyVR4_NRb15QmAZFlAhYJuNy_yHmbnHnvv_g534MVcMwebrUgOOH-98Mn2w8w/exec'
+const SHEETS_WEBHOOK='https://script.google.com/macros/s/AKfycbwSlSxfQmyVR4_NRb15QmAZFlAhYJuNy_yHmbnHnvv_g534MVcMwebrUgOOH-98Mn2w8w/exec?token=GFT2026SECURE'
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY)
 
 // ═══════════════════════════════════════════════════
@@ -741,6 +743,7 @@ function validate(){
 // ═══════════════════════════════════════════════════
 async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
+  var _hp=document.getElementById('hp_website'); if(_hp&&_hp.value.length>0) return;
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
   try{
     const items=getCartItems(),total=getCartTotal()
