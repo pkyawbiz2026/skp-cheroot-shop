@@ -10,11 +10,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Sarabun',sans-serif;background:#F4F4F4;color:#2C1810;min-height:100vh}
-:root{
-  --brown:#2C1810;--brown-mid:#4A1E0A;--gold:#C9951A;--gold-l:#E8B84B;
-  --cream:#FAF3E8;--cream-d:#F0E6D3;--border:#E0CDB3;--muted:#7A5C3C;
-  --white:#fff;--green:#27AE60;--red:#E74C3C;--blue:#2980B9;--orange:#E67E22
-}
+:root{--brown:#2C1810;--brown-mid:#4A1E0A;--gold:#C9951A;--gold-l:#E8B84B;--cream:#FAF3E8;--cream-d:#F0E6D3;--border:#E0CDB3;--muted:#7A5C3C;--white:#fff;--green:#27AE60;--red:#E74C3C;--blue:#2980B9;--orange:#E67E22}
 button{cursor:pointer;border:none;outline:none;font-family:inherit}
 input,select,textarea{font-family:inherit;outline:none}
 #login-screen{position:fixed;inset:0;background:var(--brown);display:flex;align-items:center;justify-content:center;z-index:9999}
@@ -42,7 +38,7 @@ input,select,textarea{font-family:inherit;outline:none}
 .stat-val{font-size:22px;font-weight:700;color:var(--brown)}
 .stat-label{font-size:11px;color:var(--muted);margin-top:3px}
 .stat-card.gold .stat-val{color:var(--gold)}
-.filter-bar{padding:0 16px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.filter-bar{padding:0 16px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
 .filter-bar::-webkit-scrollbar{display:none}
 .filter-btn{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;background:var(--white);color:var(--muted);border:1.5px solid var(--border);white-space:nowrap;flex-shrink:0;transition:all .2s}
 .filter-btn.active{background:var(--brown);color:var(--gold);border-color:var(--brown)}
@@ -114,26 +110,26 @@ input,select,textarea{font-family:inherit;outline:none}
   <div class="topbar">
     <div class="topbar-logo">Golden Flying Tiger<span style="font-size:11px;font-family:'Sarabun',sans-serif;color:#9C7B5C;margin-left:8px;letter-spacing:1px">ADMIN</span></div>
     <div class="topbar-right">
-      <button class="btn-refresh" onclick="loadOrders()">🔄 Refresh</button>
-      <button class="btn-qr" onclick="openQrModal()">📲 QR Code</button>
+      <button class="btn-refresh" onclick="loadOrders()">Refresh</button>
+      <button class="btn-qr" onclick="openQrModal()">QR Code</button>
       <button class="btn-logout" onclick="logout()">Logout</button>
     </div>
   </div>
-  <div class="stats-row" id="stats-row">
-    <div class="stat-card"><div class="stat-val" id="s-total">—</div><div class="stat-label">Total</div></div>
-    <div class="stat-card"><div class="stat-val" id="s-pending" style="color:var(--orange)">—</div><div class="stat-label">Pending</div></div>
-    <div class="stat-card"><div class="stat-val" id="s-confirmed" style="color:var(--blue)">—</div><div class="stat-label">Confirmed</div></div>
-    <div class="stat-card"><div class="stat-val" id="s-shipped" style="color:#8E44AD">—</div><div class="stat-label">Shipped</div></div>
-    <div class="stat-card"><div class="stat-val" id="s-delivered" style="color:var(--green)">—</div><div class="stat-label">Delivered</div></div>
-    <div class="stat-card gold"><div class="stat-val" id="s-revenue">—</div><div class="stat-label">Revenue (฿)</div></div>
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-val" id="s-total">0</div><div class="stat-label">Total</div></div>
+    <div class="stat-card"><div class="stat-val" id="s-pending" style="color:var(--orange)">0</div><div class="stat-label">Pending</div></div>
+    <div class="stat-card"><div class="stat-val" id="s-confirmed" style="color:var(--blue)">0</div><div class="stat-label">Confirmed</div></div>
+    <div class="stat-card"><div class="stat-val" id="s-shipped" style="color:#8E44AD">0</div><div class="stat-label">Shipped</div></div>
+    <div class="stat-card"><div class="stat-val" id="s-delivered" style="color:var(--green)">0</div><div class="stat-label">Delivered</div></div>
+    <div class="stat-card gold"><div class="stat-val" id="s-revenue">0</div><div class="stat-label">Revenue (฿)</div></div>
   </div>
   <div class="filter-bar">
     <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-    <button class="filter-btn" onclick="setFilter('pending',this)">⏳ Pending</button>
-    <button class="filter-btn" onclick="setFilter('confirmed',this)">✅ Confirmed</button>
-    <button class="filter-btn" onclick="setFilter('shipped',this)">🚚 Shipped</button>
-    <button class="filter-btn" onclick="setFilter('delivered',this)">📦 Delivered</button>
-    <button class="filter-btn" onclick="setFilter('cancelled',this)">❌ Cancelled</button>
+    <button class="filter-btn" onclick="setFilter('pending',this)">Pending</button>
+    <button class="filter-btn" onclick="setFilter('confirmed',this)">Confirmed</button>
+    <button class="filter-btn" onclick="setFilter('shipped',this)">Shipped</button>
+    <button class="filter-btn" onclick="setFilter('delivered',this)">Delivered</button>
+    <button class="filter-btn" onclick="setFilter('cancelled',this)">Cancelled</button>
   </div>
   <div class="orders-container" id="orders-container">
     <div class="loading-state"><div class="spinner"></div>Loading...</div>
@@ -141,35 +137,152 @@ input,select,textarea{font-family:inherit;outline:none}
 </div>
 <div class="modal-overlay" id="qr-modal">
   <div class="modal">
-    <div class="modal-title">📲 Generate Product QR Code</div>
+    <div class="modal-title">Generate Product QR Code</div>
     <input type="url" id="qr-url" placeholder="https://skp-cheroot-shop.vercel.app/" value="">
     <button class="btn-gen" onclick="generateQR()">Generate QR</button>
-    <button class="btn-print" onclick="printQR()">🖨️ Print</button>
-    <div id="qr-output"><div style="color:#B89A70;font-size:13px">Enter URL then click "Generate QR"</div></div>
-    <div class="qr-hint">Print this QR Code on your product labels.<br>Customers can scan to order instantly.</div>
-    <button class="btn-close-modal" onclick="closeQrModal()">✕ Close</button>
+    <button class="btn-print" onclick="printQR()">Print</button>
+    <div id="qr-output"><div style="color:#B89A70;font-size:13px">Enter URL then click Generate QR</div></div>
+    <div class="qr-hint">Print this QR Code on your product labels. Customers can scan to order instantly.</div>
+    <button class="btn-close-modal" onclick="closeQrModal()">Close</button>
   </div>
 </div>
 <script>
-const ADMIN_FUNCTION_URL='https://yufalisxhyhcuejmbpsa.supabase.co/functions/v1/admin-orders'
-const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
-let adminPassword='',allOrders=[],currentFilter='all'
-function doLogin(){const pw=document.getElementById('pw-input').value.trim();if(!pw)return;adminPassword=pw;loadOrders();document.getElementById('login-error').classList.remove('show')}
-async function callAdmin(action,extra={}){const res=await fetch(ADMIN_FUNCTION_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({password:adminPassword,action,...extra})});const json=await res.json();if(!res.ok)throw new Error(json.error||'Error');return json}
-function logout(){adminPassword='';document.getElementById('app').classList.remove('visible');document.getElementById('login-screen').style.display='flex';document.getElementById('pw-input').value=''}
-async function loadOrders(){document.getElementById('orders-container').innerHTML='<div class="loading-state"><div class="spinner"></div>Loading...</div>';try{const data=await callAdmin('list_orders');document.getElementById('login-screen').style.display='none';document.getElementById('app').classList.add('visible');allOrders=data.orders||[];updateStats();renderOrders()}catch(e){if(e.message.includes('nauthorized')||e.message.includes('401')||e.message.includes('password')){document.getElementById('login-screen').style.display='flex';document.getElementById('app').classList.remove('visible');document.getElementById('login-error').classList.add('show')}else{showToast('Error: '+e.message,'error')}}}
-function updateStats(){const o=allOrders;document.getElementById('s-total').textContent=o.length;document.getElementById('s-pending').textContent=o.filter(x=>x.status==='pending').length;document.getElementById('s-confirmed').textContent=o.filter(x=>x.status==='confirmed').length;document.getElementById('s-shipped').textContent=o.filter(x=>x.status==='shipped').length;document.getElementById('s-delivered').textContent=o.filter(x=>x.status==='delivered').length;const rev=o.filter(x=>['confirmed','shipped','delivered'].includes(x.status)).reduce((s,x)=>s+parseFloat(x.total_amount||0),0);document.getElementById('s-revenue').textContent=Number(rev).toLocaleString()}
-function setFilter(f,btn){currentFilter=f;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderOrders()}
-function renderOrders(){const orders=currentFilter==='all'?allOrders:allOrders.filter(o=>o.status===currentFilter);const c=document.getElementById('orders-container');if(!orders.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div>No orders in this category</div>';return}c.innerHTML=orders.map(o=>{const items=Array.isArray(o.items)?o.items:[];const itemsText=items.map(i=>(i.name_en||i.name_th||i.name)+' × '+i.qty).join(' · ');const dt=new Date(o.created_at);const dateStr=dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'2-digit'});const timeStr=dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});const statusBadge={pending:'<span class="badge badge-pending">⏳ Pending</span>',confirmed:'<span class="badge badge-confirmed">✅ Confirmed</span>',shipped:'<span class="badge badge-shipped">🚚 Shipped</span>',delivered:'<span class="badge badge-delivered">📦 Delivered</span>',cancelled:'<span class="badge badge-cancelled">❌ Cancelled</span>'}[o.status]||'';const payBadge=o.payment_method==='promptpay'?'<span class="pay-badge pay-promptpay">📲 PromptPay</span>':'<span class="pay-badge pay-cod">📦 COD</span>';const slipLink=o.payment_slip_url?'<a class="btn-slip" href="'+o.payment_slip_url+'" target="_blank">📎 Slip</a>':'';const addr=[o.address_detail,o.subdistrict,o.district,o.province,o.postal_code].filter(Boolean).join(' ');return '<div class="order-card"><div class="order-header"><div><div class="order-num">'+o.order_number+'</div><div class="order-date">'+dateStr+' at '+timeStr+'</div></div><div style="display:flex;align-items:center;gap:8px">'+payBadge+statusBadge+'</div></div><div class="order-body"><div><div class="order-name">👤 '+o.customer_name+'</div><div class="order-phone">📞 '+o.customer_phone+'</div></div><div class="order-items">'+(itemsText||'No items')+'</div><div style="display:flex;align-items:center;justify-content:space-between"><div class="order-total">฿'+Number(o.total_amount).toLocaleString()+'</div>'+slipLink+'</div>'+(o.notes?'<div style="font-size:12px;color:var(--muted);background:#FFFBE6;padding:7px 10px;border-radius:8px;border-left:3px solid var(--gold)">📝 '+o.notes+'</div>':'')+'</div><div class="order-footer"><div class="order-address">📍 '+addr+'</div><div class="order-actions"><select class="status-select" onchange="updateStatus(''+o.id+'',this.value)"><option value="pending" '+(o.status==='pending'?'selected':'')+'>⏳ Pending</option><option value="confirmed" '+(o.status==='confirmed'?'selected':'')+'>✅ Confirmed</option><option value="shipped" '+(o.status==='shipped'?'selected':'')+'>🚚 Shipped</option><option value="delivered" '+(o.status==='delivered'?'selected':'')+'>📦 Delivered</option><option value="cancelled" '+(o.status==='cancelled'?'selected':'')+'>❌ Cancelled</option></select></div></div></div>'}).join('')}
-async function updateStatus(orderId,newStatus){try{await callAdmin('update_status',{orderId,status:newStatus});const o=allOrders.find(x=>x.id===orderId);if(o)o.status=newStatus;updateStats();showToast('Status updated ✓','success')}catch(e){showToast('Update failed: '+e.message,'error');await loadOrders()}}
-let qrInstance=null
+var ADMIN_URL='https://yufalisxhyhcuejmbpsa.supabase.co/functions/v1/admin-orders';
+var ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw';
+var adminPw='', allOrders=[], curFilter='all';
+
+function doLogin(){
+  var pw=document.getElementById('pw-input').value.trim();
+  if(!pw)return;
+  adminPw=pw;
+  document.getElementById('login-error').classList.remove('show');
+  loadOrders();
+}
+
+function callAdmin(action,extra){
+  var body=Object.assign({password:adminPw,action:action},extra||{});
+  return fetch(ADMIN_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+ANON_KEY},
+    body:JSON.stringify(body)
+  }).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j})});
+}
+
+function logout(){
+  adminPw='';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('pw-input').value='';
+}
+
+function loadOrders(){
+  document.getElementById('orders-container').innerHTML='<div class="loading-state"><div class="spinner"></div>Loading...</div>';
+  callAdmin('list_orders').then(function(data){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').classList.add('visible');
+    allOrders=data.orders||[];
+    updateStats();
+    renderOrders();
+  }).catch(function(e){
+    if(e.message&&(e.message.indexOf('nauthorized')>=0||e.message.indexOf('password')>=0||e.message.indexOf('401')>=0)){
+      document.getElementById('login-screen').style.display='flex';
+      document.getElementById('app').classList.remove('visible');
+      document.getElementById('login-error').classList.add('show');
+    } else {
+      showToast('Error: '+e.message,'error');
+    }
+  });
+}
+
+function updateStats(){
+  var o=allOrders;
+  document.getElementById('s-total').textContent=o.length;
+  document.getElementById('s-pending').textContent=o.filter(function(x){return x.status==='pending'}).length;
+  document.getElementById('s-confirmed').textContent=o.filter(function(x){return x.status==='confirmed'}).length;
+  document.getElementById('s-shipped').textContent=o.filter(function(x){return x.status==='shipped'}).length;
+  document.getElementById('s-delivered').textContent=o.filter(function(x){return x.status==='delivered'}).length;
+  var rev=o.filter(function(x){return['confirmed','shipped','delivered'].indexOf(x.status)>=0})
+           .reduce(function(s,x){return s+parseFloat(x.total_amount||0)},0);
+  document.getElementById('s-revenue').textContent=Number(rev).toLocaleString();
+}
+
+function setFilter(f,btn){
+  curFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  renderOrders();
+}
+
+function renderOrders(){
+  var orders=curFilter==='all'?allOrders:allOrders.filter(function(o){return o.status===curFilter});
+  var c=document.getElementById('orders-container');
+  if(!orders.length){c.innerHTML='<div class="empty-state"><div class="empty-icon">📭</div>No orders</div>';return}
+  c.innerHTML=orders.map(function(o){
+    var items=Array.isArray(o.items)?o.items:[];
+    var itemsText=items.map(function(i){return(i.name_en||i.name_th||i.name)+' x '+i.qty}).join(', ');
+    var dt=new Date(o.created_at);
+    var dateStr=dt.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'2-digit'});
+    var timeStr=dt.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    var badges={pending:'<span class="badge badge-pending">Pending</span>',confirmed:'<span class="badge badge-confirmed">Confirmed</span>',shipped:'<span class="badge badge-shipped">Shipped</span>',delivered:'<span class="badge badge-delivered">Delivered</span>',cancelled:'<span class="badge badge-cancelled">Cancelled</span>'};
+    var statusBadge=badges[o.status]||'';
+    var payBadge=o.payment_method==='promptpay'?'<span class="pay-badge pay-promptpay">PromptPay</span>':'<span class="pay-badge pay-cod">COD</span>';
+    var slipLink=o.payment_slip_url?'<a class="btn-slip" href="'+o.payment_slip_url+'" target="_blank">Slip</a>':'';
+    var notesHtml=o.notes?'<div style="font-size:12px;color:var(--muted);background:#FFFBE6;padding:7px 10px;border-radius:8px">Notes: '+o.notes+'</div>':'';
+    var addr=[o.address_detail,o.subdistrict,o.district,o.province,o.postal_code].filter(Boolean).join(', ');
+    var selOpts=['pending','confirmed','shipped','delivered','cancelled'].map(function(s){
+      return '<option value="'+s+'" '+(o.status===s?'selected':'')+'>'+s.charAt(0).toUpperCase()+s.slice(1)+'</option>'
+    }).join('');
+    return '<div class="order-card">'
+      +'<div class="order-header"><div><div class="order-num">'+(o.order_number||'-')+'</div><div class="order-date">'+dateStr+' '+timeStr+'</div></div>'
+      +'<div style="display:flex;gap:6px">'+payBadge+statusBadge+'</div></div>'
+      +'<div class="order-body">'
+      +'<div><div class="order-name">'+o.customer_name+'</div><div class="order-phone">'+o.customer_phone+'</div></div>'
+      +'<div class="order-items">'+(itemsText||'No items')+'</div>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between"><div class="order-total">'+Number(o.total_amount).toLocaleString()+' THB</div>'+slipLink+'</div>'
+      +notesHtml+'</div>'
+      +'<div class="order-footer"><div class="order-address">'+addr+'</div>'
+      +'<div class="order-actions"><select class="status-select" onchange="updateStatus(''+o.id+'',this.value)">'+selOpts+'</select></div></div>'
+      +'</div>';
+  }).join('');
+}
+
+function updateStatus(id,status){
+  callAdmin('update_status',{orderId:id,status:status}).then(function(){
+    var o=allOrders.find(function(x){return x.id===id});
+    if(o)o.status=status;
+    updateStats();
+    showToast('Status updated','success');
+  }).catch(function(e){
+    showToast('Failed: '+e.message,'error');
+    loadOrders();
+  });
+}
+
+var qrObj=null;
 function openQrModal(){document.getElementById('qr-modal').classList.add('open')}
 function closeQrModal(){document.getElementById('qr-modal').classList.remove('open')}
-function generateQR(){const url=document.getElementById('qr-url').value.trim();if(!url){showToast('Please enter a URL','error');return}const output=document.getElementById('qr-output');output.innerHTML='<div id="qr-canvas"></div>';document.getElementById('qr-print-canvas').innerHTML='<div id="qr-canvas-print"></div>';qrInstance=new QRCode(document.getElementById('qr-canvas'),{text:url,width:200,height:200,colorDark:'#2C1810',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.H});new QRCode(document.getElementById('qr-canvas-print'),{text:url,width:250,height:250,colorDark:'#2C1810',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.H});showToast('QR generated! ✓','success')}
-function printQR(){if(!document.getElementById('qr-canvas')){showToast('Please generate QR first','error');return}window.print()}
-document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)closeQrModal()})
-function showToast(msg,type=''){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>{t.className='toast'},3000)}
-setInterval(()=>{if(adminPassword)loadOrders()},60000)
+function generateQR(){
+  var url=document.getElementById('qr-url').value.trim();
+  if(!url){showToast('Please enter a URL','error');return}
+  document.getElementById('qr-output').innerHTML='<div id="qr-canvas"></div>';
+  document.getElementById('qr-print-canvas').innerHTML='<div id="qr-cv-print"></div>';
+  qrObj=new QRCode(document.getElementById('qr-canvas'),{text:url,width:200,height:200,colorDark:'#2C1810',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.H});
+  new QRCode(document.getElementById('qr-cv-print'),{text:url,width:250,height:250,colorDark:'#2C1810',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.H});
+  showToast('QR generated!','success');
+}
+function printQR(){
+  if(!document.getElementById('qr-canvas')){showToast('Generate QR first','error');return}
+  window.print();
+}
+document.getElementById('qr-modal').addEventListener('click',function(e){if(e.target===this)closeQrModal()});
+
+function showToast(msg,type){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast show '+(type||'');
+  setTimeout(function(){t.className='toast'},3000);
+}
+
+setInterval(function(){if(adminPw)loadOrders()},60000);
 </script>
 </body>
 </html>
