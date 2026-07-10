@@ -733,7 +733,7 @@ async function uploadSlip(orderId){
     const ext=slipFile.name.split('.').pop()||'jpg',path=`${orderId}.${ext}`
     const{error}=await sb.storage.from('payment-slips').upload(path,slipFile,{upsert:true})
     if(error) throw error
-    return sb.storage.from('payment-slips').getPublicUrl(path).data?.publicUrl||null
+    return path
   }catch(e){console.warn('Slip upload failed:',e);return null}
 }
 
