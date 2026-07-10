@@ -760,8 +760,8 @@ function validate(){
 async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
   var _hp=document.getElementById('hp_website'); if(_hp&&_hp.value.length>0) return;
+if(selectedPayment==='promptpay'&&!slipFile){ showToast(t('toast_slip_required'),'error'); return }
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
-  if(selectedPayment==='promptpay'&&!slipFile){ showToast(t('toast_slip_required'),'error'); return }
   try{
     const items=getCartItems(),total=getCartTotal()
     const prov=document.getElementById('f-province').selectedOptions[0]?.text||''
