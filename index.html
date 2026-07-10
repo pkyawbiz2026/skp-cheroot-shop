@@ -400,7 +400,7 @@ const TRANSLATIONS = {
     success_items_hdr:'📋 မှာယူသောပစ္စည်းများ',success_addr_hdr:'📍 ပို့ဆောင်ရမည့်လိပ်စာ',
     total_label:'စုစုပေါင်း',pay_reminder_title:'💳 ငွေပေးချေနည်း',pay_reminder_1:'PromptPay',
     pay_reminder_2:'သို့ မှာယူသောပမာဏ လွှဲပေးပါ',pay_reminder_3:'ဖြတ်ပိုင်း မပူးတွဲရသေးပါက LINE:',
-    btn_home:'← ပင်မစာမျက်နှာသို့',toast_required:'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
+    btn_home:'← ပင်မစာမျက်နှာသို့',toast_slip_required:'Slip တင်ပေးပါ',toast_required:'ကျေးဇူးပြု၍ လိုအပ်သောအချက်အလက်များ ဖြည့်ပါ',
     toast_error:'အမှားဖြစ်ပွားသည် ထပ်မံကြိုးစားပါ',acc_no:'· စာရင်းနံပါတ်',
     items_unit:'ပစ္စည်း',prod_unit:'တစ်စီး',
   },
@@ -429,7 +429,7 @@ const TRANSLATIONS = {
     total_label:'รวมทั้งสิ้น',pay_reminder_title:'💳 ขั้นตอนการชำระเงิน',
     pay_reminder_1:'กรุณาโอนเงินตามยอดที่สั่งซื้อมาที่ PromptPay',pay_reminder_2:'',
     pay_reminder_3:'หากยังไม่ได้แนบสลิป กรุณาส่งสลิปมาที่ LINE:',btn_home:'← กลับหน้าหลัก',
-    toast_required:'กรุณากรอกข้อมูลให้ครบถ้วน',toast_error:'เกิดข้อผิดพลาด กรุณาลองใหม่',
+    toast_slip_required:'กรุณาแนบสลิปโอนเงิน',toast_required:'กรุณากรอกข้อมูลให้ครบถ้วน',toast_error:'เกิดข้อผิดพลาด กรุณาลองใหม่',
     acc_no:'· เลขที่',items_unit:'รายการ',prod_unit:'ซอง',
   },
   en:{
@@ -460,7 +460,7 @@ const TRANSLATIONS = {
     total_label:'Total',pay_reminder_title:'💳 Payment Instructions',
     pay_reminder_1:'Please transfer the exact amount to PromptPay',pay_reminder_2:'',
     pay_reminder_3:"If you haven't attached your slip, send it to LINE:",
-    btn_home:'← Back to Home',toast_required:'Please fill in all required fields',
+    btn_home:'← Back to Home',toast_slip_required:'Please attach your transfer slip',toast_required:'Please fill in all required fields',
     toast_error:'An error occurred, please try again',acc_no:'· Acc No.',
     items_unit:'item(s)',prod_unit:'pack',
   }
@@ -761,6 +761,7 @@ async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
   var _hp=document.getElementById('hp_website'); if(_hp&&_hp.value.length>0) return;
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
+  if(selectedPayment==='promptpay'&&!slipFile){ showToast(t('toast_slip_required'),'error'); return }
   try{
     const items=getCartItems(),total=getCartTotal()
     const prov=document.getElementById('f-province').selectedOptions[0]?.text||''
