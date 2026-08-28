@@ -490,8 +490,8 @@ function setLang(lang){
 // ═══════════════════════════════════════════════════
 //  CONFIG
 // ═══════════════════════════════════════════════════
-const SUPABASE_URL='https://yufalisxhyhcuejmbpsa.supabase.co'
-const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw'
+const SUPABASE_URL='https://uzazsjfzzlsulohyoflb.supabase.co'
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXpzamZ6emxzdWxvaHlvZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwODc0MzEsImV4cCI6MjEwMTY2MzQzMX0.CRT4F3_hLubo2VhLHM_QUjHagjFptVvEMKLSCMVjFqo'
 let PROMPTPAY_NUMBER=''
 let ACCOUNT_NAME=''
 let BANK_NAME=''
@@ -511,8 +511,8 @@ let slideIdx=0,slideTimer=null
 // ═══════════════════════════════════════════════════
 async function loadProductsFromDB(){
   try{
-    var r=await fetch("https://yufalisxhyhcuejmbpsa.supabase.co/rest/v1/products?active=eq.true&order=sort_order.asc&select=*",{
-      headers:{apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl1ZmFsaXN4aHloY3Vlam1icHNhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NzQ5NDksImV4cCI6MjA5ODU1MDk0OX0.c0Gqgs8WUtZMyA8bO8wlH_y9G-yP5uvrr8wxPt9Kdxw"}
+    var r=await fetch("https://uzazsjfzzlsulohyoflb.supabase.co/rest/v1/products?active=eq.true&order=sort_order.asc&select=*",{
+      headers:{apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXpzamZ6emxzdWxvaHlvZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwODc0MzEsImV4cCI6MjEwMTY2MzQzMX0.CRT4F3_hLubo2VhLHM_QUjHagjFptVvEMKLSCMVjFqo","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXpzamZ6emxzdWxvaHlvZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwODc0MzEsImV4cCI6MjEwMTY2MzQzMX0.CRT4F3_hLubo2VhLHM_QUjHagjFptVvEMKLSCMVjFqo"}
     });
     var data=await r.json();
     if(Array.isArray(data)&&data.length>0){
@@ -844,4 +844,3 @@ init()
 </script>
 </body>
 </html>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
