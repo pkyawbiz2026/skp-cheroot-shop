@@ -761,21 +761,23 @@ function validate(){
 async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
   var _hp=document.getElementById('hp_website'); if(_hp&&_hp.value.length>0) return;
-if(selectedPayment==='promptpay'&&!slipFile){ window.scrollTo({top:0,behavior:'smooth'}); showToast(t('toast_slip_required'),'error'); return }
+const _pm=document.querySelector('input[name="payment"]:checked')?.value||selectedPayment||'cod';
+    selectedPayment=_pm;
+    if(selectedPayment==='promptpay'&&!slipFile){ window.scrollTo({top:0,behavior:'smooth'}); showToast(t('toast_slip_required'),'error'); return }
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
   try{
     const items=getCartItems(),total=getCartTotal()
     const prov=document.getElementById('f-province').selectedOptions[0]?.text||''
     const dist=document.getElementById('f-district').selectedOptions[0]?.text||''
     const sub=document.getElementById('f-subdistrict').value.trim()
-    const slipPath=selectedPayment==='promptpay'?await uploadSlip():null
+    const slipPath=_pm==='promptpay'?await uploadSlip():null
     const{data:order,error}=await sb.from('orders').insert({shop_id:'skp',
       customer_name:document.getElementById('f-name').value.trim(),
       customer_phone:document.getElementById('f-phone').value.trim(),
       address_detail:document.getElementById('f-addr').value.trim(),
       province:prov,district:dist,subdistrict:sub,
       postal_code:document.getElementById('f-postal').value,
-      payment_method:selectedPayment,items,total_amount:total,status:'pending',
+      payment_method:_pm,items,total_amount:total,status:'pending',
       notes:document.getElementById('f-notes').value.trim()||null,
       payment_slip_url:slipPath,
     }).select().single()
