@@ -286,7 +286,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
     <div class="form-body">
       <div class="pay-options">
         <label class="pay-option selected" id="opt-promptpay" onclick="selectPayment('promptpay')">
-          <input type="radio" name="payment" value="promptpay" checked>
+          <input type="radio" name="payment" value="promptpay" checked onchange="selectPayment('promptpay')">
           <span class="pay-icon">📲</span>
           <span class="pay-label">
             <strong data-i18n="pay_promptpay">လွှဲငွေ / PromptPay</strong>
@@ -295,7 +295,7 @@ select.field-input{appearance:none;-webkit-appearance:none;background-image:url(
           <span class="pay-check">✓</span>
         </label>
         <label class="pay-option" id="opt-cod" onclick="selectPayment('cod')">
-          <input type="radio" name="payment" value="cod">
+          <input type="radio" name="payment" value="cod" onchange="selectPayment('cod')">
           <span class="pay-icon">📦</span>
           <span class="pay-label">
             <strong data-i18n="pay_cod">ငွေချေ (COD)</strong>
@@ -761,7 +761,7 @@ function validate(){
 async function submitOrder(){
   if(!validate()){ showToast(t('toast_required'),'error'); return }
   var _hp=document.getElementById('hp_website'); if(_hp&&_hp.value.length>0) return;
-if(selectedPayment==='promptpay'&&!slipFile){ showToast(t('toast_slip_required'),'error'); return }
+if(selectedPayment==='promptpay'&&!slipFile){ window.scrollTo({top:0,behavior:'smooth'}); showToast(t('toast_slip_required'),'error'); return }
   const btn=document.getElementById('btn-submit'); btn.disabled=true; btn.textContent=t('btn_submitting')
   try{
     const items=getCartItems(),total=getCartTotal()
@@ -836,6 +836,7 @@ function resetAndGoHome(){
   selectPayment('promptpay'); showView('products'); renderProducts()
 }
 function showToast(msg,type=''){
+  const toastEl=document.getElementById('toast'); if(toastEl) toastEl.scrollIntoView({behavior:'smooth'});
   const el=document.getElementById('toast'); el.textContent=msg; el.className='toast show '+type
   setTimeout(()=>{ el.className='toast' },3200)
 }
