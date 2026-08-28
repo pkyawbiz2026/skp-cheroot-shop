@@ -584,7 +584,7 @@ function renderProducts(){
   const list=document.getElementById('products-list'); if(!list) return
   const p=products[0]; if(!p){ list.innerHTML='<div style="text-align:center;padding:40px;color:#7A5C3C">—</div>'; return }
   const name=currentLang==='my'?p.name_my:(p.name_roman||'Shwe Ya Tu')
-  const sub=currentLang==='my'?p.name_th:p.name
+  const sub=p.name_roman||p.name
 
   const unit=pUnit(p)
   const slides=p.images.map(src=>`<img src="${src}" class="slide-img" alt="${name}" loading="lazy" onerror="this.style.display='none'">`).join('')
