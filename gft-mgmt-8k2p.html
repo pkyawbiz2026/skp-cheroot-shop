@@ -40,7 +40,7 @@ async function saveSettings(){
       account_number:document.getElementById('s-acc-num').value.trim(),
       shop_line:document.getElementById('s-line').value.trim()
     };
-    var res=await fetch(AU,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AK},body:JSON.stringify({password:pw,action:'update_settings',settings})});
+    var res=await fetch(AU,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AK},body:JSON.stringify({password:pw,action:'update_settings',shop_id:'skp',settings})});
     var j=await res.json();
     if(j.settings){
       msg.style.color='green'; msg.textContent='Saved ✓';
