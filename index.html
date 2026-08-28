@@ -511,7 +511,7 @@ let slideIdx=0,slideTimer=null
 // ═══════════════════════════════════════════════════
 async function loadProductsFromDB(){
   try{
-    var r=await fetch("https://uzazsjfzzlsulohyoflb.supabase.co/rest/v1/products?active=eq.true&order=sort_order.asc&select=*",{
+    var r=await fetch("https://uzazsjfzzlsulohyoflb.supabase.co/rest/v1/products?shop_id=eq.skp&active=eq.true&order=sort_order.asc&select=*",{
       headers:{apikey:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXpzamZ6emxzdWxvaHlvZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwODc0MzEsImV4cCI6MjEwMTY2MzQzMX0.CRT4F3_hLubo2VhLHM_QUjHagjFptVvEMKLSCMVjFqo","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXpzamZ6emxzdWxvaHlvZmxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODYwODc0MzEsImV4cCI6MjEwMTY2MzQzMX0.CRT4F3_hLubo2VhLHM_QUjHagjFptVvEMKLSCMVjFqo"}
     });
     var data=await r.json();
@@ -535,7 +535,7 @@ async function loadProductsFromDB(){
 }
 async function loadSettings(){
   try{
-    var r=await fetch(SUPABASE_URL+"/rest/v1/settings?id=eq.1&select=*",{
+    var r=await fetch(SUPABASE_URL+"/rest/v1/settings?shop_id=eq.skp&select=*",{
       headers:{apikey:SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}
     });
     var data=await r.json();
@@ -769,7 +769,7 @@ if(selectedPayment==='promptpay'&&!slipFile){ showToast(t('toast_slip_required')
     const dist=document.getElementById('f-district').selectedOptions[0]?.text||''
     const sub=document.getElementById('f-subdistrict').value.trim()
     const slipPath=selectedPayment==='promptpay'?await uploadSlip():null
-    const{data:order,error}=await sb.from('orders').insert({
+    const{data:order,error}=await sb.from('orders').insert({shop_id:'skp',
       customer_name:document.getElementById('f-name').value.trim(),
       customer_phone:document.getElementById('f-phone').value.trim(),
       address_detail:document.getElementById('f-addr').value.trim(),
