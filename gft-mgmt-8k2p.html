@@ -16,7 +16,7 @@ async function loadSettingsAdmin(){
   var msg=document.getElementById('settings-msg');
   msg.style.color='#666'; msg.textContent='Loading...';
   try{
-    var res=await fetch(AU,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AK},body:JSON.stringify({password:pw,action:'get_settings'})});
+    var res=await fetch(AU,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+AK},body:JSON.stringify({password:pw,action:'get_settings',shop_id:'skp'})});
     var j=await res.json();
     if(j.settings){
       var s=j.settings;
